@@ -14,7 +14,6 @@
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
 
-
 package Kernel::Modules::AgentTicketProcess;
 
 use strict;
@@ -3078,7 +3077,7 @@ sub _RenderCustomer {
     }
 
     # When there is no Customer in the DB, it could be unknown Customer, set it from the ticket.
-    # See bug#12797 ( https://bugs.otobo.org/show_bug.cgi?id=12797 ).
+    # See bug#12797 ( https://bugs.otrs.org/show_bug.cgi?id=12797 ).
     else {
         $Data{CustomerUserID} = $Param{Ticket}{CustomerUserID} || '';
         $Data{CustomerID}     = $Param{Ticket}{CustomerID}     || '';
@@ -4896,7 +4895,7 @@ sub _StoreActivityDialog {
                 # get the current server Time-stamp
                 my $DateTimeObject   = $Kernel::OM->Create('Kernel::System::DateTime');
                 my $CurrentTimeStamp = $DateTimeObject->ToString();
-                my $OTOBOTimeZone     = $DateTimeObject->OTOBOTimeZoneGet();
+                my $OTOBOTimeZone    = $DateTimeObject->OTOBOTimeZoneGet();
                 $TicketParam{Title} = "$Param{ProcessName} - $CurrentTimeStamp ($OTOBOTimeZone)";
 
                 # use article subject from the web request if any
