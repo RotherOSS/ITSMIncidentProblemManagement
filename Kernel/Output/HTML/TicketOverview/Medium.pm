@@ -4,6 +4,8 @@
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
 # --
+# $origin: otobo - d190edf228d852e761f4af82946fd0b80be489c0 - Kernel/Output/HTML/TicketOverview/Medium.pm
+# --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
 # Foundation, either version 3 of the License, or (at your option) any later version.
