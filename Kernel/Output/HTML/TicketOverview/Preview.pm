@@ -4,7 +4,7 @@
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
-# $origin: otobo - d190edf228d852e761f4af82946fd0b80be489c0 - Kernel/Output/HTML/TicketOverview/Preview.pm
+# $origin: otobo - d2d6be92c1665473091303dbf300e0c830d6d9be - Kernel/Output/HTML/TicketOverview/Preview.pm
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1136,8 +1136,7 @@ sub _Show {
     if (@ArticleBody) {
 
         # check if the first article should be displayed as expanded, that is visible for the related customer
-        my $PreviewIsVisibleForCustomerExpanded
-            = $ConfigObject->Get('Ticket::Frontend::Overview::PreviewIsVisibleForCustomerExpanded') || 0;
+        my $PreviewIsVisibleForCustomerExpanded = $ConfigObject->Get('Ticket::Frontend::Overview::PreviewIsVisibleForCustomerExpanded') || 0;
 
         # if a certain article type should be shown as expanded, set the last article of this type as active
         if ($PreviewIsVisibleForCustomerExpanded) {

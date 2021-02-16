@@ -4,7 +4,7 @@
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
-# $origin: otobo - 9990b0a0d8a79c090893133909d38fab6adbb6bb - Kernel/Modules/AgentTicketActionCommon.pm
+# $origin: otobo - 9ee333ebb1e8966fc3b85c6dffa8174977cda122 - Kernel/Modules/AgentTicketActionCommon.pm
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -207,7 +207,7 @@ sub Run {
     # error screen, don't show ticket
     if ( !$Access ) {
         return $LayoutObject->NoPermission(
-            Message => $LayoutObject->{LanguageObject}->Translate( 'You need %s permissions!', $Config->{Permission} ),
+            Message    => $LayoutObject->{LanguageObject}->Translate( 'You need %s permissions!', $Config->{Permission} ),
             WithHeader => 'yes',
         );
     }
@@ -405,7 +405,7 @@ sub Run {
         qw(
         NewStateID NewPriorityID TimeUnits IsVisibleForCustomer Title Body Subject NewQueueID
         Year Month Day Hour Minute NewOwnerID NewResponsibleID TypeID ServiceID SLAID
-        Expand ReplyToArticle StandardTemplateID CreateArticle FormDraftID Title
+        ReplyToArticle StandardTemplateID CreateArticle FormDraftID Title
         )
         )
     {
@@ -682,8 +682,7 @@ sub Run {
                     # Another draft with the chosen name already exists.
                     %FormDraftResponse = (
                         Success      => 0,
-                        ErrorMessage => $Kernel::OM->Get('Kernel::Language')
-                            ->Translate( "FormDraft name %s is already in use!", $Title ),
+                        ErrorMessage => $Kernel::OM->Get('Kernel::Language')->Translate( "FormDraft name %s is already in use!", $Title ),
                     );
                     last DRAFT;
                 }
@@ -888,12 +887,6 @@ sub Run {
             $Error{'TimeUnitsInvalid'} = ' ServerError';
         }
 
-        # check expand
-        if ( $GetParam{Expand} ) {
-            %Error = ();
-            $Error{Expand} = 1;
-        }
-
         # skip validation of hidden fields
         my %Visibility;
 
@@ -973,9 +966,11 @@ sub Run {
 
             my $ValidationResult;
 
-         # Do not validate only if object type is Article and CreateArticle value is not defined, or Field is invisible.
-            if ( !( $DynamicFieldConfig->{ObjectType} eq 'Article' && !$GetParam{CreateArticle} )
-                && $Visibility{ $DynamicFieldConfig->{Name} } )
+            # Do not validate only if object type is Article and CreateArticle value is not defined, or Field is invisible.
+            if (
+                !( $DynamicFieldConfig->{ObjectType} eq 'Article' && !$GetParam{CreateArticle} )
+                && $Visibility{ 'DynamicField_'.$DynamicFieldConfig->{Name} }
+                )
             {
 
                 $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
@@ -1356,8 +1351,7 @@ sub Run {
             my @NotifyUserIDs;
 
             # get list of users that will be informed without selection in informed/involved list
-            my @UserListWithoutSelection
-                = split( ',', $ParamObject->GetParam( Param => 'UserListWithoutSelection' ) || "" );
+            my @UserListWithoutSelection = split( ',', $ParamObject->GetParam( Param => 'UserListWithoutSelection' ) || "" );
 
             # get inform user list
             my @InformUserID = $ParamObject->GetArray( Param => 'InformUserID' );
@@ -1532,7 +1526,7 @@ sub Run {
             $GetParam{ServiceID} = $Ticket{ServiceID} || '';
         }
 
-# use the FieldIDs, which are found in AgentTicketPhone/Email, and CustomerTicketMessage; if needed, fill with ticket values
+        # use the FieldIDs, which are found in AgentTicketPhone/Email, and CustomerTicketMessage; if needed, fill with ticket values
         $GetParam{QueueID}     = $GetParam{NewQueueID} || $Ticket{QueueID};
         $GetParam{Dest}        = $GetParam{QueueID};
         $GetParam{NextStateID} = $GetParam{NewStateID} || $Ticket{StateID};
@@ -1571,8 +1565,8 @@ sub Run {
             StdFields => 0,
             Fields    => 0,
         );
-        my %ChangedElements        = $ElementChanged ? ( $ElementChanged => 1 ) : ();
-        my %ChangedElementsDFStart = $ElementChanged ? ( $ElementChanged => 1 ) : ();
+        my %ChangedElements        = $ElementChanged                                        ? ( $ElementChanged => 1 ) : ();
+        my %ChangedElementsDFStart = $ElementChanged                                        ? ( $ElementChanged => 1 ) : ();
         my %ChangedStdFields       = $ElementChanged && $ElementChanged !~ /^DynamicField_/ ? ( $ElementChanged => 1 ) : ();
 
         my $LoopProtection = 100;
@@ -1614,8 +1608,10 @@ sub Run {
                             next FIELD;
                         }
                         for my $Element ( sort keys %ChangedElements ) {
-                            if (   $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
-                                || $Self->{InternalDependancy}{$Element}{$FieldID} )
+                            if (
+                                $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
+                                || $Self->{InternalDependancy}{$Element}{$FieldID}
+                                )
                             {
                                 next FIELD;
                             }
@@ -1664,11 +1660,13 @@ sub Run {
                     }
 
                     # check whether current selected value is still valid for the field
-                    if ( $GetParam{ $Field->{FieldID} }
-                        && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } } )
+                    if (
+                        $GetParam{ $Field->{FieldID} }
+                        && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } }
+                        )
                     {
                         # if not empty the field
-                        $GetParam{ $Field->{FieldID} } = '';
+                        $GetParam{ $Field->{FieldID} }           = '';
                         $NewChangedElements{ $Field->{FieldID} } = 1;
                         $ChangedStdFields{ $Field->{FieldID} }   = 1;
                     }
@@ -1765,8 +1763,7 @@ sub Run {
         for my $Index ( sort keys %{ $DynFieldStates{Fields} } ) {
             my $DynamicFieldConfig = $DynamicField->[$Index];
 
-            my $DataValues
-                = $DynFieldStates{Fields}{$Index}{NotACLReducible}
+            my $DataValues = $DynFieldStates{Fields}{$Index}{NotACLReducible}
                 ? $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}
                 :
                 (
@@ -2070,8 +2067,7 @@ sub Run {
                 # Only get values for Ticket fields (all screens based on AgentTickeActionCommon
                 # generates a new article, then article fields will be always empty at the beginning).
                 # Value is stored in the database from Ticket.
-                $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
-                    = $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+                $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $Ticket{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
             }
         }
 
@@ -2164,8 +2160,10 @@ sub Run {
                             next FIELD;
                         }
                         for my $Element ( sort keys %ChangedElements ) {
-                            if (   $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
-                                || $Self->{InternalDependancy}{$Element}{$FieldID} )
+                            if (
+                                $ACLPreselection->{Rules}{Ticket}{$Element}{$FieldID}
+                                || $Self->{InternalDependancy}{$Element}{$FieldID}
+                                )
                             {
                                 next FIELD;
                             }
@@ -2214,11 +2212,13 @@ sub Run {
                     }
 
                     # check whether current selected value is still valid for the field
-                    if ( $GetParam{ $Field->{FieldID} }
-                        && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } } )
+                    if (
+                        $GetParam{ $Field->{FieldID} }
+                        && !$StdFieldValues{ $Field->{FieldID} }{ $GetParam{ $Field->{FieldID} } }
+                        )
                     {
                         # if not empty the field
-                        $GetParam{ $Field->{FieldID} } = '';
+                        $GetParam{ $Field->{FieldID} }           = '';
                         $NewChangedElements{ $Field->{FieldID} } = 1;
                         $ChangedStdFields{ $Field->{FieldID} }   = 1;
                     }
@@ -2322,8 +2322,10 @@ sub Run {
 
             # don't set a default value for hidden fields
             my %UseDefault = ();
-            if ( !$DynFieldStates{Visibility}{"DynamicField_$DynamicFieldConfig->{Name}"}
-                && ( $DynamicFieldConfig->{FieldType} ne 'Date' || $DynamicFieldConfig->{FieldType} ne 'DateTime' ) )
+            if (
+                !$DynFieldStates{Visibility}{"DynamicField_$DynamicFieldConfig->{Name}"}
+                && ( $DynamicFieldConfig->{FieldType} ne 'Date' || $DynamicFieldConfig->{FieldType} ne 'DateTime' )
+                )
             {
                 %UseDefault = (
                     UseDefaultValue      => 0,
@@ -3485,8 +3487,7 @@ sub _GetServices {
     my %Service;
 
     # get options for default services for unknown customers
-    my $DefaultServiceUnknownCustomer
-        = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service::Default::UnknownCustomer');
+    my $DefaultServiceUnknownCustomer = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service::Default::UnknownCustomer');
 
     # check if no CustomerUserID is selected
     # if $DefaultServiceUnknownCustomer = 0 leave CustomerUserID empty, it will not get any services
@@ -3516,8 +3517,7 @@ sub _GetSLAs {
     #  passed. See bug 11147.
 
     # get options for default services for unknown customers
-    my $DefaultServiceUnknownCustomer
-        = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service::Default::UnknownCustomer');
+    my $DefaultServiceUnknownCustomer = $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Service::Default::UnknownCustomer');
 
     # check if no CustomerUserID is selected
     # if $DefaultServiceUnknownCustomer = 0 leave CustomerUserID empty, it will not get any services
@@ -3631,8 +3631,7 @@ sub _GetQuotedReplyBody {
                     String => $Param{Body},
                 );
 
-                my $ResponseFormat = $LayoutObject->{LanguageObject}
-                    ->FormatTimeString( $Param{CreateTime}, 'DateFormat', 'NoSeconds' );
+                my $ResponseFormat = $LayoutObject->{LanguageObject}->FormatTimeString( $Param{CreateTime}, 'DateFormat', 'NoSeconds' );
                 $ResponseFormat .= ' - ' . $Param{From} . ' ';
                 $ResponseFormat
                     .= $LayoutObject->{LanguageObject}->Translate('wrote') . ':';
@@ -3678,8 +3677,7 @@ sub _GetQuotedReplyBody {
                 $Param{Body} =~ s/\n/\n$Quote /g;
                 $Param{Body} = "\n$Quote " . $Param{Body};
 
-                my $ResponseFormat = $LayoutObject->{LanguageObject}
-                    ->FormatTimeString( $Param{CreateTime}, 'DateFormat', 'NoSeconds' );
+                my $ResponseFormat = $LayoutObject->{LanguageObject}->FormatTimeString( $Param{CreateTime}, 'DateFormat', 'NoSeconds' );
                 $ResponseFormat .= ' - ' . $Param{From} . ' ';
                 $ResponseFormat
                     .= $LayoutObject->{LanguageObject}->Translate('wrote') . ":\n";
