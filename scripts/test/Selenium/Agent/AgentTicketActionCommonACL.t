@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -315,16 +315,17 @@ EOF
 
         # Create some test services.
         my $ServiceObject = $Kernel::OM->Get('Kernel::System::Service');
-# ---
-# ITSMIncidentProblemManagement
-# ---
+
+        # ---
+        # ITSMIncidentProblemManagement
+        # ---
         # Get the list of service types from general catalog.
         my $ServiceTypeList = $Kernel::OM->Get('Kernel::System::GeneralCatalog')->ItemList(
             Class => 'ITSM::Service::Type',
         );
 
         # Build a lookup hash.
-        my %ServiceTypeName2ID = reverse %{ $ServiceTypeList };
+        my %ServiceTypeName2ID = reverse %{$ServiceTypeList};
 
         # Get the list of sla types from general catalog.
         my $SLATypeList = $Kernel::OM->Get('Kernel::System::GeneralCatalog')->ItemList(
@@ -332,20 +333,23 @@ EOF
         );
 
         # Build a lookup hash.
-        my %SLATypeName2ID = reverse %{ $SLATypeList };
-# ---
+        my %SLATypeName2ID = reverse %{$SLATypeList};
+
+        # ---
 
         my $ServiceID;
         my @Services;
         for my $Count ( 1 .. 3 ) {
             $ServiceID = $ServiceObject->ServiceAdd(
-                Name    => "UT Test Service $Count $RandomID",
-# ---
-# ITSMIncidentProblemManagement
-# ---
+                Name => "UT Test Service $Count $RandomID",
+
+                # ---
+                # ITSMIncidentProblemManagement
+                # ---
                 TypeID      => $ServiceTypeName2ID{Training},
                 Criticality => '3 normal',
-# ---
+
+                # ---
                 ValidID => 1,
                 UserID  => 1,
             );
@@ -372,13 +376,15 @@ EOF
             my $SLAID = $SLAObject->SLAAdd(
                 ServiceIDs => \@Services,
                 Name       => "UT Test SLA $Count $RandomID",
-# ---
-# ITSMIncidentProblemManagement
-# ---
+
+                # ---
+                # ITSMIncidentProblemManagement
+                # ---
                 TypeID => $SLATypeName2ID{Other},
-# ---
-                ValidID    => 1,
-                UserID     => 1,
+
+                # ---
+                ValidID => 1,
+                UserID  => 1,
             );
             push @SLAs, $SLAID;
         }
@@ -703,9 +709,10 @@ EOF
             "Deleted service relations for $CustomerUserLogin",
         );
         for my $ServiceID (@Services) {
-# ---
-# ITSMIncidentProblemManagement
-# ---
+
+            # ---
+            # ITSMIncidentProblemManagement
+            # ---
             # Clean up servica data.
             $Success = $DBObject->Do(
                 SQL  => "DELETE FROM service_preferences WHERE service_id = ?",
@@ -715,7 +722,8 @@ EOF
                 $Success,
                 "ServicePreferences is deleted - ID $ServiceID",
             );
-# ---
+
+            # ---
             $Success = $DBObject->Do(
                 SQL  => "DELETE FROM service WHERE ID = ?",
                 Bind => [ \$ServiceID ],

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2020 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -53,8 +53,7 @@ sub Run {
     my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     # get allowed template names
-    my $ValidTemplates
-        = $ConfigObject->Get('Frontend::Output::FilterElementPost')->{ITSMIncidentProblemManagement}->{Templates};
+    my $ValidTemplates = $ConfigObject->Get('Frontend::Output::FilterElementPost')->{ITSMIncidentProblemManagement}->{Templates};
 
     # check template name
     return if !$ValidTemplates->{ $Param{TemplateFile} };
@@ -87,9 +86,8 @@ sub Run {
                 UserID        => 1,
             );
 
-            my $TranslatedServiceIncidentStateLabel
-                = $LayoutObject->{LanguageObject}->Translate('Service Incident State');
-            my $TranslatedCurInciState = $LayoutObject->{LanguageObject}->Translate( $Service{CurInciState} );
+            my $TranslatedServiceIncidentStateLabel = $LayoutObject->{LanguageObject}->Translate('Service Incident State');
+            my $TranslatedCurInciState              = $LayoutObject->{LanguageObject}->Translate( $Service{CurInciState} );
 
             my $ServiceIncidentStateHTML = <<"END";
 
@@ -214,8 +212,7 @@ END
     }
 
     # Define criticality field search pattern, use without the x modifier and non greedy match (.+?)
-    my $CriticalityFieldPattern
-        = '<div class="Row Row_DynamicField_ITSMCriticality">.+?<div class="Clear"></div>\s*</div>';
+    my $CriticalityFieldPattern = '<div class="Row Row_DynamicField_ITSMCriticality">.+?<div class="Clear"></div>\s*</div>';
 
     # Find criticality field and move before the priority field
     if ( ${ $Param{Data} } =~ m{($CriticalityFieldPattern)}ms ) {
