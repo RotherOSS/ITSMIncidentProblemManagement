@@ -698,6 +698,7 @@ sub Run {
             # set simple IDs to pass them to the mask
             for my $SplitedParam (qw(TypeID ServiceID SLAID PriorityID)) {
                 $SplitTicketParam{$SplitedParam} = $SplitTicketData{$SplitedParam};
+                $GetParam{$SplitedParam} = $GetParam{$SplitedParam} // $SplitTicketData{$SplitedParam};
             }
 
             # set StateID as NextStateID
@@ -1154,6 +1155,7 @@ sub Run {
             Attachments             => \@Attachments,
             LinkTicketID            => $GetParam{LinkTicketID} || '',
             FromChatID              => $GetParam{FromChatID} || '',
+            %SplitTicketParam,
             DynamicFieldHTML        => \%DynamicFieldHTML,
             MultipleCustomer        => \@MultipleCustomer,
             HideAutoselected        => $HideAutoselectedJSON,
