@@ -463,7 +463,7 @@ sub GetStatElement {
         );
 
         next TICKETID if !@Articles;
-        next TICKETID if scalar @Articles > 2;
+        next TICKETID if scalar @Articles > 3;
 
         # get sender type of first article
         my $SenderTypeFirstArticle = $ArticleObject->ArticleSenderTypeLookup(
@@ -478,7 +478,7 @@ sub GetStatElement {
             next TICKETID;
         }
 
-        # noe we handle the case where the first article is from the customer
+        # now we handle the case where the first article is from the customer
         next TICKETID if $SenderTypeFirstArticle ne 'customer';
 
         # get sender type of second article
@@ -486,10 +486,26 @@ sub GetStatElement {
             SenderTypeID => $Articles[1]->{SenderTypeID},
         );
 
-        # the scond article is from the agent
-        next TICKETID if $SenderTypeSecondArticle ne 'agent';
+        # the second article is from the agent
+        if ( $SenderTypeSecondArticle eq 'agent' ) {
+            $FirstLevelSolutionTickets++;
+            next TICKETID;
 
-        $FirstLevelSolutionTickets++;
+        # In new OTOBO systems Ticket Notification is used sometimes for AutoResponse and generate a article.
+        } elsif ( $SenderTypeSecondArticle eq 'system' ) {
+            next TICKETID if !$Articles[2];
+
+            # get sender type of third article
+            my $SenderTypeThirdArticle = $ArticleObject->ArticleSenderTypeLookup(
+                SenderTypeID => $Articles[2]->{SenderTypeID},
+            );
+
+            # the third article is from the agent
+            if ( $SenderTypeThirdArticle eq 'agent' || 'system') {
+                $FirstLevelSolutionTickets++;
+                next TICKETID;
+            }
+        }
     }
 
     return $FirstLevelSolutionTickets;
