@@ -4,7 +4,7 @@
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
-# $origin: otobo - 9ee333ebb1e8966fc3b85c6dffa8174977cda122 - Kernel/Modules/AgentTicketActionCommon.pm
+# $origin: otobo - 0eb93e419acb74b7bebbfa38e63eb37e914e6b83 - Kernel/Modules/AgentTicketActionCommon.pm
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -403,9 +403,9 @@ sub Run {
     my %GetParam;
     for my $Key (
         qw(
-        NewStateID NewPriorityID TimeUnits IsVisibleForCustomer Title Body Subject NewQueueID
-        Year Month Day Hour Minute NewOwnerID NewResponsibleID TypeID ServiceID SLAID
-        ReplyToArticle StandardTemplateID CreateArticle FormDraftID Title
+            NewStateID NewPriorityID TimeUnits IsVisibleForCustomer Title Body Subject NewQueueID
+            Year Month Day Hour Minute NewOwnerID NewResponsibleID TypeID ServiceID SLAID
+            ReplyToArticle StandardTemplateID CreateArticle FormDraftID Title
         )
         )
     {
@@ -969,7 +969,7 @@ sub Run {
             # Do not validate only if object type is Article and CreateArticle value is not defined, or Field is invisible.
             if (
                 !( $DynamicFieldConfig->{ObjectType} eq 'Article' && !$GetParam{CreateArticle} )
-                && $Visibility{ 'DynamicField_'.$DynamicFieldConfig->{Name} }
+                && $Visibility{ 'DynamicField_' . $DynamicFieldConfig->{Name} }
                 )
             {
 
@@ -977,7 +977,7 @@ sub Run {
                     DynamicFieldConfig   => $DynamicFieldConfig,
                     PossibleValuesFilter => $PossibleValuesFilter,
                     ParamObject          => $ParamObject,
-                    Mandatory =>
+                    Mandatory            =>
                         $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
                 );
 
@@ -985,7 +985,7 @@ sub Run {
                     return $LayoutObject->ErrorScreen(
                         Message =>
                             $LayoutObject->{LanguageObject}->Translate(
-                            'Could not perform validation on field %s!', $DynamicFieldConfig->{Label}
+                                'Could not perform validation on field %s!', $DynamicFieldConfig->{Label}
                             ),
                         Comment => Translatable('Please contact the administrator.'),
                     );
@@ -1004,7 +1004,7 @@ sub Run {
                 my $DynamicFieldHTML = $DynamicFieldBackendObject->EditFieldRender(
                     DynamicFieldConfig   => $DynamicFieldConfig,
                     PossibleValuesFilter => $PossibleValuesFilter,
-                    ServerError          => $ValidationResult->{ServerError} || '',
+                    ServerError          => $ValidationResult->{ServerError}  || '',
                     ErrorMessage         => $ValidationResult->{ErrorMessage} || '',
                     Mandatory            => $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
                     LayoutObject         => $LayoutObject,
@@ -1041,7 +1041,7 @@ sub Run {
                 my $DynamicFieldHTML = $DynamicFieldBackendObject->EditFieldRender(
                     DynamicFieldConfig   => $DynamicFieldConfig,
                     PossibleValuesFilter => $PossibleValuesFilter,
-                    ServerError          => $ValidationResult->{ServerError} || '',
+                    ServerError          => $ValidationResult->{ServerError}  || '',
                     ErrorMessage         => $ValidationResult->{ErrorMessage} || '',
                     Mandatory            => ( $Class eq 'Validate_Required' ) ? 1 : 0,
                     Class                => $Class,
@@ -1529,8 +1529,8 @@ sub Run {
         # use the FieldIDs, which are found in AgentTicketPhone/Email, and CustomerTicketMessage; if needed, fill with ticket values
         $GetParam{QueueID}     = $GetParam{NewQueueID} || $Ticket{QueueID};
         $GetParam{Dest}        = $GetParam{QueueID};
-        $GetParam{NextStateID} = $GetParam{NewStateID} || $Ticket{StateID};
-        $GetParam{NewUserID}   = $GetParam{NewOwnerID} || '';
+        $GetParam{NextStateID} = $GetParam{NewStateID}    || $Ticket{StateID};
+        $GetParam{NewUserID}   = $GetParam{NewOwnerID}    || '';
         $GetParam{PriorityID}  = $GetParam{NewPriorityID} || '';
 
         # get list type
@@ -1767,10 +1767,10 @@ sub Run {
                 ? $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}
                 :
                 (
-                $DynamicFieldBackendObject->BuildSelectionDataGet(
-                    DynamicFieldConfig => $DynamicFieldConfig,
-                    PossibleValues     => $DynFieldStates{Fields}{$Index}{PossibleValues},
-                    Value              => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
+                    $DynamicFieldBackendObject->BuildSelectionDataGet(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        PossibleValues     => $DynFieldStates{Fields}{$Index}{PossibleValues},
+                        Value              => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
                     )
                     || $DynFieldStates{Fields}{$Index}{PossibleValues}
                 );
@@ -2475,13 +2475,13 @@ sub _Mask {
     if (
         ( $ConfigObject->Get('Ticket::Type') && $Config->{TicketType} )
         ||
-        ( $ConfigObject->Get('Ticket::Service')     && $Config->{Service} )     ||
+        ( $ConfigObject->Get('Ticket::Service') && $Config->{Service} )         ||
         ( $ConfigObject->Get('Ticket::Responsible') && $Config->{Responsible} ) ||
-        $Config->{Title}    ||
-        $Config->{Queue}    ||
-        $Config->{Owner}    ||
-        $Config->{State}    ||
-        $Config->{Priority} ||
+        $Config->{Title}                                                        ||
+        $Config->{Queue}                                                        ||
+        $Config->{Owner}                                                        ||
+        $Config->{State}                                                        ||
+        $Config->{Priority}                                                     ||
         scalar @{ $Param{TicketTypeDynamicFields} } > 0
         )
     {
@@ -2917,7 +2917,7 @@ sub _Mask {
 
             # ACL hidden fields cannot be mandatory
             if ( $Config->{DynamicField}->{ $TicketTypeDynamicField->{Name} } == 2 ) {
-                $TicketTypeDynamicField->{Field} =~ s/(class=.+?Validate_Required)/$1_IfVisible/;
+                $TicketTypeDynamicField->{Field} =~ s/(class=.+?Validate_Required)/$1_IfVisible/g;
             }
         }
 

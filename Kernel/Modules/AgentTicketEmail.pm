@@ -4,7 +4,7 @@
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
-# $origin: otobo - 9ee333ebb1e8966fc3b85c6dffa8174977cda122 - Kernel/Modules/AgentTicketEmail.pm
+# $origin: otobo - 0eb93e419acb74b7bebbfa38e63eb37e914e6b83 - Kernel/Modules/AgentTicketEmail.pm
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1374,8 +1374,8 @@ sub Run {
         }
         my $NextState        = $StateData{Name};
         my $NewResponsibleID = $ParamObject->GetParam( Param => 'NewResponsibleID' ) || '';
-        my $NewUserID        = $ParamObject->GetParam( Param => 'NewUserID' ) || '';
-        my $Dest             = $ParamObject->GetParam( Param => 'Dest' ) || '';
+        my $NewUserID        = $ParamObject->GetParam( Param => 'NewUserID' )        || '';
+        my $Dest             = $ParamObject->GetParam( Param => 'Dest' )             || '';
 
         # see if only a name has been passed
         if ( $Dest && $Dest !~ m{ \A (\d+)? \| \| .+ \z }xms ) {
@@ -1529,13 +1529,13 @@ sub Run {
             my $ValidationResult;
 
             # do not validate on invisible fields
-            if ( !$ExpandCustomerName && $Visibility{ 'DynamicField_'.$DynamicFieldConfig->{Name} } ) {
+            if ( !$ExpandCustomerName && $Visibility{ 'DynamicField_' . $DynamicFieldConfig->{Name} } ) {
 
                 $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
                     DynamicFieldConfig   => $DynamicFieldConfig,
                     PossibleValuesFilter => $PossibleValuesFilter,
                     ParamObject          => $ParamObject,
-                    Mandatory =>
+                    Mandatory            =>
                         $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
                 );
 
@@ -1557,7 +1557,7 @@ sub Run {
             $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } = $DynamicFieldBackendObject->EditFieldRender(
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 PossibleValuesFilter => $PossibleValuesFilter,
-                ServerError          => $ValidationResult->{ServerError} || '',
+                ServerError          => $ValidationResult->{ServerError}  || '',
                 ErrorMessage         => $ValidationResult->{ErrorMessage} || '',
                 LayoutObject         => $LayoutObject,
                 ParamObject          => $ParamObject,
@@ -2628,10 +2628,10 @@ sub Run {
                 ? $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}
                 :
                 (
-                $DynamicFieldBackendObject->BuildSelectionDataGet(
-                    DynamicFieldConfig => $DynamicFieldConfig,
-                    PossibleValues     => $DynFieldStates{Fields}{$Index}{PossibleValues},
-                    Value              => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
+                    $DynamicFieldBackendObject->BuildSelectionDataGet(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        PossibleValues     => $DynFieldStates{Fields}{$Index}{PossibleValues},
+                        Value              => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
                     )
                     || $DynFieldStates{Fields}{$Index}{PossibleValues}
                 );
@@ -3671,7 +3671,7 @@ sub _MaskEmailNew {
         YearPeriodPast       => 0,
         YearPeriodFuture     => 5,
         DiffTime             => $ConfigObject->Get('Ticket::Frontend::PendingDiffTime') || 0,
-        Class                => $Param{Errors}->{DateInvalid} || ' ',
+        Class                => $Param{Errors}->{DateInvalid}                           || ' ',
         Validate             => 1,
         ValidateDateInFuture => 1,
     );
@@ -3728,7 +3728,7 @@ sub _MaskEmailNew {
 
             # ACL hidden fields cannot be mandatory
             if ( $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2 ) {
-                $DynamicFieldHTML->{Field} =~ s/(class=.+?Validate_Required)/$1_IfVisible/;
+                $DynamicFieldHTML->{Field} =~ s/(class=.+?Validate_Required)/$1_IfVisible/g;
             }
         }
 

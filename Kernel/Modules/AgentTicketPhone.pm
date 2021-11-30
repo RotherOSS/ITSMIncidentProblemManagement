@@ -4,7 +4,7 @@
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
-# $origin: otobo - 9ee333ebb1e8966fc3b85c6dffa8174977cda122 - Kernel/Modules/AgentTicketPhone.pm
+# $origin: otobo - afa8bfc3a04f714330d5489defd83c87642bc23c - Kernel/Modules/AgentTicketPhone.pm
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -1153,7 +1153,7 @@ sub Run {
             CustomerData            => \%CustomerData,
             Attachments             => \@Attachments,
             LinkTicketID            => $GetParam{LinkTicketID} || '',
-            FromChatID              => $GetParam{FromChatID} || '',
+            FromChatID              => $GetParam{FromChatID}   || '',
             DynamicFieldHTML        => \%DynamicFieldHTML,
             MultipleCustomer        => \@MultipleCustomer,
             HideAutoselected        => $HideAutoselectedJSON,
@@ -1345,13 +1345,13 @@ sub Run {
             my $ValidationResult;
 
             # do not validate on invisible fields
-            if ( !$ExpandCustomerName && $Visibility{ 'DynamicField_'.$DynamicFieldConfig->{Name} } ) {
+            if ( !$ExpandCustomerName && $Visibility{ 'DynamicField_' . $DynamicFieldConfig->{Name} } ) {
 
                 $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
                     DynamicFieldConfig   => $DynamicFieldConfig,
                     PossibleValuesFilter => $PossibleValuesFilter,
                     ParamObject          => $ParamObject,
-                    Mandatory =>
+                    Mandatory            =>
                         $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2,
                 );
 
@@ -1373,7 +1373,7 @@ sub Run {
             $DynamicFieldHTML{ $DynamicFieldConfig->{Name} } = $DynamicFieldBackendObject->EditFieldRender(
                 DynamicFieldConfig   => $DynamicFieldConfig,
                 PossibleValuesFilter => $PossibleValuesFilter,
-                ServerError          => $ValidationResult->{ServerError} || '',
+                ServerError          => $ValidationResult->{ServerError}  || '',
                 ErrorMessage         => $ValidationResult->{ErrorMessage} || '',
                 LayoutObject         => $LayoutObject,
                 ParamObject          => $ParamObject,
@@ -1625,7 +1625,7 @@ sub Run {
                     %GetParam,
                     %ACLCompatGetParam,
                     QueueID  => $NewQueueID,
-                    AllUsers => $GetParam{OwnerAll},
+                    AllUsers => $GetParam{OwnerAll}
                 ),
                 UserSelected     => $GetParam{NewUserID},
                 ResponsibleUsers => $Self->_GetResponsibles(
@@ -1639,20 +1639,20 @@ sub Run {
                     %GetParam,
                     %ACLCompatGetParam,
                     CustomerUserID => $CustomerUser || $SelectedCustomerUser || '',
-                    QueueID        => $NewQueueID   || 1,
+                    QueueID => $NewQueueID || 1,
                 ),
                 NextState  => $NextState,
                 Priorities => $Self->_GetPriorities(
                     %GetParam,
                     %ACLCompatGetParam,
                     CustomerUserID => $CustomerUser || $SelectedCustomerUser || '',
-                    QueueID        => $NewQueueID   || 1,
+                    QueueID => $NewQueueID || 1,
                 ),
                 Types => $Self->_GetTypes(
                     %GetParam,
                     %ACLCompatGetParam,
                     CustomerUserID => $CustomerUser || $SelectedCustomerUser || '',
-                    QueueID        => $NewQueueID   || 1,
+                    QueueID => $NewQueueID || 1,
                 ),
                 Services          => $Services,
                 SLAs              => $SLAs,
@@ -2182,7 +2182,7 @@ sub Run {
         my $Dest           = $ParamObject->GetParam( Param => 'Dest' ) || '';
         my $CustomerUser   = $ParamObject->GetParam( Param => 'SelectedCustomerUser' );
         my $ElementChanged = $ParamObject->GetParam( Param => 'ElementChanged' ) || '';
-        my $QueueID = '';
+        my $QueueID        = '';
         if ( $Dest =~ /^(\d{1,100})\|\|.+?$/ ) {
             $QueueID = $1;
         }
@@ -2428,10 +2428,10 @@ sub Run {
                 ? $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"}
                 :
                 (
-                $DynamicFieldBackendObject->BuildSelectionDataGet(
-                    DynamicFieldConfig => $DynamicFieldConfig,
-                    PossibleValues     => $DynFieldStates{Fields}{$Index}{PossibleValues},
-                    Value              => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
+                    $DynamicFieldBackendObject->BuildSelectionDataGet(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        PossibleValues     => $DynFieldStates{Fields}{$Index}{PossibleValues},
+                        Value              => $GetParam{DynamicField}{"DynamicField_$DynamicFieldConfig->{Name}"},
                     )
                     || $DynFieldStates{Fields}{$Index}{PossibleValues}
                 );
@@ -3329,7 +3329,7 @@ sub _MaskPhoneNew {
 
             # ACL hidden fields cannot be mandatory
             if ( $Config->{DynamicField}->{ $DynamicFieldConfig->{Name} } == 2 ) {
-                $DynamicFieldHTML->{Field} =~ s/(class=.+?Validate_Required)/$1_IfVisible/;
+                $DynamicFieldHTML->{Field} =~ s/(class=.+?Validate_Required)/$1_IfVisible/g;
             }
         }
 
