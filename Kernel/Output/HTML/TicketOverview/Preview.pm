@@ -4,7 +4,7 @@
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
-# $origin: otobo - d2d6be92c1665473091303dbf300e0c830d6d9be - Kernel/Output/HTML/TicketOverview/Preview.pm
+# $origin: otobo - 57ccfaa09b089444793c68510bba392660b1c0ae - Kernel/Output/HTML/TicketOverview/Preview.pm
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -20,7 +20,13 @@ package Kernel::Output::HTML::TicketOverview::Preview;
 
 use strict;
 use warnings;
+use namespace::autoclean;
 
+# core modules
+
+# CPAN modules
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
@@ -198,6 +204,7 @@ sub ActionRow {
 
 sub SortOrderBar {
     my ( $Self, %Param ) = @_;
+
     return '';
 }
 
@@ -251,18 +258,12 @@ sub Run {
         Data => \%Param,
     );
 
-    my $OutputMeta = $LayoutObject->Output(
+    # As of OTOBO 10.0.x some content was printed early.
+    # This has changed in OTOBO 10.1.1.
+    my $Output = $LayoutObject->Output(
         TemplateFile => 'AgentTicketOverviewPreview',
         Data         => \%Param,
     );
-    my $OutputRaw = '';
-    if ( !$Param{Output} ) {
-        $LayoutObject->Print( Output => \$OutputMeta );
-    }
-    else {
-        $OutputRaw .= $OutputMeta;
-    }
-    my $Output        = '';
     my $Counter       = 0;
     my $CounterOnSite = 0;
     my @TicketIDsShown;
@@ -284,7 +285,7 @@ sub Run {
     }
 
     # check if there are tickets to show
-    if ( scalar @{ $Param{TicketIDs} } ) {
+    if ( @{ $Param{TicketIDs} } ) {
 
         for my $TicketID ( @{ $Param{TicketIDs} } ) {
             $Counter++;
@@ -294,7 +295,7 @@ sub Run {
                 )
             {
                 push @TicketIDsShown, $TicketID;
-                my $Output = $Self->_Show(
+                my $OutputForTicket = $Self->_Show(
                     TicketID                    => $TicketID,
                     Counter                     => $CounterOnSite,
                     Bulk                        => $BulkFeature,
@@ -303,12 +304,7 @@ sub Run {
                     PreviewArticleSenderTypeIDs => \%PreviewArticleSenderTypeIDs,
                 );
                 $CounterOnSite++;
-                if ( !$Param{Output} ) {
-                    $LayoutObject->Print( Output => $Output );
-                }
-                else {
-                    $OutputRaw .= ${$Output};
-                }
+                $Output .= ${$OutputForTicket};
             }
         }
 
@@ -326,6 +322,7 @@ sub Run {
         $LayoutObject->Block( Name => 'NoTicketFound' );
     }
 
+    # check if bulk feature is enabled
     if ($BulkFeature) {
         $LayoutObject->Block(
             Name => 'DocumentFooter',
@@ -337,18 +334,13 @@ sub Run {
                 Data => \%Param,
             );
         }
-        my $OutputMeta = $LayoutObject->Output(
+        $Output .= $LayoutObject->Output(
             TemplateFile => 'AgentTicketOverviewPreview',
             Data         => \%Param,
         );
-        if ( !$Param{Output} ) {
-            $LayoutObject->Print( Output => \$OutputMeta );
-        }
-        else {
-            $OutputRaw .= $OutputMeta;
-        }
     }
-    return $OutputRaw;
+
+    return $Output;
 }
 
 sub _Show {
@@ -467,7 +459,7 @@ sub _Show {
     # create human age
     $Article{Age} = $LayoutObject->CustomerAge(
         Age   => $Article{Age},
-        Space => ' '
+        Space => ' ',
     );
 
     # get queue object
@@ -1313,6 +1305,7 @@ sub _Show {
             %AclAction,
         },
     );
+
     return \$Output;
 }
 

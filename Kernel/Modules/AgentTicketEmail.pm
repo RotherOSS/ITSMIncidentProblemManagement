@@ -4,7 +4,7 @@
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
-# $origin: otobo - 0eb93e419acb74b7bebbfa38e63eb37e914e6b83 - Kernel/Modules/AgentTicketEmail.pm
+# $origin: otobo - 240c633f7708fdeceaf9887f7b62d34915bf227d - Kernel/Modules/AgentTicketEmail.pm
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -3722,7 +3722,7 @@ sub _MaskEmailNew {
         # hide field
         if ( !$Param{Visibility}{"DynamicField_$DynamicFieldConfig->{Name}"} ) {
             %Hidden = (
-                HiddenClass => ' ooo.ACLHidden',
+                HiddenClass => ' oooACLHidden',
                 HiddenStyle => 'style=display:none;',
             );
 

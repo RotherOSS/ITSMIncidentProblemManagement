@@ -4,7 +4,7 @@
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
 # Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
 # --
-# $origin: otobo - afa8bfc3a04f714330d5489defd83c87642bc23c - Kernel/Modules/AgentTicketPhone.pm
+# $origin: otobo - 240c633f7708fdeceaf9887f7b62d34915bf227d - Kernel/Modules/AgentTicketPhone.pm
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -3323,7 +3323,7 @@ sub _MaskPhoneNew {
         # hide field
         if ( !$Param{Visibility}{"DynamicField_$DynamicFieldConfig->{Name}"} ) {
             %Hidden = (
-                HiddenClass => ' ooo.ACLHidden',
+                HiddenClass => ' oooACLHidden',
                 HiddenStyle => 'style=display:none;',
             );
 
