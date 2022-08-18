@@ -2,9 +2,9 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
 # --
-# $origin: otobo - 9722faf9967fdde3f4d051b713fe18bce3c382c4 - Kernel/Modules/CustomerTicketProcess.pm
+# $origin: otobo - f7c064090fc46d74a96e8940804f785b54ee7f3e - Kernel/Modules/CustomerTicketProcess.pm
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -133,7 +133,7 @@ sub Run {
     # get all follow up processes
     my $FollowupProcessList = $ProcessObject->ProcessList(
         ProcessState => \@ProcessStates,
-        Interface    => [ 'AgentInterface', 'CustomerInterface' ],
+        Interface    => 'all',
     );
 
     if ( !IsHashRefWithData($FollowupProcessList) ) {
