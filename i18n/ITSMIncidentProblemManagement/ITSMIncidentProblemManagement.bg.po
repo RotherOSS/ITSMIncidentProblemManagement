@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ITSMIncidentProblemManagement\n"
 "POT-Creation-Date: 2019-06-25 12:26+0000\n"
-"PO-Revision-Date: 2022-12-14 11:48+0000\n"
+"PO-Revision-Date: 2022-12-15 17:07+0000\n"
 "Last-Translator: Yasen Arsov <jarsov@gmail.com>\n"
 "Language-Team: Bulgarian <https://translate.otobo.org/projects/otobo10/"
 "itsmincidentproblemmanagement/bg/>\n"
@@ -246,115 +246,164 @@ msgstr ""
 #. SysConfig
 msgid "Enables the stats module to generate statistics about the average of ITSM ticket solution."
 msgstr ""
+"Позволява на модула за статистика да генерира статистика за средната "
+"стойност на решението за ITSM тикет."
 
 #. SysConfig
 msgid "If a note is added by an agent, sets the state of a ticket in the additional ITSM field screen of the agent interface."
 msgstr ""
+"Ако бележка е добавена от агент, задава състоянието на билета в екрана на "
+"допълнително поле ITSM от интерфейса на агента."
 
 #. SysConfig
 msgid "If a note is added by an agent, sets the state of a ticket in the decision screen of the agent interface."
 msgstr ""
+"Ако бележка е добавена от агент, задава състоянието на билета в екрана за "
+"решение от интерфейса на агента."
 
 #. SysConfig
 msgid "Modifies the display order of the dynamic field ITSMImpact and other things."
-msgstr ""
+msgstr "Променя реда на показване на динамичното поле ITSMImpact и други неща."
 
 #. SysConfig
 msgid "Module to dynamically show the service incident state and to calculate the priority."
 msgstr ""
+"Модул за динамично показване състоянието на инцидента в услугата и за "
+"изчисляване на приоритета."
 
 #. SysConfig
 msgid "Required permissions to use the additional ITSM field screen in the agent interface."
 msgstr ""
+"Необходими права за използване на допълнителния екран от ITSM поле в "
+"интерфейса на агента."
 
 #. SysConfig
 msgid "Required permissions to use the decision screen in the agent interface."
 msgstr ""
+"Необходими права за използване екрана за решение в интерфейса на агента."
 
 #. SysConfig
 msgid "Service Incident State and Priority Calculation"
-msgstr ""
+msgstr "Състояние на инцидент от услугата и изчисляване на приоритета"
 
 #. SysConfig
 msgid "Sets the service in the additional ITSM field screen of the agent interface (Ticket::Service needs to be activated)."
 msgstr ""
+"Задава услугата в допълнителния екран на полето ITSM от интерфейса на агента "
+"(Ticket::Service трябва да бъде активиран)."
 
 #. SysConfig
 msgid "Sets the service in the decision screen of the agent interface (Ticket::Service needs to be activated)."
 msgstr ""
+"Задава услугата в екрана за решение от интерфейса на агента (Ticket::Service "
+"трябва да бъде активиран)."
 
 #. SysConfig
 msgid "Sets the service in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Service needs to be activated)."
 msgstr ""
+"Задава услугата в екрана с приоритет на билета за увеличен билет в "
+"интерфейса на агента (Ticket::Service трябва да бъде активиран)."
 
 #. SysConfig
 msgid "Sets the ticket owner in the additional ITSM field screen of the agent interface."
 msgstr ""
+"Задава собственика на билета в допълнителния екран на ITSM полето от "
+"интерфейса на агента."
 
 #. SysConfig
 msgid "Sets the ticket owner in the decision screen of the agent interface."
 msgstr ""
+"Задава собственика на билета в екрана за решение от интерфейса на агента."
 
 #. SysConfig
 msgid "Sets the ticket responsible in the additional ITSM field screen of the agent interface."
 msgstr ""
+"Задава отговорния за билет в допълнителния екран на ITSM полето от "
+"интерфейса на агента."
 
 #. SysConfig
 msgid "Sets the ticket responsible in the decision screen of the agent interface."
-msgstr ""
+msgstr "Задава отговорния за билет в екрана за решение от интерфейса на агента."
 
 #. SysConfig
 msgid "Sets the ticket type in the additional ITSM field screen of the agent interface (Ticket::Type needs to be activated)."
 msgstr ""
+"Задава типа билет в допълнителния екран на ITSM полето от интерфейса на "
+"агента (Ticket::Type трябва да бъде активиран)."
 
 #. SysConfig
 msgid "Sets the ticket type in the decision screen of the agent interface (Ticket::Type needs to be activated)."
 msgstr ""
+"Задава типа билет в екрана за решение от интерфейса на агента (Ticket::Type "
+"трябва да бъде активиран)."
 
 #. SysConfig
 msgid "Sets the ticket type in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Type needs to be activated)."
 msgstr ""
+"Задава типа билет в екрана с приоритет на билета за увеличен билет в "
+"интерфейса на агента (Ticket::Type трябва да бъде активиран)."
 
 #. SysConfig
 msgid "Shows a link in the menu to change the decision of a ticket in its zoom view of the agent interface."
 msgstr ""
+"Показва връзка в менюто за промяна на решението за билет в неговия увеличен "
+"изглед от интерфейса на агента."
 
 #. SysConfig
 msgid "Shows a link in the menu to modify additional ITSM fields in the ticket zoom view of the agent interface."
 msgstr ""
+"Показва връзка в менюто за модифициране на допълнителни ITSM полета в "
+"изгледа за увеличение на билета от интерфейса на агента."
 
 #. SysConfig
 msgid "Shows a list of all the involved agents on this ticket, in the additional ITSM field screen of the agent interface."
 msgstr ""
+"Показва списък на всички включени агенти в този билет в допълнителния екран "
+"на ITSM полето от интерфейса на агента."
 
 #. SysConfig
 msgid "Shows a list of all the involved agents on this ticket, in the decision screen of the agent interface."
 msgstr ""
+"Показва списък на всички включени агенти в този билет в екрана за решение от "
+"интерфейса на агента."
 
 #. SysConfig
 msgid "Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the additional ITSM field screen of the agent interface."
 msgstr ""
+"Показва списък с всички възможни агенти (всички агенти с разрешения за "
+"бележки в опашката/билета), за да определи кой трябва да бъде информиран за "
+"тази бележка, в допълнителния екран на ITSM поле от интерфейса на агента."
 
 #. SysConfig
 msgid "Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the decision screen of the agent interface."
 msgstr ""
+"Показва списък с всички възможни агенти (всички агенти с разрешения за "
+"бележка в опашката/билета), за да определи кой трябва да бъде информиран за "
+"тази бележка в екрана за решение на интерфейса на агента."
 
 #. SysConfig
 msgid "Shows the ticket priority options in the additional ITSM field screen of the agent interface."
 msgstr ""
+"Показва опциите за приоритет на билета в допълнителния екран на ITSM полето "
+"от интерфейса на агента."
 
 #. SysConfig
 msgid "Shows the ticket priority options in the decision screen of the agent interface."
 msgstr ""
+"Показва опциите за приоритет на билета в екрана за решение от интерфейса на "
+"агента."
 
 #. SysConfig
 msgid "Shows the title fields in the additional ITSM field screen of the agent interface."
 msgstr ""
+"Показва полетата за заглавие в допълнителния екран на ITSM поле от "
+"интерфейса на агента."
 
 #. SysConfig
 msgid "Shows the title fields in the decision screen of the agent interface."
 msgstr ""
+"Показва полетата за заглавие в екрана за решение от интерфейса на агента."
 
 #. SysConfig
 msgid "Ticket decision."
-msgstr ""
+msgstr "Решение за билет."
