@@ -2,9 +2,9 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
-# $origin: otobo - e894aef610208fdc401a4df814ca59658292fbba - Kernel/Modules/AgentTicketActionCommon.pm
+# $origin: otobo - a077e914380d1a13d5aa31472ea687353b614622 - Kernel/Modules/AgentTicketActionCommon.pm
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -53,7 +53,6 @@ sub new {
 
     # check if ReplyToArticle really belongs to the ticket
     my %ReplyToArticleContent;
-    my @ReplyToAdresses;
     if ($ReplyToArticle) {
 
         my $ArticleBackendObject = $Kernel::OM->Get('Kernel::System::Ticket::Article')->BackendForArticle(
@@ -1785,8 +1784,6 @@ sub Run {
             };
         }
 
-        # define dynamic field visibility
-        my %FieldVisibility;
         if ( IsHashRefWithData( $DynFieldStates{Visibility} ) ) {
             push @DynamicFieldAJAX, {
                 Name => 'Restrictions_Visibility',

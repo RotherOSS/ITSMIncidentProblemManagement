@@ -2,9 +2,9 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
-# $origin: otobo - e894aef610208fdc401a4df814ca59658292fbba - Kernel/Output/HTML/TicketOverview/Medium.pm
+# $origin: otobo - a077e914380d1a13d5aa31472ea687353b614622 - Kernel/Output/HTML/TicketOverview/Medium.pm
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -38,6 +38,7 @@ our @ObjectDependencies = (
     'Kernel::System::Group',
     'Kernel::System::Log',
     'Kernel::Output::HTML::Layout',
+    'Kernel::System::JSON',
     'Kernel::System::User',
     'Kernel::System::Ticket',
     'Kernel::System::Ticket::Article',
@@ -54,6 +55,23 @@ sub new {
 
     # get UserID param
     $Self->{UserID} = $Param{UserID} || die "Got no UserID!";
+
+    my %Preferences = $Kernel::OM->Get('Kernel::System::User')->GetPreferences(
+        UserID => $Self->{UserID},
+    );
+
+    # get JSON object
+    my $JSONObject = $Kernel::OM->Get('Kernel::System::JSON');
+
+    # set stored filters if present
+    my $StoredFiltersKey = 'UserStoredFilterColumns-' . $Self->{Action};
+    if ( $Preferences{$StoredFiltersKey} ) {
+        my $StoredFilters = $JSONObject->Decode(
+            Data => $Preferences{$StoredFiltersKey},
+        );
+        $Self->{StoredFilters} = $StoredFilters;
+    }
+
 # ---
 # ITSMIncidentProblemManagement
 # ---
@@ -1062,8 +1080,6 @@ sub _Show {
             %Article,
         },
     );
-
-    my %ActionRowTickets;
 
     # add action items as js
     if ( @ActionItems && !$Param{Config}->{TicketActionsPerTicket} ) {

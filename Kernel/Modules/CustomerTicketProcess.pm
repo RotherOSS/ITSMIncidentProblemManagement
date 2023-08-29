@@ -2,9 +2,9 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
-# $origin: otobo - f7c064090fc46d74a96e8940804f785b54ee7f3e - Kernel/Modules/CustomerTicketProcess.pm
+# $origin: otobo - a077e914380d1a13d5aa31472ea687353b614622 - Kernel/Modules/CustomerTicketProcess.pm
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -80,8 +80,6 @@ sub Run {
     my $TicketID               = $Self->{TicketID}              || $ParamObject->GetParam( Param => 'TicketID' );
     my $ActivityDialogEntityID = $Param{ActivityDialogEntityID} || $ParamObject->GetParam( Param => 'ActivityDialogEntityID' );
     my $ProcessEntityID        = $Param{ProcessEntityID}        || $ParamObject->GetParam( Param => 'ProcessEntityID' );
-
-    my $ActivityDialogHashRef;
 
     if ( !$TicketID ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -2872,7 +2870,6 @@ sub _StoreActivityDialog {
     my ( $Self, %Param ) = @_;
 
     my $TicketID = $Param{GetParam}->{TicketID};
-    my $ProcessStartpoint;
     my %Ticket;
     my $ProcessEntityID;
     my $ActivityEntityID;

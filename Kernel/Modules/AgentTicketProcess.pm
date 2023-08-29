@@ -2,9 +2,9 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
-# $origin: otobo - f7c064090fc46d74a96e8940804f785b54ee7f3e - Kernel/Modules/AgentTicketProcess.pm
+# $origin: otobo - a077e914380d1a13d5aa31472ea687353b614622 - Kernel/Modules/AgentTicketProcess.pm
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -21,6 +21,12 @@ package Kernel::Modules::AgentTicketProcess;
 use strict;
 use warnings;
 
+# core modules
+
+# CPAN modules
+use Mail::Address;
+
+# OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
 use Kernel::Language qw(Translatable);
 
@@ -320,7 +326,7 @@ sub Run {
     # configured for the agent interface
     my $FollowupProcessList = $ProcessObject->ProcessList(
         ProcessState => \@ProcessStates,
-        Interface    => [ 'AgentInterface', 'CustomerInterface' ],
+        Interface    => 'all',
     );
 
     my $ProcessEntityID = $ParamObject->GetParam( Param => 'ProcessEntityID' );

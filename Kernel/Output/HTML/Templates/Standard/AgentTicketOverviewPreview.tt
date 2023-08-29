@@ -2,9 +2,9 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2022 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
 # --
-# $origin: otobo - e894aef610208fdc401a4df814ca59658292fbba - Kernel/Output/HTML/Templates/Standard/AgentTicketOverviewPreview.tt
+# $origin: otobo - 0728c10e1aa8650e6a71fa58f9ae2192e16a4bcf - Kernel/Output/HTML/Templates/Standard/AgentTicketOverviewPreview.tt
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -79,7 +79,7 @@
 [% RenderBlockEnd("Meta") %]
             <div class="Infos">
                 <h2>
-                    <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %]" title="[% Data.Title | html %]" class="MasterActionLink">[% Config("Ticket::Hook") %][% Config("Ticket::HookDivider") %][% Data.TicketNumber %] &ndash; [% Data.Title | html %]</a>
+                    <a href="[% Env("Baselink") %]Action=AgentTicketZoom;TicketID=[% Data.TicketID | uri %]" title="[% Data.Title | html %]" class="MasterActionLink">[% Config("Ticket::Hook") %][% Config("Ticket::HookDivider") %][% Data.TicketNumber | html %] &mdash; [% Data.Title | html %]</a>
                 </h2>
 [% RenderBlockStart("MenuItem") %]
                 <a href="[% Env("Baselink") %][% Data.Link %]" [% Data.LinkParam %] class="menuitem" title="[% Translate(Data.Description) | html %]">[% Translate(Data.Name) | html %]</a>
