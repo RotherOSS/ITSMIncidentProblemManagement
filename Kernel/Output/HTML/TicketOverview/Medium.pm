@@ -2,9 +2,9 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
-# $origin: otobo - a077e914380d1a13d5aa31472ea687353b614622 - Kernel/Output/HTML/TicketOverview/Medium.pm
+# $origin: otobo - 9bbf86da448bcff2bcc655fde9320646bc2950f2 - Kernel/Output/HTML/TicketOverview/Medium.pm
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -28,7 +28,7 @@ use namespace::autoclean;
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our @ObjectDependencies = (
     'Kernel::System::CustomerUser',
@@ -452,8 +452,9 @@ sub _Show {
     );
 
     $Param{StandardResponsesStrg} = $LayoutObject->BuildSelection(
-        Name => 'ResponseID',
-        Data => $StandardTemplates{Answer} || {},
+        Name        => 'ResponseID',
+        Data        => $StandardTemplates{Answer} || {},
+        Translation => 1,
     );
 
     # customer info

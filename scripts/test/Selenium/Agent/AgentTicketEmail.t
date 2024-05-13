@@ -2,7 +2,9 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# --
+# $origin: otobo - 4cdd2f2766468573cc2970dfbd38a6c9781f0bd0 - scripts/test/Selenium/Agent/AgentTicketEmail.t
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -13,18 +15,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
-# --
 
 use strict;
 use warnings;
 use utf8;
 
-use vars (qw($Self));
+# Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::RegisterDriver;
 
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+our $Self;
+
+# OTOBO modules
+use Kernel::System::UnitTest::Selenium;
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
@@ -452,9 +455,6 @@ $Selenium->RunTest(
             Value => 0,
         );
 
-        # Allow apache to pick up the changed SysConfig via Apache::Reload.
-        sleep 1;
-
         # Navigate to AgentTicketEmail screen and login because there is no session cookies.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketEmail");
         $Selenium->find_element( "#User",        'css' )->send_keys($TestUserLogin);
@@ -598,4 +598,4 @@ $Selenium->RunTest(
     }
 );
 
-1;
+$Self->DoneTesting();

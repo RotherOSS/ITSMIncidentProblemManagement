@@ -2,7 +2,9 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# --
+# $origin: otobo - 0ad48f278324b4dea38544c8437be9bc22e7f110 - scripts/test/Selenium/Agent/AgentTicketActionCommonACL.t
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -13,18 +15,24 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
-# --
+
 use strict;
 use warnings;
+use v5.24;
 use utf8;
-use vars (qw($Self));
+
+# core modules
+
+# CPAN modules
+use Test2::V0;
+
+# OTOBO modules
+use Kernel::System::UnitTest::RegisterOM;    # Set up $Kernel::OM
+use Kernel::System::UnitTest::Selenium;
 
 # Note: this UT covers bug #11874 - Restrict service based on state when posting a note
 
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
@@ -89,10 +97,7 @@ $Selenium->RunTest(
             ValidID => 1,
             UserID  => 1,
         );
-        $Self->True(
-            $DynamicFieldID,
-            "DynamicFieldAdd - Added dynamic field ($DynamicFieldID)",
-        );
+        ok( $DynamicFieldID, "DynamicFieldAdd - Added dynamic field ($DynamicFieldID)" );
 
         my $DynamicFieldID2 = $DynamicFieldObject->DynamicFieldAdd(
             Name       => 'Field2' . $RandomID,
@@ -115,10 +120,7 @@ $Selenium->RunTest(
             ValidID => 1,
             UserID  => 1,
         );
-        $Self->True(
-            $DynamicFieldID2,
-            "DynamicFieldAdd - Added dynamic field ($DynamicFieldID)",
-        );
+        ok( $DynamicFieldID2, "DynamicFieldAdd - Added dynamic field ($DynamicFieldID)" );
 
         $Helper->ConfigSettingChange(
             Valid => 1,
@@ -138,8 +140,10 @@ $Selenium->RunTest(
         );
 
         # Import test ACL.
+        # For new tickets only the first test service is allowed.
+        # The names of the ACLs don't have to be unique, as OverwriteExistingEntities is set.
         $ACLObject->ACLImport(
-            Content => <<"EOF",
+            Content => <<"END_CONTENT",
 - ChangeBy: root\@localhost
   ChangeTime: 2016-02-16 03:08:58
   Comment: ''
@@ -241,7 +245,7 @@ $Selenium->RunTest(
   Name: ThisIsAUnitTestACL-5
   StopAfterMatch: 0
   ValidID: '1'
-EOF
+END_CONTENT
             OverwriteExistingEntities => 1,
             UserID                    => 1,
         );
@@ -261,13 +265,9 @@ EOF
 
         # After login, we need to navigate to the ACL deployment to make the imported ACL work.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
-        $Self->False(
-            index(
-                $Selenium->get_page_source(),
-                'ACL information from database is not in sync with the system configuration, please deploy all ACLs.'
-                )
-                > -1,
-            "ACL deployment successful."
+        $Selenium->body_text_lacks(
+            'ACL information from database is not in sync with the system configuration, please deploy all ACLs.',
+            'ACL deployment successful'
         );
 
         # Add a customer.
@@ -275,9 +275,9 @@ EOF
             UserFirstname  => 'Huber',
             UserLastname   => 'Manfred',
             UserCustomerID => 'A124',
-            UserLogin      => 'customeruser_' . $Helper->GetRandomID(),
+            UserLogin      => 'customeruser_' . $RandomID,
             UserPassword   => 'some-pass',
-            UserEmail      => $Helper->GetRandomID() . '@localhost.com',
+            UserEmail      => $RandomID . '@localhost.com',
             ValidID        => 1,
             UserID         => 1,
         );
@@ -294,10 +294,7 @@ EOF
             OwnerID      => 1,
             UserID       => 1,
         );
-        $Self->True(
-            $TicketID,
-            "TicketCreate - ID $TicketID",
-        );
+        ok( $TicketID, "TicketCreate - ID $TicketID" );
 
         # Set test ticket dynamic field to zero-value, please see bug#12273 for more information.
         my $DynamicFieldValueObject = $Kernel::OM->Get('Kernel::System::DynamicFieldValue');
@@ -338,10 +335,10 @@ EOF
         # ---
 
         my $ServiceID;
-        my @Services;
+        my @ServiceIDs;
         for my $Count ( 1 .. 3 ) {
-            $ServiceID = $ServiceObject->ServiceAdd(
-                Name => "UT Test Service $Count $RandomID",
+            my $ServiceID = $ServiceObject->ServiceAdd(
+                Name    => "UT Test Service $Count $RandomID",
 
                 # ---
                 # ITSMIncidentProblemManagement
@@ -352,8 +349,9 @@ EOF
                 # ---
                 ValidID => 1,
                 UserID  => 1,
+                Comment => "test script: $0",
             );
-            push @Services, $ServiceID;
+            push @ServiceIDs, $ServiceID;
 
             $ServiceObject->CustomerUserServiceMemberAdd(
                 CustomerUserLogin => $CustomerUserLogin,
@@ -362,10 +360,7 @@ EOF
                 UserID            => 1,
             );
 
-            $Self->True(
-                $ServiceID,
-                "Test service $Count ($ServiceID) created and assigned to customer user",
-            );
+            ok( $ServiceID, "Test service $Count ($ServiceID) created and assigned to customer user $CustomerUserLogin" );
         }
 
         # Create several test SLAs.
@@ -374,7 +369,7 @@ EOF
         my @SLAs;
         for my $Count ( 1 .. 3 ) {
             my $SLAID = $SLAObject->SLAAdd(
-                ServiceIDs => \@Services,
+                ServiceIDs => \@ServiceIDs,
                 Name       => "UT Test SLA $Count $RandomID",
 
                 # ---
@@ -402,51 +397,52 @@ EOF
                 "return \$('#nav-Communication-container').css('height') !== '0px' && \$('#nav-Communication-container').css('opacity') == '1';"
         );
 
-        # Click on 'Note' and switch window
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketNote;TicketID=$TicketID' )]")->click();
+        # Click on 'Note' and switch windo
+        $Selenium->click_element_ok(qq{//a[contains(\@href, 'Action=AgentTicketNote;TicketID=$TicketID' )]});
 
         $Selenium->WaitFor( WindowCount => 2 );
         my $Handles = $Selenium->get_window_handles();
         $Selenium->switch_to_window( $Handles->[1] );
 
         # Wait until page has loaded
-        $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ServiceID").length;' );
+        # TODO: this sometimes fails when there are not Services available. Strange.
+        try_ok {
+            $Selenium->WaitFor(
+                JavaScript => q{return typeof($) === "function" && $('#ServiceID option:not([value=""])').length}
+            );
+        };
 
-        # Check for entries in the service selection, there should be only one
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('#ServiceID option:not([value=\"\"])').length;"
-            ),
-            1,
-            "There is only one entry in the service selection",
-        );
-
-        Time::HiRes::sleep(0.5);
+        # Check for entries in the service selection.
+        # Three test services have been added. But only "UT Test Service 1 $RandomID" is visible
+        # because of the imported ACL setup.
+        my $NumVisibleServices = $Selenium->execute_script(q{return $('#ServiceID option:not([value=""])').length;});
+        is( $NumVisibleServices, 1, 'only one entry in the service selection' );
 
         # Set test service and trigger AJAX refresh.
         $Selenium->InputFieldValueSet(
             Element => '#ServiceID',
-            Value   => $Services[0],
-        );
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return !$(".AJAXLoader:visible").length && $("#SLAID option:not([value=\'\'])").length == 1;'
+            Value   => $ServiceIDs[0],
         );
 
+        # wait for the updated SLA selection
+        try_ok {
+            $Selenium->WaitFor(
+                JavaScript => q{return !$(".AJAXLoader:visible").length && $("#SLAID option:not([value=''])").length;}
+            );
+        };
+
         # Check for restricted entries in the SLA selection, there should be only one.
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('#SLAID option:not([value=\"\"])').length;"
-            ),
+        is(
+            $Selenium->execute_script("return \$('#SLAID option:not([value=\"\"])').length;"),
             1,
             "There is only one entry in the SLA selection",
         );
 
-        # Verify queue is updated on ACL trigger, see bug#12862 ( https://bugs.otobo.org/show_bug.cgi?id=12862 ).
+        # Verify queue is updated on ACL trigger, see bug#12862 ( https://bugs.otrs.org/show_bug.cgi?id=12862 ).
         my %JunkQueue = $Kernel::OM->Get('Kernel::System::Queue')->QueueGet(
             Name => 'Junk',
         );
-        $Self->True(
+        ok(
             $Selenium->execute_script("return \$('#NewQueueID option[value=\"$JunkQueue{QueueID}\"]').length > 0;"),
             "Junk queue is available in selection before ACL trigger"
         );
@@ -458,8 +454,8 @@ EOF
         );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
 
-        $Self->False(
-            $Selenium->execute_script("return \$('#NewQueueID option[value=\"$JunkQueue{QueueID}\"]').length > 0;"),
+        ok(
+            !$Selenium->execute_script("return \$('#NewQueueID option[value=\"$JunkQueue{QueueID}\"]').length > 0;"),
             "Junk queue is not available in selection after ACL trigger"
         );
 
@@ -487,31 +483,27 @@ EOF
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && $("#ServiceID").length;' );
 
         # Check for entries in the service selection, there should be only one.
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('#ServiceID option:not([value=\"\"])').length;"
-            ),
+        is(
+            $Selenium->execute_script("return \$('#ServiceID option:not([value=\"\"])').length;"),
             1,
             'There is only one entry in the service selection'
         );
 
-        Time::HiRes::sleep(0.5);
-
         # Set test service and trigger AJAX refresh.
         $Selenium->InputFieldValueSet(
             Element => '#ServiceID',
-            Value   => $Services[0],
+            Value   => $ServiceIDs[0],
         );
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return !$(".AJAXLoader:visible").length && $("#SLAID option:not([value=\'\'])").length == 1;'
-        );
+        try_ok {
+            $Selenium->WaitFor(
+                JavaScript =>
+                    'return !$(".AJAXLoader:visible").length && $("#SLAID option:not([value=\'\'])").length == 1;'
+            );
+        };
 
         # Check for restricted entries in the SLA selection, there should be only one.
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('#SLAID option:not([value=\"\"])').length;"
-            ),
+        is(
+            $Selenium->execute_script("return \$('#SLAID option:not([value=\"\"])').length;"),
             1,
             'There is only one entry in the SLA selection'
         );
@@ -547,7 +539,7 @@ EOF
                 'return typeof(Core) == "object" && typeof(Core.App) == "object" && Core.App.PageLoadComplete;'
         );
 
-        $Self->Is(
+        is(
             $Selenium->execute_script(
                 "return \$('#DynamicField_Field2$RandomID option:not([value=\"\"])').length;"
             ),
@@ -562,10 +554,8 @@ EOF
         );
         $Selenium->WaitFor( JavaScript => 'return typeof($) === "function" && !$(".AJAXLoader:visible").length;' );
 
-        $Self->Is(
-            $Selenium->execute_script(
-                "return \$('#DynamicField_Field2$RandomID option:not([value=\"\"])').length;"
-            ),
+        is(
+            $Selenium->execute_script("return \$('#DynamicField_Field2$RandomID option:not([value=\"\"])').length;"),
             4,
             "There are all four entries in the dynamic field 2 selection",
         );
@@ -577,7 +567,7 @@ EOF
         $Selenium->switch_to_window( $Handles->[0] );
 
         # Click on 'Close' action and switch to it.
-        $Selenium->find_element("//a[contains(\@href, \'Action=AgentTicketClose;TicketID=$TicketID' )]")->click();
+        $Selenium->click_element_ok("//a[contains(\@href, \'Action=AgentTicketClose;TicketID=$TicketID' )]");
 
         $Selenium->WaitFor( WindowCount => 2 );
         $Handles = $Selenium->get_window_handles();
@@ -590,24 +580,24 @@ EOF
         #   Change the dynamic field property to '1' and wait until 'closed successful' is available again.
         #   Then, close the ticket and verify it was actually closed.
         #   Please see bug#12671 for more information.
-        $Self->True(
+        ok(
             $Selenium->execute_script('return $("#NewStateID option:contains(\'closed successful\')").length == 0;'),
             "State 'closed successful' not available in new state selection before DF update"
         );
-
-        Time::HiRes::sleep(0.5);
 
         # Set dynamic field value to non-zero, and wait for AJAX to complete.
         $Selenium->InputFieldValueSet(
             Element => "#DynamicField_Field$RandomID",
             Value   => 1,
         );
-        $Selenium->WaitFor(
-            JavaScript =>
-                'return !$(".AJAXLoader:visible").length && $("#NewStateID option:contains(\'closed successful\')").length == 1;'
-        );
 
-        $Self->True(
+        try_ok {
+            $Selenium->WaitFor(
+                JavaScript => 'return !$(".AJAXLoader:visible").length && $("#NewStateID option:contains(\'closed successful\')").length == 1;'
+            );
+        };
+
+        ok(
             $Selenium->execute_script('return $("#NewStateID option:contains(\'closed successful\')").length == 1;'),
             "State 'closed successful' available in new state selection after DF update"
         );
@@ -629,10 +619,9 @@ EOF
 
         # Verify that the ticket was indeed closed successfully.
         my $CloseMsg = 'Changed state from "new" to "closed successful".';
-        $Self->True(
-            index( $Selenium->get_page_source(), $CloseMsg ) > -1,
-            'Ticket closed successfully'
-        );
+        try_ok {
+            $Selenium->content_contains( $CloseMsg, 'Ticket closed successfully' );
+        };
 
         # Cleanup
 
@@ -647,20 +636,13 @@ EOF
                 ID     => $ACLData->{ID},
                 UserID => 1,
             );
-            $Self->True(
-                $Success,
-                "ACL with ID $ACLData->{ID} is deleted"
-            );
+            ok( $Success, "ACL with ID $ACLData->{ID} is deleted" );
         }
 
         # Deploy again after we deleted the test acl.
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AdminACL;Subaction=ACLDeploy");
-        $Self->False(
-            index(
-                $Selenium->get_page_source(),
-                'ACL information from database is not in sync with the system configuration, please deploy all ACLs.'
-                )
-                > -1,
+        $Selenium->content_lacks(
+            'ACL information from database is not in sync with the system configuration, please deploy all ACLs.',
             "ACL deployment successful."
         );
 
@@ -678,10 +660,7 @@ EOF
                 UserID   => 1,
             );
         }
-        $Self->True(
-            $Success,
-            "Ticket with ticket ID $TicketID is deleted"
-        );
+        ok( $Success, "Ticket with ticket ID $TicketID is deleted" );
 
         # Make sure the cache is correct.
         $Kernel::OM->Get('Kernel::System::Cache')->CleanUp( Type => 'Ticket' );
@@ -693,10 +672,7 @@ EOF
                 SQL  => "DELETE FROM service_sla WHERE sla_id = ?",
                 Bind => [ \$SLAID ],
             );
-            $Self->True(
-                $Success,
-                "Deleted SLA with ID $SLAID",
-            );
+            ok( $Success, "Deleted SLA with ID $SLAID" );
         }
 
         # Delete services and relations.
@@ -704,11 +680,8 @@ EOF
             SQL  => "DELETE FROM service_customer_user WHERE customer_user_login = ?",
             Bind => [ \$CustomerUserLogin ],
         );
-        $Self->True(
-            $Success,
-            "Deleted service relations for $CustomerUserLogin",
-        );
-        for my $ServiceID (@Services) {
+        ok( $Success, "Deleted service relations for $CustomerUserLogin" );
+        for my $ServiceID (@ServiceIDs) {
 
             # ---
             # ITSMIncidentProblemManagement
@@ -728,39 +701,27 @@ EOF
                 SQL  => "DELETE FROM service WHERE ID = ?",
                 Bind => [ \$ServiceID ],
             );
-            $Self->True(
-                $Success,
-                "Deleted service with ID $ServiceID",
-            );
+            ok( $Success, "Deleted service with ID $ServiceID" );
         }
 
         $Success = $DBObject->Do(
             SQL  => "DELETE FROM customer_user WHERE login = ?",
             Bind => [ \$CustomerUserLogin ],
         );
-        $Self->True(
-            $Success,
-            "Deleted Customer $CustomerUserLogin",
-        );
+        ok( $Success, "Deleted Customer $CustomerUserLogin" );
 
         # Delete test dynamic field.
         $Success = $DynamicFieldObject->DynamicFieldDelete(
             ID     => $DynamicFieldID,
             UserID => 1,
         );
-        $Self->True(
-            $Success,
-            "DynamicFieldDelete - Deleted test dynamic field $DynamicFieldID",
-        );
+        ok( $Success, "DynamicFieldDelete - Deleted test dynamic field $DynamicFieldID" );
 
         $Success = $DynamicFieldObject->DynamicFieldDelete(
             ID     => $DynamicFieldID2,
             UserID => 1,
         );
-        $Self->True(
-            $Success,
-            "DynamicFieldDelete - Deleted test dynamic field $DynamicFieldID2",
-        );
+        ok( $Success, "DynamicFieldDelete - Deleted test dynamic field $DynamicFieldID2" );
 
         my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
@@ -771,4 +732,4 @@ EOF
     },
 );
 
-1;
+done_testing();

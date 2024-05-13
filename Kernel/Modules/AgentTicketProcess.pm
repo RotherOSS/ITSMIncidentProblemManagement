@@ -2,9 +2,9 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2023 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
-# $origin: otobo - 7394369ed07efee1b0fb36348be1a2b3129829b1 - Kernel/Modules/AgentTicketProcess.pm
+# $origin: otobo - 9bbf86da448bcff2bcc655fde9320646bc2950f2 - Kernel/Modules/AgentTicketProcess.pm
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -22,14 +22,13 @@ use strict;
 use warnings;
 
 # core modules
-use List::Util qw(any);
 
 # CPAN modules
-use Mail::Address;
+use Mail::Address ();
 
 # OTOBO modules
 use Kernel::System::VariableCheck qw(:all);
-use Kernel::Language qw(Translatable);
+use Kernel::Language              qw(Translatable);
 
 our $ObjectManagerDisabled = 1;
 
@@ -188,7 +187,7 @@ sub Run {
         my %AclAction = $TicketObject->TicketAclActionData();
 
         # check if ACL restrictions exist
-        if ( $ACL || IsHashRefWithData( \%AclAction ) ) {
+        if ($ACL) {
 
             my %AclActionLookup = reverse %AclAction;
 
@@ -366,12 +365,10 @@ sub Run {
     }
 
     # get form id
-    $Self->{FormID} = $ParamObject->GetParam( Param => 'FormID' );
-
-    # create form id
-    if ( !$Self->{FormID} ) {
-        $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::UploadCache')->FormIDCreate();
-    }
+    $Self->{FormID} = $Kernel::OM->Get('Kernel::System::Web::FormCache')->PrepareFormID(
+        ParamObject  => $ParamObject,
+        LayoutObject => $LayoutObject,
+    );
 
     # if we have no subaction display the process list to start a new one
     if ( !$Self->{Subaction} ) {
@@ -437,19 +434,13 @@ sub Run {
     # collects a mixture of present values bottom to top:
     # SysConfig DefaultValues, ActivityDialog DefaultValues, TicketValues, SubmittedValues
     # including ActivityDialogEntityID and ProcessEntityID
+    # also sets $Self->{DynamicField} which contains all DFs of the current Dialog
     # is used for:
     # - Parameter checking before storing
     # - will be used for ACL checking later on
     my $GetParam = $Self->_GetParam(
         ProcessEntityID => $ProcessEntityID,
     );
-
-    if ($ActivityDialogEntityID) {
-        my $ActivityDialog = $Kernel::OM->Get('Kernel::System::ProcessManagement::ActivityDialog')->ActivityDialogGet(
-            ActivityDialogEntityID => $ActivityDialogEntityID,
-            Interface              => 'AgentInterface',
-        );
-    }
 
     if ( $Self->{Subaction} eq 'StoreActivityDialog' && $ProcessEntityID ) {
         $LayoutObject->ChallengeTokenCheck();
@@ -471,6 +462,12 @@ sub Run {
     }
     if ( $Self->{Subaction} eq 'DisplayActivityDialogAJAX' && $ProcessEntityID ) {
 
+        # delete visibility cache
+        $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+            Type => 'HiddenFields',
+            Key  => $Self->{FormID},
+        );
+
         my $ActivityDialogHTML = $Self->_OutputActivityDialog(
             %Param,
             ProcessEntityID => $ProcessEntityID,
@@ -485,7 +482,6 @@ sub Run {
 
     }
 
-    # TODO restricting reference fields via ajaxupdate doesn't work because _RenderAjax() doesn#t use GetFieldStates()
     elsif ( $Self->{Subaction} eq 'AJAXUpdate' ) {
 
         return $Self->_RenderAjax(
@@ -544,46 +540,16 @@ sub _RenderAjax {
 
     my %FieldsProcessed;
     my @JSONCollector;
-
     my $Services;
 
     # All submitted DynamicFields
     # get dynamic field values form http request
     my %DynamicFieldValues;
 
-    my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
-        Valid      => 1,
-        ObjectType => 'Ticket',
-    );
-
-    # get needed object
-    my $ParamObject               = $Kernel::OM->Get('Kernel::System::Web::Request');
-    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-
-    # cycle trough the activated Dynamic Fields for this screen
-    DYNAMICFIELD:
-    for my $DynamicFieldConfig ( @{$DynamicField} ) {
-        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
-
-        # extract the dynamic field value from the web request
-        $DynamicFieldValues{ $DynamicFieldConfig->{Name} } = $DynamicFieldBackendObject->EditFieldValueGet(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            ParamObject        => $ParamObject,
-            LayoutObject       => $LayoutObject,
-        );
-    }
-
-    # convert dynamic field values into a structure for ACLs
-    my %DynamicFieldCheckParam;
-    DYNAMICFIELD:
-    for my $DynamicFieldItem ( sort keys %DynamicFieldValues ) {
-        next DYNAMICFIELD if !$DynamicFieldItem;
-        next DYNAMICFIELD if !defined $DynamicFieldValues{$DynamicFieldItem};
-        next DYNAMICFIELD if !length $DynamicFieldValues{$DynamicFieldItem};
-
-        $DynamicFieldCheckParam{ 'DynamicField_' . $DynamicFieldItem } = $DynamicFieldValues{$DynamicFieldItem};
-    }
-    $Param{GetParam}->{DynamicField} = \%DynamicFieldCheckParam;
+    # get needed objects
+    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     # Get the activity dialog's Submit Param's or Config Params
     DIALOGFIELD:
@@ -598,89 +564,9 @@ sub _RenderAjax {
             next DIALOGFIELD;
         }
 
-        if ( $CurrentField =~ m{^DynamicField_(.*)}xms ) {
-            my $DynamicFieldName = $1;
+        next DIALOGFIELD if $CurrentField =~ m{^DynamicField_(.*)}xms;
 
-            my $DynamicFieldConfig = ( grep { $_->{Name} eq $DynamicFieldName } @{$DynamicField} )[0];
-
-            next DIALOGFIELD if !IsHashRefWithData($DynamicFieldConfig);
-
-            my $IsACLReducible = $DynamicFieldBackendObject->HasBehavior(
-                DynamicFieldConfig => $DynamicFieldConfig,
-                Behavior           => 'IsACLReducible',
-            );
-            next DIALOGFIELD if !$IsACLReducible;
-
-            my $PossibleValues = $DynamicFieldBackendObject->PossibleValuesGet(
-                DynamicFieldConfig => $DynamicFieldConfig,
-            );
-
-            # convert possible values key => value to key => key for ACLs using a Hash slice
-            my %AclData = %{$PossibleValues};
-            @AclData{ keys %AclData } = keys %AclData;
-
-            # get ticket object
-            my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-            # set possible values filter from ACLs
-            my $ACL = $TicketObject->TicketAcl(
-                %{ $Param{GetParam} },
-                ReturnType    => 'Ticket',
-                ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
-                Data          => \%AclData,
-                Action        => $Self->{Action},
-                UserID        => $Self->{UserID},
-            );
-
-            if ($ACL) {
-                my %Filter = $TicketObject->TicketAclData();
-
-                # convert Filer key => key back to key => value using map
-                %{$PossibleValues} = map { $_ => $PossibleValues->{$_} } keys %Filter;
-            }
-
-            if ( $DynamicFieldConfig->{Config}{MultiValue} && ref $Param{GetParam}{"DynamicField_$DynamicFieldConfig->{Name}"} eq 'ARRAY' ) {
-                for my $i ( 0 .. $#{ $Param{GetParam}{"DynamicField_$DynamicFieldConfig->{Name}"} } ) {
-                    my $DataValues = $DynamicFieldBackendObject->BuildSelectionDataGet(
-                        DynamicFieldConfig => $DynamicFieldConfig,
-                        PossibleValues     => $PossibleValues,
-                        Value              => [ $Param{GetParam}{"DynamicField_$DynamicFieldConfig->{Name}"}[$i] ],
-                    ) || $PossibleValues;
-
-                    my $Name = $i ? "DynamicField_$DynamicFieldConfig->{Name}_$i" : "DynamicField_$DynamicFieldConfig->{Name}";
-
-                    # add dynamic field to the list of fields to update
-                    push @JSONCollector, {
-                        Name        => $Name,
-                        Data        => $DataValues,
-                        SelectedID  => $Param{GetParam}{"DynamicField_$DynamicFieldConfig->{Name}"}[$i],
-                        Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
-                        Max         => 100,
-                    };
-                }
-
-                next DIALOGFIELD;
-            }
-
-            my $DataValues = $DynamicFieldBackendObject->BuildSelectionDataGet(
-                DynamicFieldConfig => $DynamicFieldConfig,
-                PossibleValues     => $PossibleValues,
-                Value              => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
-            ) || $PossibleValues;
-
-            # add dynamic field to the JSONCollector
-            push(
-                @JSONCollector,
-                {
-                    Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},
-                    Data        => $DataValues,
-                    SelectedID  => $DynamicFieldValues{ $DynamicFieldConfig->{Name} },
-                    Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
-                    Max         => 100,
-                }
-            );
-        }
-        elsif ( $Self->{NameToID}{$CurrentField} eq 'OwnerID' ) {
+        if ( $Self->{NameToID}{$CurrentField} eq 'OwnerID' ) {
             next DIALOGFIELD if $FieldsProcessed{ $Self->{NameToID}{$CurrentField} };
 
             my $Data = $Self->_GetOwners(
@@ -737,7 +623,7 @@ sub _RenderAjax {
                     Data         => $Data,
                     SelectedID   => $Param{GetParam}{ $Self->{NameToID}{$CurrentField} },
                     PossibleNone => 1,
-                    Translation  => 0,
+                    Translation  => $TreeView,
                     TreeView     => $TreeView,
                     Max          => 100,
                 },
@@ -841,7 +727,7 @@ sub _RenderAjax {
                     Data         => $Data,
                     SelectedID   => $ParamObject->GetParam( Param => 'ServiceID' ) || '',
                     PossibleNone => 1,
-                    Translation  => 0,
+                    Translation  => $TreeView,
                     TreeView     => $TreeView,
                     Max          => 100,
                 },
@@ -873,7 +759,7 @@ sub _RenderAjax {
                     Data         => $Data,
                     SelectedID   => $ParamObject->GetParam( Param => 'SLAID' ) || '',
                     PossibleNone => 1,
-                    Translation  => 0,
+                    Translation  => 1,
                     Max          => 100,
                 },
             );
@@ -894,11 +780,177 @@ sub _RenderAjax {
                     Data         => $Data,
                     SelectedID   => $ParamObject->GetParam( Param => 'TypeID' ) || '',
                     PossibleNone => 1,
-                    Translation  => 0,
+                    Translation  => 1,
                     Max          => 100,
                 },
             );
             $FieldsProcessed{ $Self->{NameToID}{$CurrentField} } = 1;
+        }
+    }
+
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+    my $FieldRestrictionsObject   = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions');
+
+    # retrieve field restrictions for dynamic fields
+    my $ACLPreselection;
+    if ( $ConfigObject->Get('TicketACL::ACLPreselection') ) {
+
+        # get cached preselection rules
+        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+        $ACLPreselection = $CacheObject->Get(
+            Type => 'TicketACL',
+            Key  => 'Preselection',
+        );
+        if ( !$ACLPreselection ) {
+            $ACLPreselection = $FieldRestrictionsObject->SetACLPreselectionCache();
+        }
+    }
+
+    my $Autoselect      = $ConfigObject->Get('TicketACL::Autoselect') || undef;
+    my $LoopProtection  = 100;
+    my %ChangedElements = $Param{GetParam}{ElementChanged} ? ( $Param{GetParam}{ElementChanged} => 1 ) : ();
+
+    # get values and visibility of dynamic fields
+    my %DynFieldStates = $FieldRestrictionsObject->GetFieldStates(
+        TicketObject              => $TicketObject,
+        DynamicFields             => $Self->{DynamicField},
+        DynamicFieldBackendObject => $Kernel::OM->Get('Kernel::System::DynamicField::Backend'),
+        Action                    => $Self->{Action},
+        ChangedElements           => \%ChangedElements,
+        UserID                    => $Self->{UserID},
+        TicketID                  => $Param{TicketID},
+        FormID                    => $Self->{FormID},
+        CustomerUser              => $Param{GetParam}{CustomerUserID} || '',
+        GetParam                  => $Param{GetParam},
+        Autoselect                => $Autoselect,
+        ACLPreselection           => $ACLPreselection // '',
+        LoopProtection            => \$LoopProtection,
+    );
+
+    $Param{GetParam}{DynamicField} //= {};
+
+    # set new values
+    my $DFParam = {
+        $Param{GetParam}{DynamicField}->%*,
+        $DynFieldStates{NewValues}->%*,
+    };
+
+    if ( IsHashRefWithData( $DynFieldStates{Visibility} ) ) {
+        push @JSONCollector, {
+            Name => 'Restrictions_Visibility',
+            Data => $DynFieldStates{Visibility},
+        };
+    }
+
+    DYNAMICFIELD:
+    for my $Name ( keys $DynFieldStates{Fields}->%* ) {
+        my $DynamicFieldConfig = $Self->{DynamicField}{$Name};
+
+        next DYNAMICFIELD if !IsHashRefWithData($DynamicFieldConfig);
+
+        if ( $DynamicFieldConfig->{Config}{MultiValue} && ref $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} eq 'ARRAY' ) {
+            for my $i ( 0 .. $#{ $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"} } ) {
+                my $DataValues = $DynFieldStates{Fields}{$Name}{NotACLReducible}
+                    ? $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"}[$i]
+                    :
+                    (
+                        $DynamicFieldBackendObject->BuildSelectionDataGet(
+                            DynamicFieldConfig => $DynamicFieldConfig,
+                            PossibleValues     => $DynFieldStates{Fields}{$Name}{PossibleValues},
+                            Value              => [ $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"}[$i] ],
+                        )
+                        || $DynFieldStates{Fields}{$Name}{PossibleValues}
+                    );
+
+                # add dynamic field to the list of fields to update
+                push @JSONCollector, {
+                    Name        => 'DynamicField_' . $DynamicFieldConfig->{Name} . "_$i",
+                    Data        => $DataValues,
+                    SelectedID  => $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"}[$i],
+                    Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+                    Max         => 100,
+                };
+            }
+
+            next DYNAMICFIELD;
+        }
+
+        my $DataValues = $DynFieldStates{Fields}{$Name}{NotACLReducible}
+            ? $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"}
+            :
+            (
+                $DynamicFieldBackendObject->BuildSelectionDataGet(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    PossibleValues     => $DynFieldStates{Fields}{$Name}{PossibleValues},
+                    Value              => $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"},
+                )
+                || $DynFieldStates{Fields}{$Name}{PossibleValues}
+            );
+
+        # add dynamic field to the list of fields to update
+        push @JSONCollector, {
+            Name        => 'DynamicField_' . $DynamicFieldConfig->{Name},
+            Data        => $DataValues,
+            SelectedID  => $DFParam->{"DynamicField_$DynamicFieldConfig->{Name}"},
+            Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+            Max         => 100,
+        };
+    }
+
+    for my $SetField ( values $DynFieldStates{Sets}->%* ) {
+        my $DynamicFieldConfig = $SetField->{DynamicFieldConfig};
+
+        # the frontend name is the name of the inner field including its index or the '_Template' suffix
+        DYNAMICFIELD:
+        for my $FrontendName ( keys $SetField->{FieldStates}->%* ) {
+
+            if ( $DynamicFieldConfig->{Config}{MultiValue} && ref $SetField->{Values}{$FrontendName} eq 'ARRAY' ) {
+                for my $i ( 0 .. $#{ $SetField->{Values}{$FrontendName} } ) {
+                    my $DataValues = $SetField->{FieldStates}{$FrontendName}{NotACLReducible}
+                        ? $SetField->{Values}{$FrontendName}[$i]
+                        :
+                        (
+                            $DynamicFieldBackendObject->BuildSelectionDataGet(
+                                DynamicFieldConfig => $DynamicFieldConfig,
+                                PossibleValues     => $SetField->{FieldStates}{$FrontendName}{PossibleValues},
+                                Value              => [ $SetField->{Values}{$FrontendName}[$i] ],
+                            )
+                            || $SetField->{FieldStates}{$FrontendName}{PossibleValues}
+                        );
+
+                    # add dynamic field to the list of fields to update
+                    push @JSONCollector, {
+                        Name        => 'DynamicField_' . $FrontendName . "_$i",
+                        Data        => $DataValues,
+                        SelectedID  => $SetField->{Values}{$FrontendName}[$i],
+                        Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+                        Max         => 100,
+                    };
+                }
+
+                next DYNAMICFIELD;
+            }
+
+            my $DataValues = $SetField->{FieldStates}{$FrontendName}{NotACLReducible}
+                ? $SetField->{Values}{$FrontendName}
+                :
+                (
+                    $DynamicFieldBackendObject->BuildSelectionDataGet(
+                        DynamicFieldConfig => $DynamicFieldConfig,
+                        PossibleValues     => $SetField->{FieldStates}{$FrontendName}{PossibleValues},
+                        Value              => $SetField->{Values}{$FrontendName},
+                    )
+                    || $SetField->{FieldStates}{$FrontendName}{PossibleValues}
+                );
+
+            # add dynamic field to the list of fields to update
+            push @JSONCollector, {
+                Name        => 'DynamicField_' . $FrontendName,
+                Data        => $DataValues,
+                SelectedID  => $SetField->{Values}{$FrontendName},
+                Translation => $DynamicFieldConfig->{Config}->{TranslatableValues} || 0,
+                Max         => 100,
+            };
         }
     }
 
@@ -1091,107 +1143,8 @@ sub _GetParam {
             next DIALOGFIELD;
         }
 
-        if ( $CurrentField =~ m{^DynamicField_(.*)}xms ) {
-            my $DynamicFieldName = $1;
-
-            my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
-                Valid      => 1,
-                ObjectType => 'Ticket',
-            );
-
-            # Get the Config of the current DynamicField (the first element of the grep result array)
-            my $DynamicFieldConfig = ( grep { $_->{Name} eq $DynamicFieldName } @{$DynamicField} )[0];
-
-            if ( !IsHashRefWithData($DynamicFieldConfig) ) {
-                my $Message =
-                    "DynamicFieldConfig missing for field: $DynamicFieldName, or is not a Ticket Dynamic Field!";
-
-                # log error but does not stop the execution as it could be an old Article
-                # DynamicField, see bug#11666
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  => $Message,
-                );
-
-                next DIALOGFIELD;
-            }
-
-            # Get DynamicField Values
-            $Value = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->EditFieldValueGet(
-                DynamicFieldConfig => $DynamicFieldConfig,
-                ParamObject        => $ParamObject,
-                LayoutObject       => $LayoutObject,
-            );
-# ---
-# ITSMIncidentProblemManagement
-# ---
-            # set the criticality from the service
-            if ( $Self->{ITSMIncidentProblemManagement} && $DynamicFieldName eq 'ITSMCriticality' && $ParamObject->GetParam( Param => 'ServiceID' ) ) {
-
-                # get service
-                my %Service = $Kernel::OM->Get('Kernel::System::Service')->ServiceGet(
-                    ServiceID => $ParamObject->GetParam( Param => 'ServiceID' ),
-                    UserID    => $Self->{UserID},
-                );
-
-                # set the criticality
-                $Value = $Service{Criticality};
-            }
-# ---
-
-            # If we got a submitted param, take it and next out
-            if (
-                defined $Value
-                && (
-                    $Value eq ''
-                    || IsStringWithData($Value)
-                    || IsArrayRefWithData($Value)
-                    || IsHashRefWithData($Value)
-                )
-                )
-            {
-                $GetParam{$CurrentField} = $Value;
-                next DIALOGFIELD;
-            }
-
-            # If we didn't have a Param Value try the ticket Value
-            # next out if it was successful
-            if (
-                defined $Ticket{$CurrentField}
-                && (
-                    $Ticket{$CurrentField} eq ''
-                    || IsStringWithData( $Ticket{$CurrentField} )
-                    || IsArrayRefWithData( $Ticket{$CurrentField} )
-                    || IsHashRefWithData( $Ticket{$CurrentField} )
-                )
-                )
-            {
-                $GetParam{$CurrentField} = $Ticket{$CurrentField};
-                next DIALOGFIELD;
-            }
-
-            # If we had neither submitted nor ticket param get the ActivityDialog's default Value
-            # next out if it was successful
-            $Value = $ActivityDialog->{Fields}{$CurrentField}{DefaultValue};
-            if ( defined $Value && length $Value ) {
-                $GetParam{$CurrentField} = $Value;
-                next DIALOGFIELD;
-            }
-
-            # If we had no submitted, ticket or ActivityDialog default value
-            # use the DynamicField's default value and next out
-            $Value = $DynamicFieldConfig->{Config}{DefaultValue};
-            if ( defined $Value && length $Value ) {
-                $GetParam{$CurrentField} = $Value;
-                next DIALOGFIELD;
-            }
-
-            # if all that failed then the field should not have a defined value otherwise
-            # if a value (even empty) is sent, fields like Date or DateTime will mark the field as
-            # used with the field display value, this could lead to unwanted field sets,
-            # see bug#9159
-            next DIALOGFIELD;
-        }
+        # handle dynamic fields separately
+        next DIALOGFIELD if $CurrentField =~ m{^DynamicField_(.*)}xms;
 
         # get article fields
         if ( $CurrentField eq 'Article' ) {
@@ -1303,7 +1256,14 @@ sub _GetParam {
 
             # if we have an ID field make sure the value without ID won't be in the
             # %GetParam Hash any more
-            if ( $Self->{NameToID}{$CurrentField} =~ m{(.*)ID$}xms ) {
+            # exclude queue from this as we need it for script field evaluation
+            if ( $CurrentField eq 'Queue' ) {
+                my $Queue = $Kernel::OM->Get('Kernel::System::Queue')->QueueLookup( QueueID => $Value );
+                if ($Queue) {
+                    $GetParam{$CurrentField} = $Queue;
+                }
+            }
+            elsif ( $Self->{NameToID}{$CurrentField} =~ m{(.*)ID$}xms ) {
                 $GetParam{$1} = undef;
             }
             $GetParam{ $Self->{NameToID}{$CurrentField} }     = $Value;
@@ -1396,10 +1356,89 @@ sub _GetParam {
         );
     }
 
-    # and finally we'll have the special parameters:
+    # and almost finally we'll have the special parameters:
     $GetParam{ResponsibleAll} = $ParamObject->GetParam( Param => 'ResponsibleAll' );
     $GetParam{OwnerAll}       = $ParamObject->GetParam( Param => 'OwnerAll' );
     $GetParam{ElementChanged} = $ParamObject->GetParam( Param => 'ElementChanged' );
+
+    # handle dynamic fields
+    $Self->{DynamicField} = {};
+
+    # Parse definition if present
+    if ( $ActivityDialog->{InputFieldDefinition} ) {
+        my $InputFieldDefinition = $Kernel::OM->Get('Kernel::System::YAML')->Load(
+            Data => $ActivityDialog->{InputFieldDefinition},
+        );
+
+        my $DynamicFields = $Self->_GetInputDefinitionDynamicFields(
+            InputFieldDefinition => $InputFieldDefinition,
+        );
+
+        $Self->{DynamicField} = $DynamicFields // {};
+    }
+
+    if ( IsHashRefWithData( $ActivityDialog->{Fields} ) ) {
+        my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+
+        DFNAME:
+        for my $DFName ( map {/^DynamicField_(.+)$/} keys $ActivityDialog->{Fields}->%* ) {
+            next DFNAME if $Self->{DynamicField}{$DFName};
+
+            $Self->{DynamicField}{$DFName} = $DynamicFieldObject->DynamicFieldGet(
+                Name => $DFName,
+            );
+        }
+    }
+
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+    DYNAMICFIELD:
+    for my $DynamicFieldName ( keys $Self->{DynamicField}->%* ) {
+
+        # Get the Config of the current DynamicField
+        my $DynamicFieldConfig = $Self->{DynamicField}{$DynamicFieldName};
+
+        if ( !IsHashRefWithData($DynamicFieldConfig) ) {
+            my $Message =
+                "DynamicFieldConfig missing for field: $DynamicFieldName, or is not a Ticket Dynamic Field!";
+
+            # log error but does not stop the execution as it could be an old Article
+            # DynamicField, see bug#11666
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => $Message,
+            );
+
+            next DYNAMICFIELD;
+        }
+
+        # Get DynamicField Values
+        $GetParam{ 'DynamicField_' . $DynamicFieldName } = $DynamicFieldBackendObject->EditFieldValueGet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ParamObject        => $ParamObject,
+            LayoutObject       => $LayoutObject,
+        );
+
+# ---
+# ITSMIncidentProblemManagement
+# ---
+        # set the criticality from the service
+        if ( $Self->{ITSMIncidentProblemManagement} && $DynamicFieldName eq 'ITSMCriticality' && $ParamObject->GetParam( Param => 'ServiceID' ) ) {
+
+            # get service
+            my %Service = $Kernel::OM->Get('Kernel::System::Service')->ServiceGet(
+                ServiceID => $ParamObject->GetParam( Param => 'ServiceID' ),
+                UserID    => $Self->{UserID},
+            );
+
+            # set the criticality
+            $GetParam{ 'DynamicField_' . $DynamicFieldName } = $Service{Criticality};
+        }
+# ---
+
+        # ACLCompat
+        $GetParam{DynamicField}{ 'DynamicField_' . $DynamicFieldName } = $GetParam{ 'DynamicField_' . $DynamicFieldName };
+    }
 
     return \%GetParam;
 }
@@ -1453,10 +1492,8 @@ sub _OutputActivityDialog {
         }
     );
     my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process');
-
-    # get needed object
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-    my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
+    my $ConfigObject  = $Kernel::OM->Get('Kernel::Config');
+    my $TicketObject  = $Kernel::OM->Get('Kernel::System::Ticket');
 
     if ( !$TicketID || $Self->{IsProcessEnroll} ) {
         $ActivityActivityDialog = $ProcessObject->ProcessStartpointGet(
@@ -1769,61 +1806,101 @@ sub _OutputActivityDialog {
 
     my %RenderedFields = ();
 
-    # get the list of fields where the AJAX loader icon should appear on AJAX updates triggered
-    # by ActivityDialog fields
-    my $AJAXUpdatableFields = $Self->_GetAJAXUpdatableFields(
-        ActivityDialogFields => $ActivityDialog->{Fields},
-    );
+    my $InputDefinitionRendered = 0;
+    my %DFPossibleValues        = %{ $Param{DFPossibleValues} // {} };
+    my %Visibility              = %{ $Param{Visibility}       // {} };
 
-    my $MultiColumnRendered = 0;
-    my $DynamicField        = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet();
+    # if we are rendering a new mask and are not rerendering with errors get ticket and default dynamic field values
+    if ( $Self->{Subaction} ne 'StoreActivityDialog' ) {
 
-    # retrieve field restrictions for dynamic fields
-    my $FieldRestrictionsObject = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions');
-    my $ACLPreselection;
-    if ( $ConfigObject->Get('TicketACL::ACLPreselection') ) {
+        my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+        my $NewTicket;
 
-        # get cached preselection rules
-        my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
-        $ACLPreselection = $CacheObject->Get(
-            Type => 'TicketACL',
-            Key  => 'Preselection',
-        );
-        if ( !$ACLPreselection ) {
-            $ACLPreselection = $FieldRestrictionsObject->SetACLPreselectionCache();
+        # get stored dynamic field value (split)
+        if ( $Self->{LinkTicketID} ) {
+
+            DYNAMICFIELD:
+            for my $DynamicFieldConfig ( values $Self->{DynamicField}->%* ) {
+                next DYNAMICFIELD unless IsHashRefWithData($DynamicFieldConfig);
+
+                $Param{GetParam}{ 'DynamicField_' . $DynamicFieldConfig->{Name} } = $DynamicFieldBackendObject->ValueGet(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    ObjectID           => $Self->{LinkTicketID},
+                    ProcessSuffix      => $Self->{IDSuffix},
+                );
+            }
         }
+
+        # we are updating an existing ticket
+        elsif (%Ticket) {
+
+            DYNAMICFIELD:
+            for my $Name ( keys $Self->{DynamicField}->%* ) {
+                $Param{GetParam}{ 'DynamicField_' . $Name } = $Ticket{ 'DynamicField_' . $Name };
+            }
+        }
+
+        else {
+            $NewTicket = 1;
+        }
+
+        # fill empty values with defaults if applicable and prepare ACLCompat
+        DYNAMICFIELD:
+        for my $Name ( keys $Self->{DynamicField}->%* ) {
+            if ( !defined $Param{GetParam}{ 'DynamicField_' . $Name } ) {
+                my $DialogDefaultValue = $ActivityDialog->{Fields}{ 'DynamicField_' . $Name }{DefaultValue};
+
+                if ($DialogDefaultValue) {
+                    $Param{GetParam}{ 'DynamicField_' . $Name } = $DialogDefaultValue;
+                }
+                elsif ($NewTicket) {
+                    $Param{GetParam}{ 'DynamicField_' . $Name } = $Self->{DynamicField}{$Name}{Config}{DefaultValue};
+                }
+            }
+
+            $Param{GetParam}{DynamicField}{ 'DynamicField_' . $Name } = $Param{GetParam}{ 'DynamicField_' . $Name };
+        }
+
+        # retrieve field restrictions for dynamic fields
+        my $FieldRestrictionsObject = $Kernel::OM->Get('Kernel::System::Ticket::FieldRestrictions');
+        my $ACLPreselection;
+        if ( $ConfigObject->Get('TicketACL::ACLPreselection') ) {
+
+            # get cached preselection rules
+            my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
+            $ACLPreselection = $CacheObject->Get(
+                Type => 'TicketACL',
+                Key  => 'Preselection',
+            );
+            if ( !$ACLPreselection ) {
+                $ACLPreselection = $FieldRestrictionsObject->SetACLPreselectionCache();
+            }
+        }
+
+        my $Autoselect     = $ConfigObject->Get('TicketACL::Autoselect') || undef;
+        my $LoopProtection = 100;
+
+        # get values and visibility of dynamic fields
+        my %DynFieldStates = $FieldRestrictionsObject->GetFieldStates(
+            TicketObject              => $TicketObject,
+            DynamicFields             => $Self->{DynamicField},
+            DynamicFieldBackendObject => $DynamicFieldBackendObject,
+            Action                    => $Self->{Action},
+            ChangedElements           => {},
+            UserID                    => $Self->{UserID},
+            TicketID                  => $Param{TicketID},
+            FormID                    => $Self->{FormID},
+            CustomerUser              => $Param{GetParam}{CustomerUserID} || '',
+            GetParam                  => $Param{GetParam},
+            Autoselect                => $Autoselect,
+            ACLPreselection           => $ACLPreselection // '',
+            LoopProtection            => \$LoopProtection,
+            InitialRun                => 1,
+        );
+
+        %DFPossibleValues = map { $_ => $DynFieldStates{Fields}{$_}{PossibleValues} } keys $Self->{DynamicField}->%*;
+        %Visibility       = $DynFieldStates{Visibility}->%*;
     }
-
-    my $Autoselect     = $ConfigObject->Get('TicketACL::Autoselect') || undef;
-    my $LoopProtection = 100;
-
-    # get values and visibility of dynamic fields
-    my %DynFieldStates = $FieldRestrictionsObject->GetFieldStates(
-        TicketObject              => $TicketObject,
-        DynamicFields             => $DynamicField,
-        DynamicFieldBackendObject => $Kernel::OM->Get('Kernel::System::DynamicField::Backend'),
-        Action                    => $Self->{Action},
-        ChangedElements           => {},
-        UserID                    => $Self->{UserID},
-        TicketID                  => $Param{TicketID},
-        FormID                    => $Self->{FormID},
-        CustomerUser              => $Param{GetParam}{CustomerUserID} || '',
-        GetParam                  => {
-            $Param{GetParam}->%*,
-            OwnerID => $Param{GetParam}{OwnerID},
-        },
-        Autoselect      => $Autoselect,
-        ACLPreselection => $ACLPreselection // '',
-        LoopProtection  => \$LoopProtection,
-    );
-
-    my %DFPossibleValues = map { $_->{Name} => $_->{PossibleValues} } values $DynFieldStates{Fields}->%*;
-
-    # delete hidden fields cache
-    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
-        Type => 'HiddenFields',
-        Key  => $Self->{FormID},
-    );
 
     # Parse definition if present
     my $InputFieldDefinition = $Kernel::OM->Get('Kernel::System::YAML')->Load(
@@ -1844,6 +1921,8 @@ sub _OutputActivityDialog {
             }
         }
     }
+
+    my %DynamicFieldValues = map { ( 'DynamicField_' . $_ => $Param{GetParam}->{ 'DynamicField_' . $_ } ) } keys $Self->{DynamicField}->%*;
 
     # Loop through ActivityDialogFields and render their output
     DIALOGFIELD:
@@ -1875,20 +1954,17 @@ sub _OutputActivityDialog {
         # Handle multicolumn field rendering
         if ( $DefinedFieldsList{$CurrentField} ) {
 
-            next DIALOGFIELD if $MultiColumnRendered;
-            my %DynamicFieldsHash  = map { $_->{Name} => $_ } $DynamicField->@*;
-            my %DynamicFieldValues = map { ( 'DynamicField_' . $_->{Name} => $Param{GetParam}->{ 'DynamicField_' . $_->{Name} } ) } $DynamicField->@*;
+            next DIALOGFIELD if $InputDefinitionRendered;
 
-            my $EditSectionHTML = $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
+            $Output .= $Kernel::OM->Get('Kernel::Output::HTML::DynamicField::Mask')->EditSectionRender(
                 Content              => $InputFieldDefinition,
-                DynamicFields        => \%DynamicFieldsHash,
-                UpdatableFields      => $AJAXUpdatableFields,
+                DynamicFields        => $Self->{DynamicField},
                 LayoutObject         => $LayoutObject,
                 ParamObject          => $Kernel::OM->Get('Kernel::System::Web::Request'),
                 DynamicFieldValues   => \%DynamicFieldValues,
                 PossibleValuesFilter => \%DFPossibleValues,
-                Errors               => undef,
-                Visibility           => $DynFieldStates{Visibility},
+                Errors               => $Param{DFErrors},
+                Visibility           => \%Visibility,
                 Object               => {
                     CustomerID     => $Param{GetParam}->{CustomerID},
                     CustomerUserID => $Param{GetParam}->{CustomerUserID},
@@ -1897,14 +1973,8 @@ sub _OutputActivityDialog {
                 },
             );
 
-            $LayoutObject->AddJSData(
-                Key   => 'DynamicFieldNames',
-                Value => $AJAXUpdatableFields,
-            );
+            $InputDefinitionRendered = 1;
 
-            $MultiColumnRendered = 1;
-
-            $Output .= $EditSectionHTML;
             next DIALOGFIELD;
         }
 
@@ -1914,14 +1984,21 @@ sub _OutputActivityDialog {
             my $Response         = $Self->_RenderDynamicField(
                 ActivityDialogField => $ActivityDialog->{Fields}{$CurrentField},
                 FieldName           => $DynamicFieldName,
+                Value               => $Param{GetParam}{ 'DynamicField_' . $DynamicFieldName },
                 DescriptionShort    => $ActivityDialog->{Fields}{$CurrentField}{DescriptionShort},
                 DescriptionLong     => $ActivityDialog->{Fields}{$CurrentField}{DescriptionLong},
                 Ticket              => \%Ticket        || {},
                 Error               => \%Error         || {},
                 ErrorMessages       => \%ErrorMessages || {},
                 FormID              => $Self->{FormID},
-                GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
+                PossibleValues      => $DFPossibleValues{$DynamicFieldName},
+                Visibility          => $Visibility{ 'DynamicField_' . $DynamicFieldName } // 0,
+                Object              => {
+                    CustomerID     => $Param{GetParam}->{CustomerID},
+                    CustomerUserID => $Param{GetParam}->{CustomerUserID},
+                    UserID         => $Self->{UserID},
+                    %DynamicFieldValues,
+                },
             );
 
             if ( !$Response->{Success} ) {
@@ -1941,12 +2018,6 @@ sub _OutputActivityDialog {
             $Output .= $Response->{HTML};
 
             $RenderedFields{$CurrentField} = 1;
-
-            $LayoutObject->AddJSData(
-                Key   => 'DynamicFieldNames',
-                Value => $AJAXUpdatableFields,
-            );
-
         }
 
         # render State
@@ -1966,7 +2037,6 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -2002,7 +2072,6 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -2038,7 +2107,6 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -2073,7 +2141,6 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -2108,7 +2175,6 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -2143,7 +2209,6 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -2178,7 +2243,6 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -2213,7 +2277,6 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -2248,7 +2311,6 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -2408,7 +2470,6 @@ sub _OutputActivityDialog {
                 Error               => \%Error  || {},
                 FormID              => $Self->{FormID},
                 GetParam            => $Param{GetParam},
-                AJAXUpdatableFields => $AJAXUpdatableFields,
             );
 
             if ( !$Response->{Success} ) {
@@ -2465,7 +2526,6 @@ sub _OutputActivityDialog {
             ButtonText     => $ButtonText,
             ButtonTitle    => $ButtonTitle,
             ButtonID       => $ButtonID
-
         },
     );
 
@@ -2555,6 +2615,9 @@ sub _RenderPendingTime {
         );
     }
 
+    my $QuickDateButtons = $Kernel::OM->Get('Kernel::Config')->Get("Ticket::Frontend::$Self->{Action}")->{QuickDateButtons}
+        // $Kernel::OM->Get('Kernel::Config')->Get('Ticket::Frontend::DefaultQuickDateButtons');
+
     $Data{Content} = $LayoutObject->BuildDateSelection(
         Prefix              => 'PendingTime',
         PendingTimeRequired =>
@@ -2571,6 +2634,7 @@ sub _RenderPendingTime {
         Validate             => 1,
         ValidateDateInFuture => 1,
         Calendar             => $Calendar,
+        QuickDateButtons     => $QuickDateButtons,
     );
 
     $LayoutObject->Block(
@@ -2604,8 +2668,9 @@ sub _RenderPendingTime {
 sub _RenderDynamicField {
     my ( $Self, %Param ) = @_;
 
-    # get layout object
-    my $LayoutObject = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    # get needed objects
+    my $LayoutObject              = $Kernel::OM->Get('Kernel::Output::HTML::Layout');
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
 
     for my $Needed (qw(FormID FieldName)) {
         if ( !$Param{$Needed} ) {
@@ -2616,12 +2681,7 @@ sub _RenderDynamicField {
         }
     }
 
-    my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
-        Valid      => 1,
-        ObjectType => 'Ticket',
-    );
-
-    my $DynamicFieldConfig = ( grep { $_->{Name} eq $Param{FieldName} } @{$DynamicField} )[0];
+    my $DynamicFieldConfig = $Self->{DynamicField}{ $Param{FieldName} };
 
     if ( !IsHashRefWithData($DynamicFieldConfig) ) {
 
@@ -2640,59 +2700,6 @@ sub _RenderDynamicField {
         };
     }
 
-    # TODO Suggestion: Move this entire section before call to EditSectionRender and
-    # pass PossibleValuesFilter and Errors as params to this function
-    my $PossibleValuesFilter;
-
-    # get dynamic field backend object
-    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-
-    my $IsACLReducible = $DynamicFieldBackendObject->HasBehavior(
-        DynamicFieldConfig => $DynamicFieldConfig,
-        Behavior           => 'IsACLReducible',
-    );
-
-    # get ticket object
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
-
-    if ($IsACLReducible) {
-
-        # get PossibleValues
-        my $PossibleValues = $DynamicFieldBackendObject->PossibleValuesGet(
-            DynamicFieldConfig => $DynamicFieldConfig,
-        );
-
-        # All Ticket DynamicFields
-        # used for ACL checking
-        my %DynamicFieldCheckParam = map { $_ => $Param{GetParam}{$_} }
-            grep {m{^DynamicField_}xms} ( keys %{ $Param{GetParam} } );
-
-        # check if field has PossibleValues property in its configuration
-        if ( IsHashRefWithData($PossibleValues) ) {
-
-            # convert possible values key => value to key => key for ACLs using a Hash slice
-            my %AclData = %{$PossibleValues};
-            @AclData{ keys %AclData } = keys %AclData;
-
-            # set possible values filter from ACLs
-            my $ACL = $TicketObject->TicketAcl(
-                %{ $Param{GetParam} },
-                DynamicField  => \%DynamicFieldCheckParam,
-                Action        => $Self->{Action},
-                ReturnType    => 'Ticket',
-                ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
-                Data          => \%AclData,
-                UserID        => $Self->{UserID},
-            );
-            if ($ACL) {
-                my %Filter = $TicketObject->TicketAclData();
-
-                # convert Filer key => key back to key => value using map
-                %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} } keys %Filter;
-            }
-        }
-    }
-
     my $ServerError;
     if ( IsHashRefWithData( $Param{Error} ) ) {
         if (
@@ -2704,16 +2711,6 @@ sub _RenderDynamicField {
         }
     }
 
-    # get stored dynamic field value (split)
-    if ( $Self->{LinkTicketID} ) {
-
-        my $Value = $DynamicFieldBackendObject->ValueGet(
-            DynamicFieldConfig => $DynamicFieldConfig,
-            ObjectID           => $Self->{LinkTicketID},
-        );
-
-        $Param{GetParam}->{ 'DynamicField_' . $Param{FieldName} } = $Value;
-    }
     my $ErrorMessage = '';
     if ( IsHashRefWithData( $Param{ErrorMessages} ) ) {
         if (
@@ -2727,30 +2724,95 @@ sub _RenderDynamicField {
 
     my $DynamicFieldHTML = $DynamicFieldBackendObject->EditFieldRender(
         DynamicFieldConfig   => $DynamicFieldConfig,
-        PossibleValuesFilter => $PossibleValuesFilter,
-        Value                => $Param{GetParam}{ 'DynamicField_' . $Param{FieldName} },
+        PossibleValuesFilter => $Param{PossibleValues},
+        Value                => $Param{Value},
         LayoutObject         => $LayoutObject,
         ParamObject          => $Kernel::OM->Get('Kernel::System::Web::Request'),
         AJAXUpdate           => 1,
         Mandatory            => $Param{ActivityDialogField}->{Display} == 2,
-        UpdatableFields      => $Param{AJAXUpdatableFields},
+        ACLHidden            => ( $Param{ActivityDialogField}->{Display} == 2 && !$Param{Visibility} ),
         ServerError          => $ServerError,
         ErrorMessage         => $ErrorMessage,
+        Object               => $Param{Object},
     );
 
     my %Data = (
-        Name  => $DynamicFieldConfig->{Name},
-        Label => $DynamicFieldHTML->{Label},
+        Name        => $DynamicFieldConfig->{Name},
+        Label       => $DynamicFieldHTML->{Label},
+        HiddenClass => !$Param{Visibility} ? ' oooACLHidden' : '',
     );
 
-    # Create one block for each multivalue item
+    # handle multivalue field
     if ( $DynamicFieldHTML->{MultiValue} ) {
+
+        $LayoutObject->Block(
+            Name => 'Row_DynamicField',
+            Data => {
+                TemplateColumns => '1fr',
+                RowClasses      => ' MultiValue',
+                HiddenClass     => !$Param{Visibility} ? ' oooACLHidden' : '',
+            },
+        );
+
+        # Create one block for each multivalue item
         for my $MultiValueIndex ( 0 .. $#{ $DynamicFieldHTML->{MultiValue} } ) {
 
-            $Data{Content} = $DynamicFieldHTML->{HTML}{$MultiValueIndex};
+            $Data{Content} = $DynamicFieldHTML->{MultiValue}[$MultiValueIndex];
             $LayoutObject->Block(
                 Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:DynamicField',
-                Data => \%Data,
+                Data => {
+                    %Data,
+                    MultiValue => 1,
+
+                    # TODO ask about this
+                    # RowReadOnly   => $DynamicFieldConfig->{Readonly},
+                    ColumnClasses => ' MultiValue_' . $MultiValueIndex,
+                    ColumnStyle   => 'grid-column: 1 / span 1',
+                },
+            );
+
+            # render short description once for first element
+            if ( !$MultiValueIndex ) {
+                if ( $Param{DescriptionLong} ) {
+                    $LayoutObject->Block(
+                        Name => 'rw:DynamicField:DescriptionLong',
+                        Data => {
+                            DescriptionLong => $Param{DescriptionLong},
+                        },
+                    );
+                }
+            }
+
+            # render long description once for last element
+            if ( $MultiValueIndex == $#{ $DynamicFieldHTML->{MultiValue} } ) {
+                if ( $Param{DescriptionShort} ) {
+                    $LayoutObject->Block(
+                        Name => $Param{ActivityDialogField}->{LayoutBlock}
+                            || 'rw:DynamicField:DescriptionShort',
+                        Data => {
+                            DescriptionShort => $Param{DescriptionShort},
+                        },
+                    );
+                }
+            }
+        }
+
+        $LayoutObject->Block(
+            Name => 'DynamicFieldMultiValueTemplate',
+            Data => {
+                Content     => $DynamicFieldHTML->{MultiValueTemplate},
+                Label       => $DynamicFieldHTML->{Label},
+                ColumnStyle => 'grid-column: 1 / span 1',
+            },
+        );
+
+        # render short description once for first element
+        if ( $Param{DescriptionLong} ) {
+            $LayoutObject->Block(
+                Name => 'rw:DynamicField:DescriptionLongTemplate',
+                Data => {
+                    DescriptionLong => $Param{DescriptionLong},
+                },
             );
         }
     }
@@ -2761,30 +2823,32 @@ sub _RenderDynamicField {
             Name => $Param{ActivityDialogField}->{LayoutBlock} || 'rw:DynamicField',
             Data => \%Data,
         );
+
+        if ( $Param{DescriptionShort} ) {
+            $LayoutObject->Block(
+                Name => $Param{ActivityDialogField}->{LayoutBlock}
+                    || 'rw:DynamicField:DescriptionShort',
+                Data => {
+                    DescriptionShort => $Param{DescriptionShort},
+                },
+            );
+        }
+
+        if ( $Param{DescriptionLong} ) {
+            $LayoutObject->Block(
+                Name => 'rw:DynamicField:DescriptionLong',
+                Data => {
+                    DescriptionLong => $Param{DescriptionLong},
+                },
+            );
+        }
     }
 
-    if ( $Param{DescriptionShort} ) {
-        $LayoutObject->Block(
-            Name => $Param{ActivityDialogField}->{LayoutBlock}
-                || 'rw:DynamicField:DescriptionShort',
-            Data => {
-                DescriptionShort => $Param{DescriptionShort},
-            },
-        );
-    }
-
-    if ( $Param{DescriptionLong} ) {
-        $LayoutObject->Block(
-            Name => 'rw:DynamicField:DescriptionLong',
-            Data => {
-                DescriptionLong => $Param{DescriptionLong},
-            },
-        );
-    }
+    my $TemplateFile = 'ProcessManagement/' . ( $DynamicFieldConfig->{Config}{MultiValue} ? 'RowDynamicField' : 'DynamicField' );
 
     return {
         Success => 1,
-        HTML    => $LayoutObject->Output( TemplateFile => 'ProcessManagement/DynamicField' ),
+        HTML    => $LayoutObject->Output( TemplateFile => $TemplateFile ),
     };
 }
 
@@ -2825,7 +2889,7 @@ sub _RenderTitle {
         Label            => $LayoutObject->{LanguageObject}->Translate("Title"),
         FieldID          => 'Title',
         FormID           => $Param{FormID},
-        Value            => $Param{GetParam}->{Title},
+        Value            => $Param{GetParam}{Title},
         Name             => 'Title',
         MandatoryClass   => '',
         ValidateRequired => '',
@@ -2964,8 +3028,8 @@ sub _RenderArticle {
         Name             => 'Article',
         MandatoryClass   => '',
         ValidateRequired => '',
-        Subject          => $Param{GetParam}->{Subject},
-        Body             => $Param{GetParam}->{Body},
+        Subject          => $Param{GetParam}{Subject},
+        Body             => $Param{GetParam}{Body},
         LabelSubject     => $Param{ActivityDialogField}->{Config}->{LabelSubject}
             || $LayoutObject->{LanguageObject}->Translate("Subject"),
         LabelBody => $Param{ActivityDialogField}->{Config}->{LabelBody}
@@ -3239,12 +3303,6 @@ sub _RenderCustomer {
         $Data{CustomerID}     = $Param{Ticket}{CustomerID}     || '';
     }
 
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'CustomerFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields},
-    );
-
     if ( $Param{DescriptionShort} ) {
         $Data{DescriptionShort} = $Param{DescriptionShort};
     }
@@ -3400,14 +3458,8 @@ sub _RenderResponsible {
         Name         => 'ResponsibleID',
         Translation  => 1,
         SelectedID   => $SelectedID,
-        Class        => "Modernize $ServerError",
+        Class        => "Modernize FormUpdate $ServerError",
         PossibleNone => 1,
-    );
-
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'ResponsibleFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
     );
 
     $LayoutObject->Block(
@@ -3574,14 +3626,8 @@ sub _RenderOwner {
         Name         => 'OwnerID',
         Translation  => 1,
         SelectedID   => $SelectedID || '',
-        Class        => "Modernize $ServerError",
+        Class        => "Modernize FormUpdate $ServerError",
         PossibleNone => 1,
-    );
-
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'OwnerFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
     );
 
     $LayoutObject->Block(
@@ -3752,15 +3798,9 @@ sub _RenderSLA {
         SelectedValue => $SelectedValue,
         PossibleNone  => 1,
         Sort          => 'AlphanumericValue',
-        Translation   => 0,
-        Class         => "Modernize $ServerError",
+        Translation   => 1,
+        Class         => "Modernize FormUpdate $ServerError",
         Max           => 200,
-    );
-
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'SLAFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
     );
 
     $LayoutObject->Block(
@@ -3925,19 +3965,13 @@ sub _RenderService {
     $Data{Content} = $LayoutObject->BuildSelection(
         Data          => $Services,
         Name          => 'ServiceID',
-        Class         => "Modernize $ServerError",
+        Class         => "Modernize FormUpdate $ServerError",
         SelectedValue => $SelectedValue,
         PossibleNone  => 1,
         TreeView      => $TreeView,
         Sort          => 'TreeView',
-        Translation   => 0,
+        Translation   => $TreeView,
         Max           => 200,
-    );
-
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'ServiceFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
     );
 
     $LayoutObject->Block(
@@ -4071,13 +4105,7 @@ sub _RenderLock {
         Name          => 'LockID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
-        Class         => "Modernize $ServerError",
-    );
-
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'LockFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
+        Class         => "Modernize FormUpdate $ServerError",
     );
 
     $LayoutObject->Block(
@@ -4211,13 +4239,7 @@ sub _RenderPriority {
         Name          => 'PriorityID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
-        Class         => "Modernize $ServerError",
-    );
-
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'PriorityFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
+        Class         => "Modernize FormUpdate $ServerError",
     );
 
     $LayoutObject->Block(
@@ -4355,18 +4377,12 @@ sub _RenderQueue {
     $Data{Content} = $LayoutObject->BuildSelection(
         Data          => $Queues,
         Name          => 'QueueID',
-        Translation   => 0,
+        Translation   => $TreeView,
         SelectedValue => $SelectedValue,
-        Class         => "Modernize $ServerError",
+        Class         => "Modernize FormUpdate $ServerError",
         TreeView      => $TreeView,
         Sort          => 'TreeView',
         PossibleNone  => 1,
-    );
-
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'QueueFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
     );
 
     $LayoutObject->Block(
@@ -4491,13 +4507,7 @@ sub _RenderState {
         Name          => 'StateID',
         Translation   => 1,
         SelectedValue => $SelectedValue,
-        Class         => "Modernize $ServerError",
-    );
-
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'StateFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
+        Class         => "Modernize FormUpdate $ServerError",
     );
 
     $LayoutObject->Block(
@@ -4641,18 +4651,12 @@ sub _RenderType {
     $Data{Content} = $LayoutObject->BuildSelection(
         Data          => $Types,
         Name          => 'TypeID',
-        Class         => "Modernize $ServerError",
+        Class         => "Modernize FormUpdate $ServerError",
         SelectedValue => $SelectedValue,
         PossibleNone  => 1,
         Sort          => 'AlphanumericValue',
-        Translation   => 0,
+        Translation   => 1,
         Max           => 200,
-    );
-
-    # send data to JS
-    $LayoutObject->AddJSData(
-        Key   => 'TypeFieldsToUpdate',
-        Value => $Param{AJAXUpdatableFields}
     );
 
     $LayoutObject->Block(
@@ -4737,92 +4741,15 @@ sub _StoreActivityDialog {
     # get upload cache object
     my $UploadCacheObject = $Kernel::OM->Get('Kernel::System::Web::UploadCache');
 
-    my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
-        Valid      => 1,
-        ObjectType => 'Ticket',
-    );
-
-    # get dynamic field backend object
-    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
-
     # check each Field of an Activity Dialog and fill the error hash if something goes horribly wrong
     my %CheckedFields;
     DIALOGFIELD:
     for my $CurrentField ( @{ $ActivityDialog->{FieldOrder} } ) {
-        if ( $CurrentField =~ m{^DynamicField_(.*)}xms ) {
-            my $DynamicFieldName = $1;
 
-            # Get the Config of the current DynamicField (the first element of the grep result array)
-            my $DynamicFieldConfig = ( grep { $_->{Name} eq $DynamicFieldName } @{$DynamicField} )[0];
+        # handle dynamic fields separately
+        next DIALOGFIELD if $CurrentField =~ m{^DynamicField_(.*)}xms;
 
-            if ( !IsHashRefWithData($DynamicFieldConfig) ) {
-
-                my $Message = "DynamicFieldConfig missing for field: $Param{FieldName}, or is not a Ticket Dynamic Field!";
-
-                # log error but does not stop the execution as it could be an old Article
-                # DynamicField, see bug#11666
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  => $Message,
-                );
-
-                next DIALOGFIELD;
-            }
-
-            # Will be extended later on for ACL Checking:
-            my $PossibleValuesFilter;
-
-            # if we have an invisible field, use config's default value
-            if ( $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 0 ) {
-                if (
-                    defined $ActivityDialog->{Fields}->{$CurrentField}->{DefaultValue}
-                    && length $ActivityDialog->{Fields}->{$CurrentField}->{DefaultValue}
-                    )
-                {
-                    $TicketParam{$CurrentField} = $ActivityDialog->{Fields}->{$CurrentField}->{DefaultValue};
-                }
-                else {
-                    $TicketParam{$CurrentField} = '';
-                }
-            }
-
-            # only validate visible fields
-            else {
-                # Check DynamicField Values
-                my $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
-                    DynamicFieldConfig   => $DynamicFieldConfig,
-                    PossibleValuesFilter => $PossibleValuesFilter,
-                    ParamObject          => $ParamObject,
-                    Mandatory            => $ActivityDialog->{Fields}->{$CurrentField}->{Display} == 2,
-                );
-
-                if ( !IsHashRefWithData($ValidationResult) ) {
-                    $LayoutObject->FatalError(
-                        Message => $LayoutObject->{LanguageObject}->Translate(
-                            'Could not perform validation on field %s!',
-                            $DynamicFieldConfig->{Label},
-                        ),
-                    );
-                }
-
-                if ( $ValidationResult->{ServerError} ) {
-                    $Error{ $DynamicFieldConfig->{Name} }         = 1;
-                    $ErrorMessages{ $DynamicFieldConfig->{Name} } = $ValidationResult->{ErrorMessage};
-                }
-
-                $TicketParam{$CurrentField} =
-                    $DynamicFieldBackendObject->EditFieldValueGet(
-                        DynamicFieldConfig => $DynamicFieldConfig,
-                        ParamObject        => $ParamObject,
-                        LayoutObject       => $LayoutObject,
-                    );
-            }
-
-            # In case of DynamicFields there is no NameToID translation
-            # so just take the DynamicField name
-            $CheckedFields{$CurrentField} = 1;
-        }
-        elsif (
+        if (
             $Self->{NameToID}->{$CurrentField} eq 'CustomerID'
             || $Self->{NameToID}->{$CurrentField} eq 'CustomerUserID'
             )
@@ -4944,6 +4871,164 @@ sub _StoreActivityDialog {
         }
     }
 
+    # get dynamic field backend object
+    my $DynamicFieldBackendObject = $Kernel::OM->Get('Kernel::System::DynamicField::Backend');
+
+    # skip validation of hidden fields
+    my %Visibility;
+
+    # transform dynamic field data into DFName => DFName pair
+    my %DynamicFieldAcl = map { $_ => $_ } keys $Self->{DynamicField}->%*;
+
+    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
+
+    # call ticket ACLs for DynamicFields to check field visibility
+    my $ACLResult = $TicketObject->TicketAcl(
+        $Param{GetParam}->%*,
+        Action        => $Self->{Action},
+        ReturnType    => 'Form',
+        ReturnSubType => '-',
+        Data          => \%DynamicFieldAcl,
+        UserID        => $Self->{UserID},
+    );
+    if ($ACLResult) {
+        %Visibility = map { 'DynamicField_' . $_ => 0 } keys $Self->{DynamicField}->%*;
+        my %AclData = $TicketObject->TicketAclData();
+        for my $Field ( sort keys %AclData ) {
+            $Visibility{ 'DynamicField_' . $Field } = 1;
+        }
+    }
+    else {
+        %Visibility = map { 'DynamicField_' . $_ => 1 } keys $Self->{DynamicField}->%*;
+    }
+
+    my %DynamicFieldValidationResult;
+    my %DynamicFieldPossibleValues;
+
+    DYNAMICFIELD:
+    for my $DynamicFieldName ( keys $Self->{DynamicField}->%* ) {
+
+        # Get the Config of the current DynamicField (the first element of the grep result array)
+        my $DynamicFieldConfig = $Self->{DynamicField}{$DynamicFieldName};
+
+        if ( !IsHashRefWithData($DynamicFieldConfig) ) {
+
+            my $Message = "DynamicFieldConfig missing for field: $Param{FieldName}, or is not a Ticket Dynamic Field!";
+
+            # log error but does not stop the execution as it could be an old Article
+            # DynamicField, see bug#11666
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => $Message,
+            );
+
+            next DYNAMICFIELD;
+        }
+
+        # Will be extended later on for ACL Checking:
+        my $PossibleValuesFilter;
+
+        my $IsACLReducible = $DynamicFieldBackendObject->HasBehavior(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            Behavior           => 'IsACLReducible',
+        );
+
+        if ($IsACLReducible) {
+
+            # get PossibleValues
+            my $PossibleValues = $DynamicFieldBackendObject->PossibleValuesGet(
+                DynamicFieldConfig => $DynamicFieldConfig,
+            );
+
+            # check if field has PossibleValues property in its configuration
+            if ( IsHashRefWithData($PossibleValues) ) {
+
+                # convert possible values key => value to key => key for ACLs using a Hash slice
+                my %AclData = %{$PossibleValues};
+                @AclData{ keys %AclData } = keys %AclData;
+
+                # set possible values filter from ACLs
+                my $ACL = $TicketObject->TicketAcl(
+                    $Param{GetParam}->%*,
+                    Action        => $Self->{Action},
+                    ReturnType    => 'Ticket',
+                    ReturnSubType => 'DynamicField_' . $DynamicFieldConfig->{Name},
+                    Data          => \%AclData,
+                    UserID        => $Self->{UserID},
+                );
+                if ($ACL) {
+                    my %Filter = $TicketObject->TicketAclData();
+
+                    # convert Filer key => key back to key => value using map
+                    %{$PossibleValuesFilter} = map { $_ => $PossibleValues->{$_} }
+                        keys %Filter;
+                }
+                else {
+                    $PossibleValuesFilter = $PossibleValues;
+                }
+            }
+        }
+
+        $DynamicFieldPossibleValues{ 'DynamicField_' . $DynamicFieldName } = $PossibleValuesFilter;
+
+        # if we have an invisible field, use config's default value
+        if ( $ActivityDialog->{Fields}->{ 'DynamicField_' . $DynamicFieldName } && $ActivityDialog->{Fields}->{ 'DynamicField_' . $DynamicFieldName }->{Display} == 0 )
+        {
+            if (
+                defined $ActivityDialog->{Fields}->{ 'DynamicField_' . $DynamicFieldName }->{DefaultValue}
+                && length $ActivityDialog->{Fields}->{ 'DynamicField_' . $DynamicFieldName }->{DefaultValue}
+                )
+            {
+                $TicketParam{ 'DynamicField_' . $DynamicFieldName } = $ActivityDialog->{Fields}->{ 'DynamicField_' . $DynamicFieldName }->{DefaultValue};
+            }
+            else {
+                $TicketParam{ 'DynamicField_' . $DynamicFieldName } = '';
+            }
+        }
+
+        # skip fields which are hidden by ACLs
+        elsif ( !$Visibility{ 'DynamicField_' . $DynamicFieldConfig->{Name} } ) {
+            next DYNAMICFIELD;
+        }
+
+        # only validate visible fields
+        else {
+            my $Mandatory = $ActivityDialog->{Fields}->{ 'DynamicField_' . $DynamicFieldName }
+                ? ( $ActivityDialog->{Fields}->{ 'DynamicField_' . $DynamicFieldName }->{Display} == 2 )
+                : $DynamicFieldConfig->{Mandatory};
+
+            # Check DynamicField Values
+            my $ValidationResult = $DynamicFieldBackendObject->EditFieldValueValidate(
+                DynamicFieldConfig   => $DynamicFieldConfig,
+                PossibleValuesFilter => $PossibleValuesFilter,
+                ParamObject          => $ParamObject,
+                Mandatory            => $Mandatory,
+            );
+
+            if ( !IsHashRefWithData($ValidationResult) ) {
+                $LayoutObject->FatalError(
+                    Message => $LayoutObject->{LanguageObject}->Translate(
+                        'Could not perform validation on field %s!',
+                        $DynamicFieldConfig->{Label},
+                    ),
+                );
+            }
+
+            if ( $ValidationResult->{ServerError} ) {
+                $Error{ $DynamicFieldConfig->{Name} }                        = 1;
+                $ErrorMessages{ $DynamicFieldConfig->{Name} }                = $ValidationResult->{ErrorMessage};
+                $DynamicFieldValidationResult{ $DynamicFieldConfig->{Name} } = $ValidationResult;
+            }
+
+            $TicketParam{ 'DynamicField_' . $DynamicFieldName } =
+                $DynamicFieldBackendObject->EditFieldValueGet(
+                    DynamicFieldConfig => $DynamicFieldConfig,
+                    ParamObject        => $ParamObject,
+                    LayoutObject       => $LayoutObject,
+                );
+        }
+    }
+
     # create process object
     $Kernel::OM->ObjectParamAdd(
         'Kernel::System::ProcessManagement::Process' => {
@@ -4954,8 +5039,6 @@ sub _StoreActivityDialog {
         }
     );
     my $ProcessObject = $Kernel::OM->Get('Kernel::System::ProcessManagement::Process');
-
-    my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
     my @Notify;
 
@@ -5101,33 +5184,6 @@ sub _StoreActivityDialog {
                         $TicketID,
                     ),
                     Comment => Translatable('Please contact the administrator.'),
-                );
-            }
-
-            DYNAMICFIELD:
-            for my $DynamicFieldConfig (
-
-                # 2. remove "DynamicField_" from string
-                map {
-                    my $Field = $_;
-                    $Field =~ s{^DynamicField_(.*)}{$1}xms;
-
-                    # 3. grep from the DynamicFieldConfigs the resulting DynamicFields without
-                    # "DynamicField_"
-                    grep { $_->{Name} eq $Field } @{$DynamicField}
-                }
-
-                # 1. grep all DynamicFields
-                grep {m{^DynamicField_(.*)}xms} @{ $ActivityDialog->{FieldOrder} }
-                )
-            {
-
-                # and now it's easy, just store the dynamic Field Values ;)
-                $DynamicFieldBackendObject->ValueSet(
-                    DynamicFieldConfig => $DynamicFieldConfig,
-                    ObjectID           => $TicketID,
-                    Value              => $TicketParam{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
-                    UserID             => $Self->{UserID},
                 );
             }
 
@@ -5298,6 +5354,9 @@ sub _StoreActivityDialog {
             ActivityDialogEntityID => $ActivityDialogEntityID,
             Error                  => \%Error,
             ErrorMessages          => \%ErrorMessages,
+            Visibility             => \%Visibility,
+            DFErrors               => \%DynamicFieldValidationResult,
+            DFPossibleValues       => \%DynamicFieldPossibleValues,
             GetParam               => $Param{GetParam},
             Notify                 => \@Notify,
         );
@@ -5323,42 +5382,9 @@ sub _StoreActivityDialog {
             );
         }
 
-        if ( $CurrentField =~ m{^DynamicField_(.*)}xms ) {
-            my $DynamicFieldName   = $1;
-            my $DynamicFieldConfig = ( grep { $_->{Name} eq $DynamicFieldName } @{$DynamicField} )[0];
+        next DIALOGFIELD if $CurrentField =~ m{^DynamicField_(.*)}xms;
 
-            if ( !IsHashRefWithData($DynamicFieldConfig) ) {
-
-                my $Message = "DynamicFieldConfig missing for field: $Param{FieldName}, or is not a Ticket Dynamic Field!";
-
-                # log error but does not stop the execution as it could be an old Article
-                # DynamicField, see bug#11666
-                $Kernel::OM->Get('Kernel::System::Log')->Log(
-                    Priority => 'error',
-                    Message  => $Message,
-                );
-
-                next DIALOGFIELD;
-            }
-
-            my $Success = $DynamicFieldBackendObject->ValueSet(
-                DynamicFieldConfig => $DynamicFieldConfig,
-                ObjectID           => $TicketID,
-                Value              => $TicketParam{$CurrentField},
-                UserID             => $Self->{UserID},
-            );
-            if ( !$Success ) {
-                $LayoutObject->FatalError(
-                    Message => $LayoutObject->{LanguageObject}->Translate(
-                        'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!',
-                        $CurrentField,
-                        $TicketID,
-                        $ActivityDialogEntityID,
-                    ),
-                );
-            }
-        }
-        elsif ( $CurrentField eq 'PendingTime' ) {
+        if ( $CurrentField eq 'PendingTime' ) {
 
             # This Value is just set if Status was on a Pending state
             # so it has to be possible to store the ticket if this one's empty
@@ -5491,8 +5517,8 @@ sub _StoreActivityDialog {
                     );
                 }
 
-                # Remove pre submitted attachments.
-                $UploadCacheObject->FormIDRemove( FormID => $Self->{FormID} );
+                # remove all form data
+                $Kernel::OM->Get('Kernel::System::Web::FormCache')->FormIDRemove( FormID => $Self->{FormID} );
 
                 # time accounting
                 if ( $Param{GetParam}->{TimeUnits} ) {
@@ -5696,6 +5722,51 @@ sub _StoreActivityDialog {
         }
     }
 
+    DYNAMICFIELD:
+    for my $DynamicFieldName ( keys $Self->{DynamicField}->%* ) {
+
+        my $DynamicFieldConfig = $Self->{DynamicField}{$DynamicFieldName};
+        if ( !IsHashRefWithData($DynamicFieldConfig) ) {
+
+            my $Message = "DynamicFieldConfig missing for field: $DynamicFieldName, or is not a Ticket Dynamic Field!";
+
+            # log error but does not stop the execution as it could be an old Article
+            # DynamicField, see bug#11666
+            $Kernel::OM->Get('Kernel::System::Log')->Log(
+                Priority => 'error',
+                Message  => $Message,
+            );
+
+            next DYNAMICFIELD;
+        }
+
+        next DYNAMICFIELD if !$Visibility{ 'DynamicField_' . $DynamicFieldConfig->{Name} };
+
+        my $Success = $DynamicFieldBackendObject->ValueSet(
+            DynamicFieldConfig => $DynamicFieldConfig,
+            ObjectID           => $TicketID,
+            Value              => $TicketParam{ 'DynamicField_' . $DynamicFieldConfig->{Name} },
+            UserID             => $Self->{UserID},
+        );
+
+        if ( !$Success ) {
+            $LayoutObject->FatalError(
+                Message => $LayoutObject->{LanguageObject}->Translate(
+                    'Could not set DynamicField value for %s of Ticket with ID "%s" in ActivityDialog "%s"!',
+                    $DynamicFieldName,
+                    $TicketID,
+                    $ActivityDialogEntityID,
+                ),
+            );
+        }
+    }
+
+    # delete hidden fields cache
+    $Kernel::OM->Get('Kernel::System::Cache')->Delete(
+        Type => 'HiddenFields',
+        Key  => $Self->{FormID},
+    );
+
     # get the link ticket id if given
     my $LinkTicketID = $ParamObject->GetParam( Param => 'LinkTicketID' ) || '';
 
@@ -5786,7 +5857,7 @@ sub _DisplayProcessList {
         SelectedID   => $Param{ProcessEntityID},
         PossibleNone => 1,
         Sort         => 'AlphanumericValue',
-        Translation  => 0,
+        Translation  => 1,
         AutoComplete => 'off',
     );
 
@@ -5862,7 +5933,7 @@ sub _DisplayProcessList {
 # and checks are successful
 #
 # if Display param is set to 0 or not given, it uses ActivityDialog field default value for all fields
-# or global default value as fall-back only for certain fields
+# or global default value as fallback only for certain fields
 #
 # if Display param is set to 1 or 2 it uses the value from the web request
 #
@@ -6535,95 +6606,6 @@ sub _GetTypes {
     return \%Type;
 }
 
-sub _GetAJAXUpdatableFields {
-    my ( $Self, %Param ) = @_;
-
-    my %DefaultUpdatableFields = (
-        PriorityID    => 1,
-        QueueID       => 1,
-        ResponsibleID => 1,
-        ServiceID     => 1,
-        SLAID         => 1,
-        StateID       => 1,
-        OwnerID       => 1,
-        LockID        => 1,
-        TypeID        => 1,
-    );
-
-    my $DynamicField = $Kernel::OM->Get('Kernel::System::DynamicField')->DynamicFieldListGet(
-        Valid      => 1,
-        ObjectType => 'Ticket',
-    );
-
-    # create a DynamicFieldLookupTable
-    my %DynamicFieldLookup = map { 'DynamicField_' . $_->{Name} => $_ } @{$DynamicField};
-
-    my @UpdatableFields;
-    FIELD:
-    for my $Field ( sort keys %{ $Param{ActivityDialogFields} } ) {
-
-        my $FieldData = $Param{ActivityDialogFields}->{$Field};
-
-        # skip hidden fields
-        next FIELD if !$FieldData->{Display};
-
-        # for Dynamic Fields check if is AJAXUpdatable
-        if ( $Field =~ m{^DynamicField_(.*)}xms ) {
-            my $DynamicFieldConfig = $DynamicFieldLookup{$Field};
-
-            # skip any field with wrong config
-            next FIELD if !IsHashRefWithData($DynamicFieldConfig);
-
-            # skip field if is not IsACLReducible (updatable)
-            my $IsACLReducible = $Kernel::OM->Get('Kernel::System::DynamicField::Backend')->HasBehavior(
-                DynamicFieldConfig => $DynamicFieldConfig,
-                Behavior           => 'IsACLReducible',
-            );
-            next FIELD if !$IsACLReducible;
-
-            push @UpdatableFields, $Field;
-        }
-
-        # for all others use %DefaultUpdatableFields table
-        else {
-
-            # standarize the field name (e.g. use StateID for State field)
-            my $FieldName = $Self->{NameToID}->{$Field};
-
-            # skip if field name could not be converted (this means that field is unknown)
-            next FIELD if !$FieldName;
-
-            # skip if the field is not updatable via ajax
-            next FIELD if !$DefaultUpdatableFields{$FieldName};
-
-            push @UpdatableFields, $FieldName;
-        }
-    }
-
-    return \@UpdatableFields;
-}
-
-sub _GetFieldsToUpdateStrg {
-    my ( $Self, %Param ) = @_;
-
-    my $FieldsToUpdate = '';
-    if ( IsArrayRefWithData( $Param{AJAXUpdatableFields} ) ) {
-        my $FirstItem = 1;
-        FIELD:
-        for my $Field ( @{ $Param{AJAXUpdatableFields} } ) {
-            next FIELD if $Field eq $Param{TriggerField};
-            if ($FirstItem) {
-                $FirstItem = 0;
-            }
-            else {
-                $FieldsToUpdate .= ', ';
-            }
-            $FieldsToUpdate .= "'" . $Field . "'";
-        }
-    }
-    return $FieldsToUpdate;
-}
-
 sub _ShowDialogError {
     my ( $Self, %Param ) = @_;
 
@@ -6633,6 +6615,78 @@ sub _ShowDialogError {
     $Output .= $LayoutObject->Error(%Param);
     $Output .= $LayoutObject->Footer( Type => 'Small' );
     return $Output;
+}
+
+sub _GetInputDefinitionDynamicFields {
+    my ( $Self, %Param ) = @_;
+
+    my $DynamicFieldObject = $Kernel::OM->Get('Kernel::System::DynamicField');
+    my %DynamicField;
+
+    # This subroutine takes a DFEntry and the DynamicFieldObject as arguments
+    # It retrieves the dynamic field definition for the given DFEntry
+    # If the definition is not available, it retrieves it from the DynamicFieldObject
+    # Returns the dynamic field definition
+    my $GetDynamicField = sub {
+
+        my ($DFEntry) = @_;
+
+        my $DynamicField = $DFEntry->{Definition} // $DynamicFieldObject->DynamicFieldGet(
+            Name => $DFEntry->{DF},
+        );
+
+        return $DynamicField;
+    };
+
+    ITEM:
+    for my $IncludeItem ( @{ $Param{InputFieldDefinition} } ) {
+
+        if ( $IncludeItem->{Grid} ) {
+
+            for my $Row ( @{ $IncludeItem->{Grid}{Rows} } ) {
+
+                DFENTRY:
+                for my $DFEntry ( $Row->@* ) {
+
+                    my $DynamicField = $GetDynamicField->($DFEntry);
+                    if ( IsHashRefWithData($DynamicField) ) {
+                        $DynamicField->{Mandatory}      = $DFEntry->{Mandatory};
+                        $DynamicField->{Readonly}       = $DFEntry->{Readonly};
+                        $DynamicField{ $DFEntry->{DF} } = $DynamicField;
+                    }
+                    else {
+                        $Kernel::OM->Get('Kernel::System::Log')->Log(
+                            Priority => 'error',
+                            Message  => "DynamicFieldConfig missing for field: $DFEntry->{DF}, or is not a Ticket Dynamic Field!",
+                        );
+
+                        next DFENTRY;
+                    }
+                }
+            }
+        }
+        elsif ( $IncludeItem->{DF} ) {
+
+            my $DynamicField = $GetDynamicField->($IncludeItem);
+            if ($DynamicField) {
+                $DynamicField->{Mandatory}          = $IncludeItem->{Mandatory};
+                $DynamicField->{Readonly}           = $IncludeItem->{Readonly};
+                $DynamicField{ $IncludeItem->{DF} } = $DynamicField;
+            }
+            else {
+                $Kernel::OM->Get('Kernel::System::Log')->Log(
+                    Priority => 'error',
+                    Message  => "DynamicFieldConfig missing for field: $IncludeItem->{DF}, or is not a Ticket Dynamic Field!",
+                );
+                next ITEM;
+            }
+        }
+        else {
+            next ITEM;
+        }
+    }
+
+    return \%DynamicField;
 }
 
 1;

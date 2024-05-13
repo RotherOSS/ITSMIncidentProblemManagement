@@ -2,7 +2,9 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# --
+# $origin: otobo - 4cdd2f2766468573cc2970dfbd38a6c9781f0bd0 - scripts/test/Selenium/Agent/AgentTicketPhone.t
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -13,18 +15,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
-# --
 
 use strict;
 use warnings;
 use utf8;
 
-use vars (qw($Self));
+# Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::RegisterDriver;
 
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+our $Self;
+
+# OTOBO modules
+use Kernel::System::UnitTest::Selenium;
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 $Selenium->RunTest(
     sub {
@@ -41,7 +44,7 @@ $Selenium->RunTest(
             1,
             1,
             'var',
-            'http://www.otobo.com',
+            'http://www.otobo.org',
             0,
             '',
             'AsPopup OTOBOPopup_TicketAction',
@@ -392,7 +395,7 @@ $Selenium->RunTest(
         my $TicketObject = $Kernel::OM->Get('Kernel::System::Ticket');
 
         # Get created test ticket ID and number.
-        my @Ticket = split( 'TicketID=', $Selenium->get_current_url() );
+        my @Ticket = split /TicketID=/, $Selenium->get_current_url();
 
         my $TicketID = $Ticket[1];
 
@@ -513,7 +516,7 @@ $Selenium->RunTest(
         );
 
         # Select SubQueue on loading screen.
-        # Bug#12819 ( https://bugs.otobo.org/show_bug.cgi?id=12819 ) - queue contains spaces in the name.
+        # Bug#12819 ( https://bugs.otrs.org/show_bug.cgi?id=12819 ) - queue contains spaces in the name.
         # Navigate to AgentTicketPhone screen again to check selecting a queue after loading screen.
         $QueueValue = $QueueID2 . "||Junk::SubQueue $RandomID  $RandomID";
         $Selenium->VerifiedGet("${ScriptAlias}index.pl?Action=AgentTicketPhone");
@@ -647,4 +650,4 @@ $Selenium->RunTest(
     }
 );
 
-1;
+$Self->DoneTesting();

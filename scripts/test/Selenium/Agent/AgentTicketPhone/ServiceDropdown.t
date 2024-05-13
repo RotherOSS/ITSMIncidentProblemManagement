@@ -2,7 +2,9 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# --
+# $origin: otobo - 4cdd2f2766468573cc2970dfbd38a6c9781f0bd0 - scripts/test/Selenium/Agent/AgentTicketPhone/ServiceDropdown.t
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -13,16 +15,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 # --
-# This software comes with ABSOLUTELY NO WARRANTY. For details, see
-# the enclosed file COPYING for license information (GPL). If you
-# did not receive this file, see https://www.gnu.org/licenses/gpl-3.0.txt.
-# --
 
 use strict;
 use warnings;
 use utf8;
 
-use vars (qw($Self));
+# Set up the test driver $Self when we are running as a standalone script.
+use Kernel::System::UnitTest::RegisterDriver;
+
+our $Self;
 
 # get config object
 my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
@@ -35,12 +36,14 @@ $Kernel::OM->Get('Kernel::System::UnitTest::Helper')->ConfigSettingChange(
 );
 
 # get selenium object
-my $Selenium = $Kernel::OM->Get('Kernel::System::UnitTest::Selenium');
+# OTOBO modules
+use Kernel::System::UnitTest::Selenium;
+my $Selenium = Kernel::System::UnitTest::Selenium->new( LogExecuteCommandActive => 1 );
 
 # this test is to check that when AgentTicketPhone is loaded already with
 # customer data on it (like when doing Split), the dropdown of Service is
 # prefilled with the correct data. This is because of bug
-# http://bugs.otobo.org/show_bug.cgi?id=7060
+# http://bugs.otrs.org/show_bug.cgi?id=7060
 
 $Selenium->RunTest(
     sub {
@@ -214,4 +217,4 @@ $Selenium->RunTest(
     }
 );
 
-1;
+$Self->DoneTesting();
