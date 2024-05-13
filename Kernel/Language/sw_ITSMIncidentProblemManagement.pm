@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -25,34 +25,34 @@ sub Data {
 
     # Template: AgentTicketOverviewMedium
     $Self->{Translation}->{'Criticality'} = 'Kwa kina';
-    $Self->{Translation}->{'Impact'} = 'Madhara';
+    $Self->{Translation}->{'Impact'}      = 'Madhara';
 
     # JS Template: ServiceIncidentState
     $Self->{Translation}->{'Service Incident State'} = 'Hali ya tukio ya huduma';
 
     # Perl Module: Kernel/Output/HTML/FilterElementPost/ITSMIncidentProblemManagement.pm
-    $Self->{Translation}->{'Link ticket'} = 'Tiketi kiungo';
-    $Self->{Translation}->{'Change Decision of %s%s%s'} = '';
+    $Self->{Translation}->{'Link ticket'}                  = 'Tiketi kiungo';
+    $Self->{Translation}->{'Change Decision of %s%s%s'}    = '';
     $Self->{Translation}->{'Change ITSM fields of %s%s%s'} = '';
 
     # Perl Module: var/packagesetup/ITSMIncidentProblemManagement.pm
-    $Self->{Translation}->{'Review Required'} = 'mapitio yanahitajika';
-    $Self->{Translation}->{'Decision Result'} = 'Matokeo ya uamuzi';
-    $Self->{Translation}->{'Approved'} = 'Kuidhinisha';
-    $Self->{Translation}->{'Postponed'} = '';
-    $Self->{Translation}->{'Pre-approved'} = '';
-    $Self->{Translation}->{'Rejected'} = '';
-    $Self->{Translation}->{'Repair Start Time'} = 'Muda wa kuanza wa matengenezo';
+    $Self->{Translation}->{'Review Required'}     = 'mapitio yanahitajika';
+    $Self->{Translation}->{'Decision Result'}     = 'Matokeo ya uamuzi';
+    $Self->{Translation}->{'Approved'}            = 'Kuidhinisha';
+    $Self->{Translation}->{'Postponed'}           = '';
+    $Self->{Translation}->{'Pre-approved'}        = '';
+    $Self->{Translation}->{'Rejected'}            = '';
+    $Self->{Translation}->{'Repair Start Time'}   = 'Muda wa kuanza wa matengenezo';
     $Self->{Translation}->{'Recovery Start Time'} = 'Muda wa kuanza wa urejeshi';
-    $Self->{Translation}->{'Decision Date'} = 'Tarehe ya uamuzi';
-    $Self->{Translation}->{'Due Date'} = 'Tarehe ukomo';
+    $Self->{Translation}->{'Decision Date'}       = 'Tarehe ya uamuzi';
+    $Self->{Translation}->{'Due Date'}            = 'Tarehe ukomo';
 
     # Database XML Definition: ITSMIncidentProblemManagement.sopm
     $Self->{Translation}->{'closed with workaround'} = 'Fungwa na mkusanyiko kazi';
 
     # SysConfig
-    $Self->{Translation}->{'Add a decision!'} = 'Ongeza uamuzi!';
-    $Self->{Translation}->{'Additional ITSM Fields'} = 'Uga zilizoongezwa Za ITSM';
+    $Self->{Translation}->{'Add a decision!'}                = 'Ongeza uamuzi!';
+    $Self->{Translation}->{'Additional ITSM Fields'}         = 'Uga zilizoongezwa Za ITSM';
     $Self->{Translation}->{'Additional ITSM ticket fields.'} = '';
     $Self->{Translation}->{'Allows adding notes in the additional ITSM field screen of the agent interface.'} =
         'Ruhusu kuongeza vidokezo katika skrini ya uga nyongeza ya ITSM ya kiolesura cha wakala.';
@@ -61,10 +61,16 @@ sub Data {
     $Self->{Translation}->{'Allows defining new types for ticket (if ticket type feature is enabled).'} =
         'Inaruhusu kufafanua aina mpya kwa ajili ya tiketi (Kama kipengele cha aina ya tiketi kimewezeshwa ).';
     $Self->{Translation}->{'Change the ITSM fields!'} = 'Badili uga wa ITSM!';
-    $Self->{Translation}->{'Decision'} = 'Uamuzi';
-    $Self->{Translation}->{'Defines if a ticket lock is required in the additional ITSM field screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'} =
+    $Self->{Translation}->{'Decision'}                = 'Uamuzi';
+    $Self->{Translation}->{
+        'Defines if a ticket lock is required in the additional ITSM field screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'
+        }
+        =
         'Inafafanua kama kufungwa kwa tiketi kunatakiwa katika skrini ya uga wa ITSM ulioongezwa wa kiolesura cha wakala (kama tiketi haijafungwa bado, tiketi inafungwa na wakala wa sasa atawekwa otomatiki kama mmiliki wake).';
-    $Self->{Translation}->{'Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'} =
+    $Self->{Translation}->{
+        'Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'
+        }
+        =
         'Inafafanua kama kufungwa kwa tiketi kunatakiwa katika skrini ya maamuzi ya kiolesura cha wakala (kama tiketi haijafungwa bado, tiketi inafungwa na wakala wa sasa atawekwa otomatiki kama mmiliki wake).';
     $Self->{Translation}->{'Defines if the service incident state should be shown during service selection in the agent interface.'} =
         'Inafafanua  kama hali ya tukio ya huduma ionyeshwe wakati wa chaguo la huduma katika kiolesura cha wakala.';
@@ -147,9 +153,15 @@ sub Data {
         'Inaonyesha orodha ya mawakala wote waliohusika katika tiketi hii, katika skrini ya uga wa ITSM ulioongezwa wa kiolesura cha wakala.';
     $Self->{Translation}->{'Shows a list of all the involved agents on this ticket, in the decision screen of the agent interface.'} =
         'Inaonyesha orodha ya mawakala wote waliohusika katika tiketi hii, katika skrini ya maamuzi ya kiolesura cha wakala.';
-    $Self->{Translation}->{'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the additional ITSM field screen of the agent interface.'} =
+    $Self->{Translation}->{
+        'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the additional ITSM field screen of the agent interface.'
+        }
+        =
         'Inaonyesha orodha ya mawakala wote( Mawakala wote wenye kidokezo cha ruhusa katika foleni/tiketi) wanaoweza kugundua nani ataarifiwe kuhusu kidokezo hiki, katika skrini ya uga wa ITSM ulioongezwa wa kiolesura cha wakala.';
-    $Self->{Translation}->{'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the decision screen of the agent interface.'} =
+    $Self->{Translation}->{
+        'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the decision screen of the agent interface.'
+        }
+        =
         'Inaonyesha orodha ya mawakala wote( Mawakala wote wenye kidokezo cha ruhusa katika foleni/tiketi) wanaoweza kugundua nani ataarifiwe kuhusu kidokezo hiki, katika skrini ya maamuzi ya kiolesura cha wakala.';
     $Self->{Translation}->{'Shows the ticket priority options in the additional ITSM field screen of the agent interface.'} =
         'Inaonyesha michaguo yenye kipaumbele ya tiketi katika skrini uga wa ITSM ulioongezwa wa kiolesura cha wakala.';
@@ -161,9 +173,8 @@ sub Data {
         'Inyesha uga wa kichwa cha habari katika skrini ya maamzi ya kiolesura cha wakala.';
     $Self->{Translation}->{'Ticket decision.'} = '';
 
-
     push @{ $Self->{JavaScriptStrings} // [] }, (
-    'Service Incident State',
+        'Service Incident State',
     );
 
 }

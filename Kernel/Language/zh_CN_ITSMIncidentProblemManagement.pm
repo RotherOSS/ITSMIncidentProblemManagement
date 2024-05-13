@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -25,34 +25,34 @@ sub Data {
 
     # Template: AgentTicketOverviewMedium
     $Self->{Translation}->{'Criticality'} = '紧急度';
-    $Self->{Translation}->{'Impact'} = '影响度';
+    $Self->{Translation}->{'Impact'}      = '影响度';
 
     # JS Template: ServiceIncidentState
     $Self->{Translation}->{'Service Incident State'} = '服务故障状态';
 
     # Perl Module: Kernel/Output/HTML/FilterElementPost/ITSMIncidentProblemManagement.pm
-    $Self->{Translation}->{'Link ticket'} = '链接工单';
-    $Self->{Translation}->{'Change Decision of %s%s%s'} = '工单 %s%s%s的变更决定';
+    $Self->{Translation}->{'Link ticket'}                  = '链接工单';
+    $Self->{Translation}->{'Change Decision of %s%s%s'}    = '工单 %s%s%s的变更决定';
     $Self->{Translation}->{'Change ITSM fields of %s%s%s'} = '修改%s%s%s的ITSM字段';
 
     # Perl Module: var/packagesetup/ITSMIncidentProblemManagement.pm
-    $Self->{Translation}->{'Review Required'} = '需要复审';
-    $Self->{Translation}->{'Decision Result'} = '决定结果';
-    $Self->{Translation}->{'Approved'} = '通过审批';
-    $Self->{Translation}->{'Postponed'} = '推迟';
-    $Self->{Translation}->{'Pre-approved'} = '预先批准';
-    $Self->{Translation}->{'Rejected'} = '驳回';
-    $Self->{Translation}->{'Repair Start Time'} = '修复开始时间';
+    $Self->{Translation}->{'Review Required'}     = '需要复审';
+    $Self->{Translation}->{'Decision Result'}     = '决定结果';
+    $Self->{Translation}->{'Approved'}            = '通过审批';
+    $Self->{Translation}->{'Postponed'}           = '推迟';
+    $Self->{Translation}->{'Pre-approved'}        = '预先批准';
+    $Self->{Translation}->{'Rejected'}            = '驳回';
+    $Self->{Translation}->{'Repair Start Time'}   = '修复开始时间';
     $Self->{Translation}->{'Recovery Start Time'} = '恢复开始时间';
-    $Self->{Translation}->{'Decision Date'} = '决定日期';
-    $Self->{Translation}->{'Due Date'} = '到期日';
+    $Self->{Translation}->{'Decision Date'}       = '决定日期';
+    $Self->{Translation}->{'Due Date'}            = '到期日';
 
     # Database XML Definition: ITSMIncidentProblemManagement.sopm
     $Self->{Translation}->{'closed with workaround'} = '通过权变措施关闭';
 
     # SysConfig
-    $Self->{Translation}->{'Add a decision!'} = '添加决定!';
-    $Self->{Translation}->{'Additional ITSM Fields'} = '额外的ITSM字段';
+    $Self->{Translation}->{'Add a decision!'}                = '添加决定!';
+    $Self->{Translation}->{'Additional ITSM Fields'}         = '额外的ITSM字段';
     $Self->{Translation}->{'Additional ITSM ticket fields.'} = '额外的ITSM工单字段。';
     $Self->{Translation}->{'Allows adding notes in the additional ITSM field screen of the agent interface.'} =
         '服务人员界面额外的ITSM字段窗口允许添加备注。';
@@ -61,10 +61,16 @@ sub Data {
     $Self->{Translation}->{'Allows defining new types for ticket (if ticket type feature is enabled).'} =
         '允许定义新的工单类型（如果启用了工单类型功能）。';
     $Self->{Translation}->{'Change the ITSM fields!'} = '修改ITSM字段!';
-    $Self->{Translation}->{'Decision'} = '决定';
-    $Self->{Translation}->{'Defines if a ticket lock is required in the additional ITSM field screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'} =
+    $Self->{Translation}->{'Decision'}                = '决定';
+    $Self->{Translation}->{
+        'Defines if a ticket lock is required in the additional ITSM field screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'
+        }
+        =
         '定义服务人员界面在工单额外的ITSM字段窗口是否需要工单锁定（如果工单还没有锁定，则工单被锁定且当前服务人员被自动设置为工单所有者）。';
-    $Self->{Translation}->{'Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'} =
+    $Self->{Translation}->{
+        'Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'
+        }
+        =
         '定义服务人员界面在工单决定窗口是否需要工单锁定（如果工单还没有锁定，则工单被锁定且当前服务人员被自动设置为工单所有者）。';
     $Self->{Translation}->{'Defines if the service incident state should be shown during service selection in the agent interface.'} =
         '定义服务人员界面在选择服务期间是否显示服务故障状态。';
@@ -147,9 +153,15 @@ sub Data {
         '在服务人员界面工单额外的ITSM字段窗口，显示这个工单涉及的所有服务人员列表。';
     $Self->{Translation}->{'Shows a list of all the involved agents on this ticket, in the decision screen of the agent interface.'} =
         '在服务人员界面工单决定窗口，显示这个工单涉及的所有服务人员列表。';
-    $Self->{Translation}->{'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the additional ITSM field screen of the agent interface.'} =
+    $Self->{Translation}->{
+        'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the additional ITSM field screen of the agent interface.'
+        }
+        =
         '在服务人员界面工单额外的ITSM字段窗口，显示这个工单所有可能的服务人员（需要具有这个队列或工单的备注权限）列表用于确定谁将收到关于这个备注的通知。';
-    $Self->{Translation}->{'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the decision screen of the agent interface.'} =
+    $Self->{Translation}->{
+        'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the decision screen of the agent interface.'
+        }
+        =
         '在服务人员界面工单决定窗口，显示这个工单所有可能的服务人员（需要具有这个队列或工单的备注权限）列表用于确定谁将收到关于这个备注的通知。';
     $Self->{Translation}->{'Shows the ticket priority options in the additional ITSM field screen of the agent interface.'} =
         '在服务人员界面工单额外的ITSM字段窗口是否显示工单优先级的选项。';
@@ -161,9 +173,8 @@ sub Data {
         '在服务人员界面工单决定窗口显示工单标题字段。';
     $Self->{Translation}->{'Ticket decision.'} = '工单决定。';
 
-
     push @{ $Self->{JavaScriptStrings} // [] }, (
-    'Service Incident State',
+        'Service Incident State',
     );
 
 }

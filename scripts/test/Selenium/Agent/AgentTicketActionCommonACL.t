@@ -691,7 +691,7 @@ END_CONTENT
                 SQL  => "DELETE FROM service_preferences WHERE service_id = ?",
                 Bind => [ \$ServiceID ],
             );
-            $Self->True(
+            ok(
                 $Success,
                 "ServicePreferences is deleted - ID $ServiceID",
             );

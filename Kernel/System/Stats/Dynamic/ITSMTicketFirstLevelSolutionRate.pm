@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -491,8 +491,9 @@ sub GetStatElement {
             $FirstLevelSolutionTickets++;
             next TICKETID;
 
-        # In new OTOBO systems Ticket Notification is used sometimes for AutoResponse and generate a article.
-        } elsif ( $SenderTypeSecondArticle eq 'system' ) {
+            # In new OTOBO systems Ticket Notification is used sometimes for AutoResponse and generate a article.
+        }
+        elsif ( $SenderTypeSecondArticle eq 'system' ) {
             next TICKETID if !$Articles[2];
 
             # get sender type of third article
@@ -501,7 +502,7 @@ sub GetStatElement {
             );
 
             # the third article is from the agent
-            if ( $SenderTypeThirdArticle eq 'agent' || 'system') {
+            if ( $SenderTypeThirdArticle eq 'agent' || 'system' ) {
                 $FirstLevelSolutionTickets++;
                 next TICKETID;
             }

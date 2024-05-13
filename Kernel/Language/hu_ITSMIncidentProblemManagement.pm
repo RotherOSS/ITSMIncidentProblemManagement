@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -25,34 +25,34 @@ sub Data {
 
     # Template: AgentTicketOverviewMedium
     $Self->{Translation}->{'Criticality'} = 'Kritikusság';
-    $Self->{Translation}->{'Impact'} = 'Hatás';
+    $Self->{Translation}->{'Impact'}      = 'Hatás';
 
     # JS Template: ServiceIncidentState
     $Self->{Translation}->{'Service Incident State'} = 'Szolgáltatás incidensállapot';
 
     # Perl Module: Kernel/Output/HTML/FilterElementPost/ITSMIncidentProblemManagement.pm
-    $Self->{Translation}->{'Link ticket'} = 'Jegy összekapcsolása';
-    $Self->{Translation}->{'Change Decision of %s%s%s'} = '%s%s%s döntésének megváltoztatása';
+    $Self->{Translation}->{'Link ticket'}                  = 'Jegy összekapcsolása';
+    $Self->{Translation}->{'Change Decision of %s%s%s'}    = '%s%s%s döntésének megváltoztatása';
     $Self->{Translation}->{'Change ITSM fields of %s%s%s'} = '%s%s%s ITSM mezőinek megváltoztatása';
 
     # Perl Module: var/packagesetup/ITSMIncidentProblemManagement.pm
-    $Self->{Translation}->{'Review Required'} = 'Vizsgálat szükséges';
-    $Self->{Translation}->{'Decision Result'} = 'Döntés eredménye';
-    $Self->{Translation}->{'Approved'} = 'Jóváhagyva';
-    $Self->{Translation}->{'Postponed'} = 'Elhalasztva';
-    $Self->{Translation}->{'Pre-approved'} = 'Előzetesen jóváhagyva';
-    $Self->{Translation}->{'Rejected'} = 'Elutasítva';
-    $Self->{Translation}->{'Repair Start Time'} = 'Javítás kezdési ideje';
+    $Self->{Translation}->{'Review Required'}     = 'Vizsgálat szükséges';
+    $Self->{Translation}->{'Decision Result'}     = 'Döntés eredménye';
+    $Self->{Translation}->{'Approved'}            = 'Jóváhagyva';
+    $Self->{Translation}->{'Postponed'}           = 'Elhalasztva';
+    $Self->{Translation}->{'Pre-approved'}        = 'Előzetesen jóváhagyva';
+    $Self->{Translation}->{'Rejected'}            = 'Elutasítva';
+    $Self->{Translation}->{'Repair Start Time'}   = 'Javítás kezdési ideje';
     $Self->{Translation}->{'Recovery Start Time'} = 'Visszaállítás kezdési ideje';
-    $Self->{Translation}->{'Decision Date'} = 'Döntés dátuma';
-    $Self->{Translation}->{'Due Date'} = 'Határidő';
+    $Self->{Translation}->{'Decision Date'}       = 'Döntés dátuma';
+    $Self->{Translation}->{'Due Date'}            = 'Határidő';
 
     # Database XML Definition: ITSMIncidentProblemManagement.sopm
     $Self->{Translation}->{'closed with workaround'} = 'lezárva kerülő megoldással';
 
     # SysConfig
-    $Self->{Translation}->{'Add a decision!'} = 'Adjon hozzá egy döntést!';
-    $Self->{Translation}->{'Additional ITSM Fields'} = 'További ITSM mezők';
+    $Self->{Translation}->{'Add a decision!'}                = 'Adjon hozzá egy döntést!';
+    $Self->{Translation}->{'Additional ITSM Fields'}         = 'További ITSM mezők';
     $Self->{Translation}->{'Additional ITSM ticket fields.'} = 'További ITSM jegymezők.';
     $Self->{Translation}->{'Allows adding notes in the additional ITSM field screen of the agent interface.'} =
         'Lehetővé teszi jegyzetek hozzáadását az ügyintézői felület további ITSM mező képernyőjén.';
@@ -61,10 +61,16 @@ sub Data {
     $Self->{Translation}->{'Allows defining new types for ticket (if ticket type feature is enabled).'} =
         'Lehetővé teszi új típusok meghatározását a jegyekhez (ha a jegytípus szolgáltatás engedélyezve van).';
     $Self->{Translation}->{'Change the ITSM fields!'} = 'Változtassa meg az ITSM mezőket!';
-    $Self->{Translation}->{'Decision'} = 'Döntés';
-    $Self->{Translation}->{'Defines if a ticket lock is required in the additional ITSM field screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'} =
+    $Self->{Translation}->{'Decision'}                = 'Döntés';
+    $Self->{Translation}->{
+        'Defines if a ticket lock is required in the additional ITSM field screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'
+        }
+        =
         'Meghatározza, hogy szükséges-e jegyzárolás az ügyintézői felület további ITSM mező képernyőjén (ha a jegy még nincs zárolva, akkor a jegy zárolva lesz, és az aktuális ügyintéző automatikusan annak tulajdonosaként lesz beállítva).';
-    $Self->{Translation}->{'Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'} =
+    $Self->{Translation}->{
+        'Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'
+        }
+        =
         'Meghatározza, hogy szükséges-e jegyzárolás az ügyintézői felület döntési képernyőjén (ha a jegy még nincs zárolva, akkor a jegy zárolva lesz, és az aktuális ügyintéző automatikusan annak tulajdonosaként lesz beállítva).';
     $Self->{Translation}->{'Defines if the service incident state should be shown during service selection in the agent interface.'} =
         'Meghatározza, hogy a szolgáltatás incidensállapotát meg kell-e jeleníteni a szolgáltatás kiválasztása közben az ügyintézői felületen.';
@@ -147,9 +153,15 @@ sub Data {
         'Megjeleníti a jegyen részt vevő összes ügyintéző listáját az ügyintézői felület további ITSM mező képernyőjén.';
     $Self->{Translation}->{'Shows a list of all the involved agents on this ticket, in the decision screen of the agent interface.'} =
         'Megjeleníti a jegyen részt vevő összes ügyintéző listáját az ügyintézői felület döntési képernyőjén.';
-    $Self->{Translation}->{'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the additional ITSM field screen of the agent interface.'} =
+    $Self->{Translation}->{
+        'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the additional ITSM field screen of the agent interface.'
+        }
+        =
         'Megjeleníti az összes lehetséges ügyintéző (a várólistán vagy jegyen jegyzet jogosultsággal rendelkező összes ügyintéző) listáját az ügyintézői felület további ITSM mező képernyőjén annak meghatározásához, hogy kit kell tájékoztatni erről a jegyzetről.';
-    $Self->{Translation}->{'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the decision screen of the agent interface.'} =
+    $Self->{Translation}->{
+        'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the decision screen of the agent interface.'
+        }
+        =
         'Megjeleníti az összes lehetséges ügyintéző (a várólistán vagy jegyen jegyzet jogosultsággal rendelkező összes ügyintéző) listáját az ügyintézői felület döntési képernyőjén annak meghatározásához, hogy kit kell tájékoztatni erről a jegyzetről.';
     $Self->{Translation}->{'Shows the ticket priority options in the additional ITSM field screen of the agent interface.'} =
         'Megjeleníti a jegy prioritási lehetőségeket az ügyintézői felület további ITSM mező képernyőjén.';
@@ -161,9 +173,8 @@ sub Data {
         'Megjeleníti a címmezőket az ügyintézői felület döntési képernyőjén.';
     $Self->{Translation}->{'Ticket decision.'} = 'Jegydöntés.';
 
-
     push @{ $Self->{JavaScriptStrings} // [] }, (
-    'Service Incident State',
+        'Service Incident State',
     );
 
 }

@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -25,34 +25,34 @@ sub Data {
 
     # Template: AgentTicketOverviewMedium
     $Self->{Translation}->{'Criticality'} = 'Criticità';
-    $Self->{Translation}->{'Impact'} = 'Impatto';
+    $Self->{Translation}->{'Impact'}      = 'Impatto';
 
     # JS Template: ServiceIncidentState
     $Self->{Translation}->{'Service Incident State'} = 'Stato dell\'incidente del servizio';
 
     # Perl Module: Kernel/Output/HTML/FilterElementPost/ITSMIncidentProblemManagement.pm
-    $Self->{Translation}->{'Link ticket'} = 'Collega ticket';
-    $Self->{Translation}->{'Change Decision of %s%s%s'} = 'Modifica decisione di %s%s%s';
+    $Self->{Translation}->{'Link ticket'}                  = 'Collega ticket';
+    $Self->{Translation}->{'Change Decision of %s%s%s'}    = 'Modifica decisione di %s%s%s';
     $Self->{Translation}->{'Change ITSM fields of %s%s%s'} = 'Modifica i campi ITSM di %s%s%s';
 
     # Perl Module: var/packagesetup/ITSMIncidentProblemManagement.pm
-    $Self->{Translation}->{'Review Required'} = 'Richiesta revisione';
-    $Self->{Translation}->{'Decision Result'} = 'Risultato approvazione';
-    $Self->{Translation}->{'Approved'} = 'Approvato';
-    $Self->{Translation}->{'Postponed'} = 'Rinviata';
-    $Self->{Translation}->{'Pre-approved'} = 'Pre approvato';
-    $Self->{Translation}->{'Rejected'} = 'Respinto';
-    $Self->{Translation}->{'Repair Start Time'} = 'Data iniziale di riparazione';
+    $Self->{Translation}->{'Review Required'}     = 'Richiesta revisione';
+    $Self->{Translation}->{'Decision Result'}     = 'Risultato approvazione';
+    $Self->{Translation}->{'Approved'}            = 'Approvato';
+    $Self->{Translation}->{'Postponed'}           = 'Rinviata';
+    $Self->{Translation}->{'Pre-approved'}        = 'Pre approvato';
+    $Self->{Translation}->{'Rejected'}            = 'Respinto';
+    $Self->{Translation}->{'Repair Start Time'}   = 'Data iniziale di riparazione';
     $Self->{Translation}->{'Recovery Start Time'} = 'Data iniziale di recupero';
-    $Self->{Translation}->{'Decision Date'} = 'Data di approvazione';
-    $Self->{Translation}->{'Due Date'} = 'Data di scadenza';
+    $Self->{Translation}->{'Decision Date'}       = 'Data di approvazione';
+    $Self->{Translation}->{'Due Date'}            = 'Data di scadenza';
 
     # Database XML Definition: ITSMIncidentProblemManagement.sopm
     $Self->{Translation}->{'closed with workaround'} = 'chiuso con soluzione tampone (workaround)';
 
     # SysConfig
-    $Self->{Translation}->{'Add a decision!'} = 'Aggiungi una risoluzione!';
-    $Self->{Translation}->{'Additional ITSM Fields'} = 'Campi ITSM aggiuntivi';
+    $Self->{Translation}->{'Add a decision!'}                = 'Aggiungi una risoluzione!';
+    $Self->{Translation}->{'Additional ITSM Fields'}         = 'Campi ITSM aggiuntivi';
     $Self->{Translation}->{'Additional ITSM ticket fields.'} = 'Campi ticket ITSM aggiuntivi.';
     $Self->{Translation}->{'Allows adding notes in the additional ITSM field screen of the agent interface.'} =
         'Consente l\'aggiunta di note nella schermata del campo ITSM aggiuntiva dell\'interfaccia agenti.';
@@ -61,10 +61,16 @@ sub Data {
     $Self->{Translation}->{'Allows defining new types for ticket (if ticket type feature is enabled).'} =
         'Permette di definire nuovi tipi di ticket (se è abilitata la funzione ticket type)';
     $Self->{Translation}->{'Change the ITSM fields!'} = 'Cambia i campi ITSM!';
-    $Self->{Translation}->{'Decision'} = 'Approvazione';
-    $Self->{Translation}->{'Defines if a ticket lock is required in the additional ITSM field screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'} =
+    $Self->{Translation}->{'Decision'}                = 'Approvazione';
+    $Self->{Translation}->{
+        'Defines if a ticket lock is required in the additional ITSM field screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'
+        }
+        =
         'Definisce se è necessario un blocco ticket nella schermata del campo ITSM aggiuntiva dell\'interfaccia agenti (se il ticket non è ancora bloccato, il ticket viene bloccato e l\'agente corrente verrà impostato automaticamente come proprietario).';
-    $Self->{Translation}->{'Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'} =
+    $Self->{Translation}->{
+        'Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'
+        }
+        =
         'Definisce se è necessario un blocco ticket nella schermata decisionale dell\'interfaccia agenti (se il ticket non è ancora bloccato, il ticket viene bloccato e l\'agente corrente verrà impostato automaticamente come proprietario).';
     $Self->{Translation}->{'Defines if the service incident state should be shown during service selection in the agent interface.'} =
         'Definisce se lo stato dell\'incidente del servizio deve essere visualizzato durante la selezione del servizio nell\'interfaccia agenti.';
@@ -147,9 +153,15 @@ sub Data {
         'Mostra un elenco di tutti gli agenti coinvolti su questo ticket, nella schermata del campo ITSM aggiuntiva dell\'interfaccia agenti.';
     $Self->{Translation}->{'Shows a list of all the involved agents on this ticket, in the decision screen of the agent interface.'} =
         'Mostra un elenco di tutti gli agenti coinvolti su questo ticket, nella schermata decisionale dell\'interfaccia agenti.';
-    $Self->{Translation}->{'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the additional ITSM field screen of the agent interface.'} =
+    $Self->{Translation}->{
+        'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the additional ITSM field screen of the agent interface.'
+        }
+        =
         'Mostra un elenco di tutti i possibili agenti (tutti gli agenti con note permessi sulla coda/ticket) per determinare chi deve essere informato di questa nota, nella schermata del campo ITSM aggiuntiva dell\'interfaccia agenti.';
-    $Self->{Translation}->{'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the decision screen of the agent interface.'} =
+    $Self->{Translation}->{
+        'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the decision screen of the agent interface.'
+        }
+        =
         'Mostra un elenco di tutti i possibili agenti (tutti gli agenti con permessi note sulla coda/ticket) per determinare chi deve essere informato di questa nota, nella schermata delle decisioni dell\'interfaccia agenti.';
     $Self->{Translation}->{'Shows the ticket priority options in the additional ITSM field screen of the agent interface.'} =
         'Mostra le opzioni di priorità dei ticket nella schermata del campo ITSM aggiuntiva dell\'interfaccia agenti.';
@@ -161,9 +173,8 @@ sub Data {
         'Mostra i campi del titolo nella schermata decisionale dell\'interfaccia agenti.';
     $Self->{Translation}->{'Ticket decision.'} = 'Decisione del ticket.';
 
-
     push @{ $Self->{JavaScriptStrings} // [] }, (
-    'Service Incident State',
+        'Service Incident State',
     );
 
 }

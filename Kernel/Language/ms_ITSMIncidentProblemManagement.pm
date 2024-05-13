@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -25,34 +25,34 @@ sub Data {
 
     # Template: AgentTicketOverviewMedium
     $Self->{Translation}->{'Criticality'} = 'Kritikal';
-    $Self->{Translation}->{'Impact'} = 'Kesan';
+    $Self->{Translation}->{'Impact'}      = 'Kesan';
 
     # JS Template: ServiceIncidentState
     $Self->{Translation}->{'Service Incident State'} = 'Keadaan Insiden Perkhidmatan';
 
     # Perl Module: Kernel/Output/HTML/FilterElementPost/ITSMIncidentProblemManagement.pm
-    $Self->{Translation}->{'Link ticket'} = 'Pautan tiket';
-    $Self->{Translation}->{'Change Decision of %s%s%s'} = '';
+    $Self->{Translation}->{'Link ticket'}                  = 'Pautan tiket';
+    $Self->{Translation}->{'Change Decision of %s%s%s'}    = '';
     $Self->{Translation}->{'Change ITSM fields of %s%s%s'} = '';
 
     # Perl Module: var/packagesetup/ITSMIncidentProblemManagement.pm
-    $Self->{Translation}->{'Review Required'} = 'kerja semula diperlukan';
-    $Self->{Translation}->{'Decision Result'} = 'Keputusan';
-    $Self->{Translation}->{'Approved'} = 'Diluluskan';
-    $Self->{Translation}->{'Postponed'} = '';
-    $Self->{Translation}->{'Pre-approved'} = '';
-    $Self->{Translation}->{'Rejected'} = '';
-    $Self->{Translation}->{'Repair Start Time'} = 'Perbaiki Masa Mula';
+    $Self->{Translation}->{'Review Required'}     = 'kerja semula diperlukan';
+    $Self->{Translation}->{'Decision Result'}     = 'Keputusan';
+    $Self->{Translation}->{'Approved'}            = 'Diluluskan';
+    $Self->{Translation}->{'Postponed'}           = '';
+    $Self->{Translation}->{'Pre-approved'}        = '';
+    $Self->{Translation}->{'Rejected'}            = '';
+    $Self->{Translation}->{'Repair Start Time'}   = 'Perbaiki Masa Mula';
     $Self->{Translation}->{'Recovery Start Time'} = 'Pemulihan Masa Mula';
-    $Self->{Translation}->{'Decision Date'} = 'Tarikh Keputusan';
-    $Self->{Translation}->{'Due Date'} = 'Tarikh disebabkan';
+    $Self->{Translation}->{'Decision Date'}       = 'Tarikh Keputusan';
+    $Self->{Translation}->{'Due Date'}            = 'Tarikh disebabkan';
 
     # Database XML Definition: ITSMIncidentProblemManagement.sopm
     $Self->{Translation}->{'closed with workaround'} = 'ditutup dengan kerja di sekitar';
 
     # SysConfig
-    $Self->{Translation}->{'Add a decision!'} = 'Tambah keputusan!';
-    $Self->{Translation}->{'Additional ITSM Fields'} = 'Tambahan ITSM Medan';
+    $Self->{Translation}->{'Add a decision!'}                = 'Tambah keputusan!';
+    $Self->{Translation}->{'Additional ITSM Fields'}         = 'Tambahan ITSM Medan';
     $Self->{Translation}->{'Additional ITSM ticket fields.'} = 'tambahan kawasan-kawasan tiket ITSM';
     $Self->{Translation}->{'Allows adding notes in the additional ITSM field screen of the agent interface.'} =
         'Membenarkan penambahan catatan dalam skrin medan ITSM tambahan antara muka ejen.';
@@ -61,10 +61,16 @@ sub Data {
     $Self->{Translation}->{'Allows defining new types for ticket (if ticket type feature is enabled).'} =
         'Membolehkan jenis tiket yang baru didefinasikan (jika fungsi jenis tiket diaktifkan).';
     $Self->{Translation}->{'Change the ITSM fields!'} = 'Ändern der ITSM-Felder!';
-    $Self->{Translation}->{'Decision'} = 'Entscheidung';
-    $Self->{Translation}->{'Defines if a ticket lock is required in the additional ITSM field screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'} =
+    $Self->{Translation}->{'Decision'}                = 'Entscheidung';
+    $Self->{Translation}->{
+        'Defines if a ticket lock is required in the additional ITSM field screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'
+        }
+        =
         'Menentukan jika kunci tiket diperlukan di skrin medan ITSM tambahan antara muka ejen (jika tiket tidak dikunci lagi, tiket menjadi berkunci dan ejen semasa akan disetkan secara automatik sebagai pemiliknya).';
-    $Self->{Translation}->{'Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'} =
+    $Self->{Translation}->{
+        'Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'
+        }
+        =
         'Menentukan jika kunci tiket diperlukan di skrin keputusan antara muka ejen (jika tiket tidak dikunci lagi, tiket menjadi berkunci dan ejen semasa akan disetkan secara automatik sebagai pemiliknya).';
     $Self->{Translation}->{'Defines if the service incident state should be shown during service selection in the agent interface.'} =
         'Mentakrifkan jika keadaan insiden perkhidmatan hendaklah ditunjukkan semasa pemilihan perkhidmatan dalam ruang antara muka ejen.';
@@ -147,9 +153,15 @@ sub Data {
         'Memaparkan senarai semua ejen yang terlibat dalam tiket ini, dalam skrin bidang ITSM tambahan bagi antara muka ejen.';
     $Self->{Translation}->{'Shows a list of all the involved agents on this ticket, in the decision screen of the agent interface.'} =
         'Memaparkan senarai semua ejen yang terlibat dalam tiket ini, dalam skrin keputusan bagi antara muka ejen.';
-    $Self->{Translation}->{'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the additional ITSM field screen of the agent interface.'} =
+    $Self->{Translation}->{
+        'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the additional ITSM field screen of the agent interface.'
+        }
+        =
         'Memaparkan senarai semua kemungkinan ejen ( semua ejen dengan kebenaran nota mengenai barisan / tiket) untuk menentukan siapa yang perlu diberitahu tentang nota ini , dalam skrin bidang ITSM tambahan bagi antara muka ejen.';
-    $Self->{Translation}->{'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the decision screen of the agent interface.'} =
+    $Self->{Translation}->{
+        'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the decision screen of the agent interface.'
+        }
+        =
         'Memaparkan senarai semua kemungkinan ejen (semua ejen dengan kebenaran nota mengenai barisan/tiket) untuk menentukan siapa yang perlu diberitahu tentang nota ini, dalam skrin keputusan bagi antara muka ejen.';
     $Self->{Translation}->{'Shows the ticket priority options in the additional ITSM field screen of the agent interface.'} =
         'Menunjukkan pilihan keutamaan tiket dalam skrin bidang ITSM tambahan bagi antara muka ejen.';
@@ -161,9 +173,8 @@ sub Data {
         'Menunjukkan bidang tajuk dalam skrin keputusan bagi antara muka ejen.';
     $Self->{Translation}->{'Ticket decision.'} = 'keputusan tiket';
 
-
     push @{ $Self->{JavaScriptStrings} // [] }, (
-    'Service Incident State',
+        'Service Incident State',
     );
 
 }

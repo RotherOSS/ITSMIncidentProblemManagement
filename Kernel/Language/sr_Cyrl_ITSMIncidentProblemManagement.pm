@@ -2,7 +2,7 @@
 # OTOBO is a web-based ticketing system for service organisations.
 # --
 # Copyright (C) 2001-2020 OTRS AG, https://otrs.com/
-# Copyright (C) 2019-2021 Rother OSS GmbH, https://otobo.de/
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
 # --
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -25,34 +25,34 @@ sub Data {
 
     # Template: AgentTicketOverviewMedium
     $Self->{Translation}->{'Criticality'} = 'Значај';
-    $Self->{Translation}->{'Impact'} = 'Утицај';
+    $Self->{Translation}->{'Impact'}      = 'Утицај';
 
     # JS Template: ServiceIncidentState
     $Self->{Translation}->{'Service Incident State'} = 'Стање инцидента сервиса';
 
     # Perl Module: Kernel/Output/HTML/FilterElementPost/ITSMIncidentProblemManagement.pm
-    $Self->{Translation}->{'Link ticket'} = 'Повежи тикет';
-    $Self->{Translation}->{'Change Decision of %s%s%s'} = 'Измена одлуке за %s%s%s';
+    $Self->{Translation}->{'Link ticket'}                  = 'Повежи тикет';
+    $Self->{Translation}->{'Change Decision of %s%s%s'}    = 'Измена одлуке за %s%s%s';
     $Self->{Translation}->{'Change ITSM fields of %s%s%s'} = 'Измена ITSM поља за %s%s%s';
 
     # Perl Module: var/packagesetup/ITSMIncidentProblemManagement.pm
-    $Self->{Translation}->{'Review Required'} = 'Обавезна рецензија';
-    $Self->{Translation}->{'Decision Result'} = 'Резултат oдлуке';
-    $Self->{Translation}->{'Approved'} = 'Одобрено';
-    $Self->{Translation}->{'Postponed'} = 'Одложено';
-    $Self->{Translation}->{'Pre-approved'} = 'Унапред одобрено';
-    $Self->{Translation}->{'Rejected'} = 'Одбијено';
-    $Self->{Translation}->{'Repair Start Time'} = 'Време почетка поправке';
+    $Self->{Translation}->{'Review Required'}     = 'Обавезна рецензија';
+    $Self->{Translation}->{'Decision Result'}     = 'Резултат oдлуке';
+    $Self->{Translation}->{'Approved'}            = 'Одобрено';
+    $Self->{Translation}->{'Postponed'}           = 'Одложено';
+    $Self->{Translation}->{'Pre-approved'}        = 'Унапред одобрено';
+    $Self->{Translation}->{'Rejected'}            = 'Одбијено';
+    $Self->{Translation}->{'Repair Start Time'}   = 'Време почетка поправке';
     $Self->{Translation}->{'Recovery Start Time'} = 'Време почетка опоравка';
-    $Self->{Translation}->{'Decision Date'} = 'Датум Одлуке';
-    $Self->{Translation}->{'Due Date'} = 'Рок';
+    $Self->{Translation}->{'Decision Date'}       = 'Датум Одлуке';
+    $Self->{Translation}->{'Due Date'}            = 'Рок';
 
     # Database XML Definition: ITSMIncidentProblemManagement.sopm
     $Self->{Translation}->{'closed with workaround'} = 'затворено са алтернативним решењем';
 
     # SysConfig
-    $Self->{Translation}->{'Add a decision!'} = 'Додај одлуку!';
-    $Self->{Translation}->{'Additional ITSM Fields'} = 'Додатна ITSM поља';
+    $Self->{Translation}->{'Add a decision!'}                = 'Додај одлуку!';
+    $Self->{Translation}->{'Additional ITSM Fields'}         = 'Додатна ITSM поља';
     $Self->{Translation}->{'Additional ITSM ticket fields.'} = 'Додатна ITSM поља тикета.';
     $Self->{Translation}->{'Allows adding notes in the additional ITSM field screen of the agent interface.'} =
         'Дозвољава додавање напомена на екрану додатних ITSM поља у интерфејсу оператера.';
@@ -61,10 +61,16 @@ sub Data {
     $Self->{Translation}->{'Allows defining new types for ticket (if ticket type feature is enabled).'} =
         'Дозвољава дефинисање новог типа тикета (ако је опција типа тикета активирана).';
     $Self->{Translation}->{'Change the ITSM fields!'} = 'Измените ITSM поља!';
-    $Self->{Translation}->{'Decision'} = 'Одлука';
-    $Self->{Translation}->{'Defines if a ticket lock is required in the additional ITSM field screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'} =
+    $Self->{Translation}->{'Decision'}                = 'Одлука';
+    $Self->{Translation}->{
+        'Defines if a ticket lock is required in the additional ITSM field screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'
+        }
+        =
         'Одређује да ли је неопходно закључавање тикета на екрану додатних ITSM поља у интерфејсу оператера (ако тикет још увек није закључан, тикет ће добити статус закључан и тренутни оператер ће бити аутоматски постављен као власник).';
-    $Self->{Translation}->{'Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'} =
+    $Self->{Translation}->{
+        'Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'
+        }
+        =
         'Одређује да ли је неопходно закључавање тикета на екрану одлуке у интерфејсу оператера (ако тикет још увек није закључан, тикет ће добити статус закључан и тренутни оператер ће бити аутоматски постављен као власник).';
     $Self->{Translation}->{'Defines if the service incident state should be shown during service selection in the agent interface.'} =
         'Одређује да ли ће статус инцидента сервиса бити приказан током избора сервиса у интерфејсу оператера.';
@@ -118,7 +124,8 @@ sub Data {
         'Потребне дозволе за употребу екрана додатних ITSM поља у интерфејсу оператера.';
     $Self->{Translation}->{'Required permissions to use the decision screen in the agent interface.'} =
         'Потребне дозволе за употребу екрана одлуке у интерфејсу оператера.';
-    $Self->{Translation}->{'Service Incident State and Priority Calculation'} = 'Прорачун приоритета и стања инцидента сервиса';
+    $Self->{Translation}->{'Service Incident State and Priority Calculation'}
+        = 'Прорачун приоритета и стања инцидента сервиса';
     $Self->{Translation}->{'Sets the service in the additional ITSM field screen of the agent interface (Ticket::Service needs to be activated).'} =
         'Подешава сервис на екрану додатних ITSM поља у интерфејсу оператера (Ticket::Service мора бити активиран).';
     $Self->{Translation}->{'Sets the service in the decision screen of the agent interface (Ticket::Service needs to be activated).'} =
@@ -147,9 +154,15 @@ sub Data {
         'Приказује листу свих укључених оператера на овај тикет на екрану додатних ITSM поља у интерфејсу оператера.';
     $Self->{Translation}->{'Shows a list of all the involved agents on this ticket, in the decision screen of the agent interface.'} =
         'Приказује листу свих укључених оператера на овај тикет на екрану одлуке у интерфејсу оператера.';
-    $Self->{Translation}->{'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the additional ITSM field screen of the agent interface.'} =
+    $Self->{Translation}->{
+        'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the additional ITSM field screen of the agent interface.'
+        }
+        =
         'Приказује листу свих могућих оператера (сви оператери са дозволом за напомену за ред/тикет) ради утврђивања ко треба да буде информисан о овој напомени, на екрану додатних ITSM поља тикета у интерфејсу оператера.';
-    $Self->{Translation}->{'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the decision screen of the agent interface.'} =
+    $Self->{Translation}->{
+        'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the decision screen of the agent interface.'
+        }
+        =
         'Приказује листу свих могућих оператера (сви оператери са дозволом за напомену за ред/тикет) ради утврђивања ко треба да буде информисан о овој напомени, на екрану одлуке тикета у интерфејсу оператера.';
     $Self->{Translation}->{'Shows the ticket priority options in the additional ITSM field screen of the agent interface.'} =
         'Приказује опције приоритета за тикет на екрану додатних ITSM поља у интерфејсу оператера.';
@@ -161,9 +174,8 @@ sub Data {
         'Приказује поља наслова на екрану одлуке у интерфејсу оператера.';
     $Self->{Translation}->{'Ticket decision.'} = 'Одлука тикета.';
 
-
     push @{ $Self->{JavaScriptStrings} // [] }, (
-    'Service Incident State',
+        'Service Incident State',
     );
 
 }
