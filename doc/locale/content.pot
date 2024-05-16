@@ -1,0 +1,933 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) 2019-2024 Rother OSS GmbH, https://otobo.de/
+# This file is distributed under the same license as the OTOBO Installation Guide package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: OTOBO Installation Guide rel-11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-16 09:57+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../../content/index.rst:20
+msgid "Sacrifice to Sphinx"
+msgstr ""
+
+#: ../../content/index.rst:23
+msgid "Description"
+msgstr ""
+
+#: ../../content/index.rst:24
+msgid "The OTOBO::ITSM Incident and Problem Management package."
+msgstr ""
+
+#: ../../content/index.rst:27
+msgid "System requirements"
+msgstr ""
+
+#: ../../content/index.rst:30
+msgid "Framework"
+msgstr ""
+
+#: ../../content/index.rst:31
+msgid "OTOBO 11.0.x"
+msgstr ""
+
+#: ../../content/index.rst:34
+msgid "Packages"
+msgstr ""
+
+#: ../../content/index.rst:35
+msgid "ITSMCore 11.0.1"
+msgstr ""
+
+#: ../../content/index.rst:38
+msgid "Third-party software"
+msgstr ""
+
+#: ../../content/index.rst:39
+msgid "\\-"
+msgstr ""
+
+#: ../../content/index.rst:42
+msgid "Usage"
+msgstr ""
+
+#: ../../content/index.rst:45
+msgid "Setup"
+msgstr ""
+
+#: ../../content/index.rst:48
+msgid "Configuration Reference"
+msgstr ""
+
+#: ../../content/index.rst:51
+msgid "Core::Stats"
+msgstr ""
+
+#: ../../content/index.rst:54
+msgid "Stats::DynamicObjectRegistration###ITSMTicketFirstLevelSolutionRate"
+msgstr ""
+
+#: ../../content/index.rst:55
+msgid "Enables the stats module to generate statistics about the average of ITSM ticket first level solution rate."
+msgstr ""
+
+#: ../../content/index.rst:58
+msgid "Stats::DynamicObjectRegistration###ITSMTicketSolutionTimeAverage"
+msgstr ""
+
+#: ../../content/index.rst:59
+msgid "Enables the stats module to generate statistics about the average of ITSM ticket solution."
+msgstr ""
+
+#: ../../content/index.rst:62
+msgid "Core::Ticket"
+msgstr ""
+
+#: ../../content/index.rst:65
+msgid "Ticket::Type"
+msgstr ""
+
+#: ../../content/index.rst:66
+msgid "Allows defining new types for ticket (if ticket type feature is enabled)."
+msgstr ""
+
+#: ../../content/index.rst:69
+msgid "Core::Ticket::ACL"
+msgstr ""
+
+#: ../../content/index.rst:72
+msgid "ACLKeysLevel3::Actions###100-Default-ITSM"
+msgstr ""
+
+#: ../../content/index.rst:73
+msgid "Defines which items are available for 'Action' in third level of the ACL structure."
+msgstr ""
+
+#: ../../content/index.rst:76
+msgid "Frontend::Agent::ModuleRegistration"
+msgstr ""
+
+#: ../../content/index.rst:79
+msgid "Frontend::Module###AgentTicketAddtlITSMField"
+msgstr ""
+
+#: ../../content/index.rst:80
+#: ../../content/index.rst:84
+#: ../../content/index.rst:88
+msgid "Frontend module registration for the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:83
+msgid "Frontend::Module###AgentTicketDecision"
+msgstr ""
+
+#: ../../content/index.rst:87
+msgid "Frontend::Module###AgentITSMIncidentProblemManagement"
+msgstr ""
+
+#: ../../content/index.rst:91
+msgid "Frontend::Agent::ModuleRegistration::Loader"
+msgstr ""
+
+#: ../../content/index.rst:94
+msgid "Loader::Module::AgentTicketDecision###003-ITSMTicket"
+msgstr ""
+
+#: ../../content/index.rst:95
+#: ../../content/index.rst:99
+#: ../../content/index.rst:103
+#: ../../content/index.rst:107
+#: ../../content/index.rst:111
+#: ../../content/index.rst:115
+#: ../../content/index.rst:119
+#: ../../content/index.rst:123
+#: ../../content/index.rst:127
+#: ../../content/index.rst:131
+#: ../../content/index.rst:135
+msgid "Loader module registration for the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:98
+msgid "Loader::Module::AgentTicketAddtlITSMField###003-ITSMTicket"
+msgstr ""
+
+#: ../../content/index.rst:102
+msgid "Loader::Module::AgentTicketClose###002-TicketITSMTicket"
+msgstr ""
+
+#: ../../content/index.rst:106
+msgid "Loader::Module::AgentTicketFreeText###002-TicketITSMTicket"
+msgstr ""
+
+#: ../../content/index.rst:110
+msgid "Loader::Module::AgentTicketNote###002-TicketITSMTicket"
+msgstr ""
+
+#: ../../content/index.rst:114
+msgid "Loader::Module::AgentTicketOwner###002-TicketITSMTicket"
+msgstr ""
+
+#: ../../content/index.rst:118
+msgid "Loader::Module::AgentTicketPending###002-TicketITSMTicket"
+msgstr ""
+
+#: ../../content/index.rst:122
+msgid "Loader::Module::AgentTicketPriority###002-TicketITSMTicket"
+msgstr ""
+
+#: ../../content/index.rst:126
+msgid "Loader::Module::AgentTicketResponsible###002-TicketITSMTicket"
+msgstr ""
+
+#: ../../content/index.rst:130
+msgid "Loader::Module::AgentTicketPhone###002-TicketITSMTicket"
+msgstr ""
+
+#: ../../content/index.rst:134
+msgid "Loader::Module::AgentTicketEmail###002-TicketITSMTicket"
+msgstr ""
+
+#: ../../content/index.rst:138
+msgid "Frontend::Agent::View::TicketAddtlITSMField"
+msgstr ""
+
+#: ../../content/index.rst:141
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###Permission"
+msgstr ""
+
+#: ../../content/index.rst:142
+msgid "Required permissions to use the additional ITSM field screen in the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:145
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###RequiredLock"
+msgstr ""
+
+#: ../../content/index.rst:146
+msgid "Defines if a ticket lock is required in the additional ITSM field screen of the agent interface (if the ticket isn't locked yet, the ticket gets locked and the current agent will be set automatically as its owner)."
+msgstr ""
+
+#: ../../content/index.rst:149
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###TicketType"
+msgstr ""
+
+#: ../../content/index.rst:150
+msgid "Sets the ticket type in the additional ITSM field screen of the agent interface (Ticket::Type needs to be activated)."
+msgstr ""
+
+#: ../../content/index.rst:153
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###Service"
+msgstr ""
+
+#: ../../content/index.rst:154
+msgid "Sets the service in the additional ITSM field screen of the agent interface (Ticket::Service needs to be activated)."
+msgstr ""
+
+#: ../../content/index.rst:157
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###ServiceMandatory"
+msgstr ""
+
+#: ../../content/index.rst:158
+#: ../../content/index.rst:303
+msgid "Sets if service must be selected by the agent."
+msgstr ""
+
+#: ../../content/index.rst:161
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###SLAMandatory"
+msgstr ""
+
+#: ../../content/index.rst:162
+#: ../../content/index.rst:307
+msgid "Sets if SLA must be selected by the agent."
+msgstr ""
+
+#: ../../content/index.rst:165
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###Queue"
+msgstr ""
+
+#: ../../content/index.rst:166
+msgid "Sets the queue in the ticket responsible screen of a zoomed ticket in the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:169
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###QueueMandatory"
+msgstr ""
+
+#: ../../content/index.rst:170
+#: ../../content/index.rst:315
+msgid "Sets if queue must be selected by the agent."
+msgstr ""
+
+#: ../../content/index.rst:173
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###Owner"
+msgstr ""
+
+#: ../../content/index.rst:174
+msgid "Sets the ticket owner in the additional ITSM field screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:177
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###OwnerMandatory"
+msgstr ""
+
+#: ../../content/index.rst:178
+#: ../../content/index.rst:323
+msgid "Sets if ticket owner must be selected by the agent."
+msgstr ""
+
+#: ../../content/index.rst:181
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###Responsible"
+msgstr ""
+
+#: ../../content/index.rst:182
+msgid "Sets the ticket responsible in the additional ITSM field screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:185
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###ResponsibleMandatory"
+msgstr ""
+
+#: ../../content/index.rst:186
+#: ../../content/index.rst:331
+msgid "Sets if ticket responsible must be selected by the agent."
+msgstr ""
+
+#: ../../content/index.rst:189
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###State"
+msgstr ""
+
+#: ../../content/index.rst:190
+msgid "If a note is added by an agent, sets the state of a ticket in the additional ITSM field screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:193
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###StateMandatory"
+msgstr ""
+
+#: ../../content/index.rst:194
+#: ../../content/index.rst:339
+msgid "Sets if state must be selected by the agent."
+msgstr ""
+
+#: ../../content/index.rst:197
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###StateType"
+msgstr ""
+
+#: ../../content/index.rst:198
+msgid "Defines the next state of a ticket after adding a note, in the additional ITSM field screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:201
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###StateDefault"
+msgstr ""
+
+#: ../../content/index.rst:202
+msgid "Defines the default next state of a ticket after adding a note, in the additional ITSM field screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:205
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###Note"
+msgstr ""
+
+#: ../../content/index.rst:206
+msgid "Allows adding notes in the additional ITSM field screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:209
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###NoteMandatory"
+msgstr ""
+
+#: ../../content/index.rst:210
+#: ../../content/index.rst:355
+msgid "Sets if note must be filled in by the agent. Can be overwritten by Ticket::Frontend::NeedAccountedTime."
+msgstr ""
+
+#: ../../content/index.rst:213
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###Subject"
+msgstr ""
+
+#: ../../content/index.rst:214
+msgid "Defines the default subject of a note in the additional ITSM field screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:217
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###Body"
+msgstr ""
+
+#: ../../content/index.rst:218
+msgid "Defines the default body of a note in the additional ITSM field screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:221
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###InvolvedAgent"
+msgstr ""
+
+#: ../../content/index.rst:222
+msgid "Shows a list of all the involved agents on this ticket, in the additional ITSM field screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:225
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###InformAgent"
+msgstr ""
+
+#: ../../content/index.rst:226
+msgid "Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the additional ITSM field screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:229
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###IsVisibleForCustomerDefault"
+msgstr ""
+
+#: ../../content/index.rst:230
+#: ../../content/index.rst:375
+msgid "Defines if the note in the ticket note screen of the agent interface is visible for the customer by default."
+msgstr ""
+
+#: ../../content/index.rst:233
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###Priority"
+msgstr ""
+
+#: ../../content/index.rst:234
+msgid "Shows the ticket priority options in the additional ITSM field screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:237
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###PriorityDefault"
+msgstr ""
+
+#: ../../content/index.rst:238
+msgid "Defines the default ticket priority in the additional ITSM field screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:241
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###Title"
+msgstr ""
+
+#: ../../content/index.rst:242
+msgid "Shows the title fields in the additional ITSM field screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:245
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###FormDraft"
+msgstr ""
+
+#: ../../content/index.rst:246
+#: ../../content/index.rst:391
+msgid "Allows to save current work as draft in the ticket note screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:249
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###HistoryType"
+msgstr ""
+
+#: ../../content/index.rst:250
+msgid "Defines the history type for the additional ITSM field screen action, which gets used for ticket history."
+msgstr ""
+
+#: ../../content/index.rst:253
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###HistoryComment"
+msgstr ""
+
+#: ../../content/index.rst:254
+msgid "Defines the history comment for the additional ITSM field screen action, which gets used for ticket history."
+msgstr ""
+
+#: ../../content/index.rst:257
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###DynamicField"
+msgstr ""
+
+#: ../../content/index.rst:258
+msgid "Dynamic fields shown in the additional ITSM field screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:261
+msgid "Ticket::Frontend::AgentTicketAddtlITSMField###ShowIncidentState"
+msgstr ""
+
+#: ../../content/index.rst:262
+#: ../../content/index.rst:269
+#: ../../content/index.rst:407
+#: ../../content/index.rst:414
+#: ../../content/index.rst:425
+#: ../../content/index.rst:432
+#: ../../content/index.rst:439
+#: ../../content/index.rst:446
+#: ../../content/index.rst:453
+#: ../../content/index.rst:471
+#: ../../content/index.rst:490
+msgid "Defines if the service incident state should be shown during service selection in the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:265
+msgid "Frontend::Agent::View::TicketClose"
+msgstr ""
+
+#: ../../content/index.rst:268
+msgid "Ticket::Frontend::AgentTicketClose###ShowIncidentState"
+msgstr ""
+
+#: ../../content/index.rst:272
+msgid "Ticket::Frontend::AgentTicketClose###DynamicField"
+msgstr ""
+
+#: ../../content/index.rst:273
+msgid "Dynamic fields shown in the ticket close screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:276
+msgid "Frontend::Agent::View::TicketCompose"
+msgstr ""
+
+#: ../../content/index.rst:279
+msgid "Ticket::Frontend::AgentTicketCompose###DynamicField"
+msgstr ""
+
+#: ../../content/index.rst:280
+msgid "Dynamic fields shown in the ticket compose screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:283
+msgid "Frontend::Agent::View::TicketDecision"
+msgstr ""
+
+#: ../../content/index.rst:286
+msgid "Ticket::Frontend::AgentTicketDecision###Permission"
+msgstr ""
+
+#: ../../content/index.rst:287
+msgid "Required permissions to use the decision screen in the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:290
+msgid "Ticket::Frontend::AgentTicketDecision###RequiredLock"
+msgstr ""
+
+#: ../../content/index.rst:291
+msgid "Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn't locked yet, the ticket gets locked and the current agent will be set automatically as its owner)."
+msgstr ""
+
+#: ../../content/index.rst:294
+msgid "Ticket::Frontend::AgentTicketDecision###TicketType"
+msgstr ""
+
+#: ../../content/index.rst:295
+msgid "Sets the ticket type in the decision screen of the agent interface (Ticket::Type needs to be activated)."
+msgstr ""
+
+#: ../../content/index.rst:298
+msgid "Ticket::Frontend::AgentTicketDecision###Service"
+msgstr ""
+
+#: ../../content/index.rst:299
+msgid "Sets the service in the decision screen of the agent interface (Ticket::Service needs to be activated)."
+msgstr ""
+
+#: ../../content/index.rst:302
+msgid "Ticket::Frontend::AgentTicketDecision###ServiceMandatory"
+msgstr ""
+
+#: ../../content/index.rst:306
+msgid "Ticket::Frontend::AgentTicketDecision###SLAMandatory"
+msgstr ""
+
+#: ../../content/index.rst:310
+msgid "Ticket::Frontend::AgentTicketDecision###Queue"
+msgstr ""
+
+#: ../../content/index.rst:311
+msgid "Sets the queue in the ticket note screen of a zoomed ticket in the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:314
+msgid "Ticket::Frontend::AgentTicketDecision###QueueMandatory"
+msgstr ""
+
+#: ../../content/index.rst:318
+msgid "Ticket::Frontend::AgentTicketDecision###Owner"
+msgstr ""
+
+#: ../../content/index.rst:319
+msgid "Sets the ticket owner in the decision screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:322
+msgid "Ticket::Frontend::AgentTicketDecision###OwnerMandatory"
+msgstr ""
+
+#: ../../content/index.rst:326
+msgid "Ticket::Frontend::AgentTicketDecision###Responsible"
+msgstr ""
+
+#: ../../content/index.rst:327
+msgid "Sets the ticket responsible in the decision screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:330
+msgid "Ticket::Frontend::AgentTicketDecision###ResponsibleMandatory"
+msgstr ""
+
+#: ../../content/index.rst:334
+msgid "Ticket::Frontend::AgentTicketDecision###State"
+msgstr ""
+
+#: ../../content/index.rst:335
+msgid "If a note is added by an agent, sets the state of a ticket in the decision screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:338
+msgid "Ticket::Frontend::AgentTicketDecision###StateMandatory"
+msgstr ""
+
+#: ../../content/index.rst:342
+msgid "Ticket::Frontend::AgentTicketDecision###StateType"
+msgstr ""
+
+#: ../../content/index.rst:343
+msgid "Defines the next state of a ticket after adding a note, in the decision screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:346
+msgid "Ticket::Frontend::AgentTicketDecision###StateDefault"
+msgstr ""
+
+#: ../../content/index.rst:347
+msgid "Defines the default next state of a ticket after adding a note, in the decision screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:350
+msgid "Ticket::Frontend::AgentTicketDecision###Note"
+msgstr ""
+
+#: ../../content/index.rst:351
+msgid "Allows adding notes in the decision screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:354
+msgid "Ticket::Frontend::AgentTicketDecision###NoteMandatory"
+msgstr ""
+
+#: ../../content/index.rst:358
+msgid "Ticket::Frontend::AgentTicketDecision###Subject"
+msgstr ""
+
+#: ../../content/index.rst:359
+msgid "Defines the default subject of a note in the decision screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:362
+msgid "Ticket::Frontend::AgentTicketDecision###Body"
+msgstr ""
+
+#: ../../content/index.rst:363
+msgid "Defines the default body of a note in the decision screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:366
+msgid "Ticket::Frontend::AgentTicketDecision###InvolvedAgent"
+msgstr ""
+
+#: ../../content/index.rst:367
+msgid "Shows a list of all the involved agents on this ticket, in the decision screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:370
+msgid "Ticket::Frontend::AgentTicketDecision###InformAgent"
+msgstr ""
+
+#: ../../content/index.rst:371
+msgid "Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the decision screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:374
+msgid "Ticket::Frontend::AgentTicketDecision###IsVisibleForCustomerDefault"
+msgstr ""
+
+#: ../../content/index.rst:378
+msgid "Ticket::Frontend::AgentTicketDecision###Priority"
+msgstr ""
+
+#: ../../content/index.rst:379
+msgid "Shows the ticket priority options in the decision screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:382
+msgid "Ticket::Frontend::AgentTicketDecision###PriorityDefault"
+msgstr ""
+
+#: ../../content/index.rst:383
+msgid "Defines the default ticket priority in the decision screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:386
+msgid "Ticket::Frontend::AgentTicketDecision###Title"
+msgstr ""
+
+#: ../../content/index.rst:387
+msgid "Shows the title fields in the decision screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:390
+msgid "Ticket::Frontend::AgentTicketDecision###FormDraft"
+msgstr ""
+
+#: ../../content/index.rst:394
+msgid "Ticket::Frontend::AgentTicketDecision###HistoryType"
+msgstr ""
+
+#: ../../content/index.rst:395
+msgid "Defines the history type for the decision screen action, which gets used for ticket history."
+msgstr ""
+
+#: ../../content/index.rst:398
+msgid "Ticket::Frontend::AgentTicketDecision###HistoryComment"
+msgstr ""
+
+#: ../../content/index.rst:399
+msgid "Defines the history comment for the decision screen action, which gets used for ticket history."
+msgstr ""
+
+#: ../../content/index.rst:402
+msgid "Ticket::Frontend::AgentTicketDecision###DynamicField"
+msgstr ""
+
+#: ../../content/index.rst:403
+msgid "Dynamic fields shown in the decision screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:406
+msgid "Ticket::Frontend::AgentTicketDecision###ShowIncidentState"
+msgstr ""
+
+#: ../../content/index.rst:410
+msgid "Frontend::Agent::View::TicketEmailNew"
+msgstr ""
+
+#: ../../content/index.rst:413
+msgid "Ticket::Frontend::AgentTicketEmail###ShowIncidentState"
+msgstr ""
+
+#: ../../content/index.rst:417
+msgid "Ticket::Frontend::AgentTicketEmail###DynamicField"
+msgstr ""
+
+#: ../../content/index.rst:418
+msgid "Dynamic fields shown in the ticket email screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:421
+msgid "Frontend::Agent::View::TicketFreeText"
+msgstr ""
+
+#: ../../content/index.rst:424
+msgid "Ticket::Frontend::AgentTicketFreeText###ShowIncidentState"
+msgstr ""
+
+#: ../../content/index.rst:428
+msgid "Frontend::Agent::View::TicketNote"
+msgstr ""
+
+#: ../../content/index.rst:431
+msgid "Ticket::Frontend::AgentTicketNote###ShowIncidentState"
+msgstr ""
+
+#: ../../content/index.rst:435
+msgid "Frontend::Agent::View::TicketOwner"
+msgstr ""
+
+#: ../../content/index.rst:438
+msgid "Ticket::Frontend::AgentTicketOwner###ShowIncidentState"
+msgstr ""
+
+#: ../../content/index.rst:442
+msgid "Frontend::Agent::View::TicketPending"
+msgstr ""
+
+#: ../../content/index.rst:445
+msgid "Ticket::Frontend::AgentTicketPending###ShowIncidentState"
+msgstr ""
+
+#: ../../content/index.rst:449
+msgid "Frontend::Agent::View::TicketPhoneNew"
+msgstr ""
+
+#: ../../content/index.rst:452
+msgid "Ticket::Frontend::AgentTicketPhone###ShowIncidentState"
+msgstr ""
+
+#: ../../content/index.rst:456
+msgid "Ticket::Frontend::AgentTicketPhone###DynamicField"
+msgstr ""
+
+#: ../../content/index.rst:457
+msgid "Dynamic fields shown in the ticket phone screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:460
+msgid "Frontend::Agent::View::TicketPrint"
+msgstr ""
+
+#: ../../content/index.rst:463
+msgid "Ticket::Frontend::AgentTicketPrint###DynamicField"
+msgstr ""
+
+#: ../../content/index.rst:464
+msgid "Dynamic fields shown in the ticket print screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:467
+msgid "Frontend::Agent::View::TicketPriority"
+msgstr ""
+
+#: ../../content/index.rst:470
+msgid "Ticket::Frontend::AgentTicketPriority###ShowIncidentState"
+msgstr ""
+
+#: ../../content/index.rst:474
+msgid "Ticket::Frontend::AgentTicketPriority###DynamicField"
+msgstr ""
+
+#: ../../content/index.rst:475
+msgid "Dynamic fields shown in the ticket priority screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:478
+msgid "Ticket::Frontend::AgentTicketPriority###TicketType"
+msgstr ""
+
+#: ../../content/index.rst:479
+msgid "Sets the ticket type in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Type needs to be activated)."
+msgstr ""
+
+#: ../../content/index.rst:482
+msgid "Ticket::Frontend::AgentTicketPriority###Service"
+msgstr ""
+
+#: ../../content/index.rst:483
+msgid "Sets the service in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Service needs to be activated)."
+msgstr ""
+
+#: ../../content/index.rst:486
+msgid "Frontend::Agent::View::TicketResponsible"
+msgstr ""
+
+#: ../../content/index.rst:489
+msgid "Ticket::Frontend::AgentTicketResponsible###ShowIncidentState"
+msgstr ""
+
+#: ../../content/index.rst:493
+msgid "Frontend::Agent::View::TicketSearch"
+msgstr ""
+
+#: ../../content/index.rst:496
+msgid "Ticket::Frontend::AgentTicketSearch###DynamicField"
+msgstr ""
+
+#: ../../content/index.rst:497
+msgid "Dynamic fields shown in the ticket search screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:500
+msgid "Frontend::Agent::View::TicketZoom"
+msgstr ""
+
+#: ../../content/index.rst:503
+msgid "Ticket::Frontend::AgentTicketZoom###DynamicField"
+msgstr ""
+
+#: ../../content/index.rst:504
+msgid "Dynamic fields shown in the ticket zoom screen of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:507
+msgid "Frontend::Agent::View::TicketZoom::MenuModule"
+msgstr ""
+
+#: ../../content/index.rst:510
+msgid "Ticket::Frontend::MenuModule###315-AddtlITSMField"
+msgstr ""
+
+#: ../../content/index.rst:511
+msgid "Shows a link in the menu to modify additional ITSM fields in the ticket zoom view of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:514
+msgid "Ticket::Frontend::MenuModule###420-Decision"
+msgstr ""
+
+#: ../../content/index.rst:515
+msgid "Shows a link in the menu to change the decision of a ticket in its zoom view of the agent interface."
+msgstr ""
+
+#: ../../content/index.rst:518
+msgid "Frontend::Base::OutputFilter"
+msgstr ""
+
+#: ../../content/index.rst:521
+msgid "Frontend::Output::FilterElementPost###ITSMIncidentProblemManagement"
+msgstr ""
+
+#: ../../content/index.rst:522
+msgid "Modifies the display order of the dynamic field ITSMImpact and other things."
+msgstr ""
+
+#: ../../content/index.rst:525
+msgid "Frontend::Customer::View::TicketPrint"
+msgstr ""
+
+#: ../../content/index.rst:528
+msgid "Ticket::Frontend::CustomerTicketPrint###DynamicField"
+msgstr ""
+
+#: ../../content/index.rst:529
+msgid "Dynamic fields shown in the ticket print screen of the customer interface."
+msgstr ""
+
+#: ../../content/index.rst:532
+msgid "Frontend::Customer::View::TicketZoom"
+msgstr ""
+
+#: ../../content/index.rst:535
+msgid "Ticket::Frontend::CustomerTicketZoom###DynamicField"
+msgstr ""
+
+#: ../../content/index.rst:536
+msgid "Dynamic fields shown in the ticket zoom screen of the customer interface."
+msgstr ""
+
+#: ../../content/index.rst:539
+msgid "About"
+msgstr ""
+
+#: ../../content/index.rst:542
+msgid "Contact"
+msgstr ""
+
+#: ../../content/index.rst:543
+msgid "Rother OSS GmbH"
+msgstr ""
+
+#: ../../content/index.rst:544
+msgid "Email: hello@otobo.de"
+msgstr ""
+
+#: ../../content/index.rst:545
+msgid "Web: https://otobo.de"
+msgstr ""
+
+#: ../../content/index.rst:548
+msgid "Version"
+msgstr ""
+
+#: ../../content/index.rst:549
+msgid "Author: |doc-vendor| / Version: |doc-version| / Date of release: |doc-datestamp|"
+msgstr ""
+

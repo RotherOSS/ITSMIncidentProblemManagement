@@ -4,8 +4,7 @@ msgstr ""
 "POT-Creation-Date: 2019-06-25 12:26+0000\n"
 "PO-Revision-Date: 2022-12-15 17:07+0000\n"
 "Last-Translator: Yasen Arsov <jarsov@gmail.com>\n"
-"Language-Team: Bulgarian <https://translate.otobo.org/projects/otobo10/"
-"itsmincidentproblemmanagement/bg/>\n"
+"Language-Team: Bulgarian <https://translate.otobo.org/projects/otobo10/itsmincidentproblemmanagement/bg/>\n"
 "Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -95,9 +94,7 @@ msgstr "Допълнителни ITSM полета за билети."
 
 #. SysConfig
 msgid "Allows adding notes in the additional ITSM field screen of the agent interface."
-msgstr ""
-"Позволява добавяне на бележки в допълнителния екран на ITSM поле на "
-"интерфейса на агента."
+msgstr "Позволява добавяне на бележки в допълнителния екран на ITSM поле на интерфейса на агента."
 
 #. SysConfig
 msgid "Allows adding notes in the decision screen of the agent interface."
@@ -105,9 +102,7 @@ msgstr "Позволява добавяне на бележки в екрана 
 
 #. SysConfig
 msgid "Allows defining new types for ticket (if ticket type feature is enabled)."
-msgstr ""
-"Позволява дефиниране на нови типове за билет (ако функцията за тип билет е "
-"активирана)."
+msgstr "Позволява дефиниране на нови типове за билет (ако функцията за тип билет е активирана)."
 
 #. SysConfig
 msgid "Change the ITSM fields!"
@@ -119,113 +114,75 @@ msgstr "Решение"
 
 #. SysConfig
 msgid "Defines if a ticket lock is required in the additional ITSM field screen of the agent interface (if the ticket isn't locked yet, the ticket gets locked and the current agent will be set automatically as its owner)."
-msgstr ""
-"Определя дали е необходимо заключване на билет в допълнителния екран на ITSM "
-"поле на интерфейса на агента (ако билетът все още не е заключен, билетът се "
-"заключва и текущият агент ще бъде зададен автоматично като негов собственик)."
+msgstr "Определя дали е необходимо заключване на билет в допълнителния екран на ITSM поле на интерфейса на агента (ако билетът все още не е заключен, билетът се заключва и текущият агент ще бъде зададен автоматично като негов собственик)."
 
 #. SysConfig
 msgid "Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn't locked yet, the ticket gets locked and the current agent will be set automatically as its owner)."
-msgstr ""
-"Определя дали е необходимо заключване на билет в екрана за решение на "
-"интерфейса на агента (ако билетът все още не е заключен, той се заключва и "
-"текущият агент ще бъде зададен автоматично като негов собственик)."
+msgstr "Определя дали е необходимо заключване на билет в екрана за решение на интерфейса на агента (ако билетът все още не е заключен, той се заключва и текущият агент ще бъде зададен автоматично като негов собственик)."
 
 #. SysConfig
 msgid "Defines if the service incident state should be shown during service selection in the agent interface."
-msgstr ""
-"Определя дали състоянието на инцидента на услугата трябва да се показва по "
-"време на избор на услуга в интерфейса на агента."
+msgstr "Определя дали състоянието на инцидента на услугата трябва да се показва по време на избор на услуга в интерфейса на агента."
 
 #. SysConfig
 msgid "Defines the default body of a note in the additional ITSM field screen of the agent interface."
-msgstr ""
-"Дефинира основния текст на бележката по подразбиране в екрана на "
-"допълнителното ITSM поле на интерфейса на агента."
+msgstr "Дефинира основния текст на бележката по подразбиране в екрана на допълнителното ITSM поле на интерфейса на агента."
 
 #. SysConfig
 msgid "Defines the default body of a note in the decision screen of the agent interface."
-msgstr ""
-"Дефинира тялото по подразбиране на бележка в екрана за вземане на решения на "
-"интерфейса на агента."
+msgstr "Дефинира тялото по подразбиране на бележка в екрана за вземане на решения на интерфейса на агента."
 
 #. SysConfig
 msgid "Defines the default next state of a ticket after adding a note, in the additional ITSM field screen of the agent interface."
-msgstr ""
-"Дефинира следващото състояние по подразбиране на билет след добавяне на "
-"бележка в допълнителния екран на ITSM полето на интерфейса на агента."
+msgstr "Дефинира следващото състояние по подразбиране на билет след добавяне на бележка в допълнителния екран на ITSM полето на интерфейса на агента."
 
 #. SysConfig
 msgid "Defines the default next state of a ticket after adding a note, in the decision screen of the agent interface."
-msgstr ""
-"Дефинира следващото състояние по подразбиране на билет след добавяне на "
-"бележка в екрана за решение на интерфейса на агента."
+msgstr "Дефинира следващото състояние по подразбиране на билет след добавяне на бележка в екрана за решение на интерфейса на агента."
 
 #. SysConfig
 msgid "Defines the default subject of a note in the additional ITSM field screen of the agent interface."
-msgstr ""
-"Дефинира темата по подразбиране на бележка в допълнителния екран на ITSM "
-"полето на интерфейса на агента."
+msgstr "Дефинира темата по подразбиране на бележка в допълнителния екран на ITSM полето на интерфейса на агента."
 
 #. SysConfig
 msgid "Defines the default subject of a note in the decision screen of the agent interface."
-msgstr ""
-"Определя темата по подразбиране на бележка в екрана за решение на интерфейса "
-"на агента."
+msgstr "Определя темата по подразбиране на бележка в екрана за решение на интерфейса на агента."
 
 #. SysConfig
 msgid "Defines the default ticket priority in the additional ITSM field screen of the agent interface."
-msgstr ""
-"Определя приоритета на билета по подразбиране в екрана на допълнителното "
-"ITSM поле на интерфейса на агента."
+msgstr "Определя приоритета на билета по подразбиране в екрана на допълнителното ITSM поле на интерфейса на агента."
 
 #. SysConfig
 msgid "Defines the default ticket priority in the decision screen of the agent interface."
-msgstr ""
-"Определя приоритета на билета по подразбиране в екрана за решение на "
-"интерфейса на агента."
+msgstr "Определя приоритета на билета по подразбиране в екрана за решение на интерфейса на агента."
 
 #. SysConfig
 msgid "Defines the history comment for the additional ITSM field screen action, which gets used for ticket history."
-msgstr ""
-"Дефинира коментара за историята за допълнителното действие на екрана на "
-"полето ITSM, което се използва за хронология на билети."
+msgstr "Дефинира коментара за историята за допълнителното действие на екрана на полето ITSM, което се използва за хронология на билети."
 
 #. SysConfig
 msgid "Defines the history comment for the decision screen action, which gets used for ticket history."
-msgstr ""
-"Дефинира коментара за историята за действието на екрана за решение, който се "
-"използва за хронологията на тикетите."
+msgstr "Дефинира коментара за историята за действието на екрана за решение, който се използва за хронологията на тикетите."
 
 #. SysConfig
 msgid "Defines the history type for the additional ITSM field screen action, which gets used for ticket history."
-msgstr ""
-"Дефинира типа на хронологията за допълнителното действие на екрана на полето "
-"ITSM, което се използва за хронология на билети."
+msgstr "Дефинира типа на хронологията за допълнителното действие на екрана на полето ITSM, което се използва за хронология на билети."
 
 #. SysConfig
 msgid "Defines the history type for the decision screen action, which gets used for ticket history."
-msgstr ""
-"Определя типа на историята за действието на екрана за решение, което се "
-"използва за хронология на билети."
+msgstr "Определя типа на историята за действието на екрана за решение, което се използва за хронология на билети."
 
 #. SysConfig
 msgid "Defines the next state of a ticket after adding a note, in the additional ITSM field screen of the agent interface."
-msgstr ""
-"Определя следващото състояние на билета след добавяне на бележка в екрана на "
-"допълнителното ITSM поле на интерфейса на агента."
+msgstr "Определя следващото състояние на билета след добавяне на бележка в екрана на допълнителното ITSM поле на интерфейса на агента."
 
 #. SysConfig
 msgid "Defines the next state of a ticket after adding a note, in the decision screen of the agent interface."
-msgstr ""
-"Определя следващото състояние на билет след добавяне на бележка в екрана за "
-"Решение на интерфейса на агента."
+msgstr "Определя следващото състояние на билет след добавяне на бележка в екрана за Решение на интерфейса на агента."
 
 #. SysConfig
 msgid "Dynamic fields shown in the additional ITSM field screen of the agent interface."
-msgstr ""
-"Динамични полета, показани в допълнителния екран на ITSM поле на интерфейса "
-"на агента."
+msgstr "Динамични полета, показани в допълнителния екран на ITSM поле на интерфейса на агента."
 
 #. SysConfig
 msgid "Dynamic fields shown in the decision screen of the agent interface."
@@ -233,33 +190,23 @@ msgstr "Динамични полета, показани в екрана за �
 
 #. SysConfig
 msgid "Dynamic fields shown in the ticket zoom screen of the agent interface."
-msgstr ""
-"Динамични полета, показани в екрана за увеличение на билета в интерфейса на "
-"агента."
+msgstr "Динамични полета, показани в екрана за увеличение на билета в интерфейса на агента."
 
 #. SysConfig
 msgid "Enables the stats module to generate statistics about the average of ITSM ticket first level solution rate."
-msgstr ""
-"Позволява на модула за статистика да генерира статистически данни за "
-"средната скорост на решение от първо ниво на ITSM билет."
+msgstr "Позволява на модула за статистика да генерира статистически данни за средната скорост на решение от първо ниво на ITSM билет."
 
 #. SysConfig
 msgid "Enables the stats module to generate statistics about the average of ITSM ticket solution."
-msgstr ""
-"Позволява на модула за статистика да генерира статистика за средната "
-"стойност на решението за ITSM тикет."
+msgstr "Позволява на модула за статистика да генерира статистика за средната стойност на решението за ITSM тикет."
 
 #. SysConfig
 msgid "If a note is added by an agent, sets the state of a ticket in the additional ITSM field screen of the agent interface."
-msgstr ""
-"Ако бележка е добавена от агент, задава състоянието на билета в екрана на "
-"допълнително поле ITSM от интерфейса на агента."
+msgstr "Ако бележка е добавена от агент, задава състоянието на билета в екрана на допълнително поле ITSM от интерфейса на агента."
 
 #. SysConfig
 msgid "If a note is added by an agent, sets the state of a ticket in the decision screen of the agent interface."
-msgstr ""
-"Ако бележка е добавена от агент, задава състоянието на билета в екрана за "
-"решение от интерфейса на агента."
+msgstr "Ако бележка е добавена от агент, задава състоянието на билета в екрана за решение от интерфейса на агента."
 
 #. SysConfig
 msgid "Modifies the display order of the dynamic field ITSMImpact and other things."
@@ -267,20 +214,15 @@ msgstr "Променя реда на показване на динамично�
 
 #. SysConfig
 msgid "Module to dynamically show the service incident state and to calculate the priority."
-msgstr ""
-"Модул за динамично показване състоянието на инцидента в услугата и за "
-"изчисляване на приоритета."
+msgstr "Модул за динамично показване състоянието на инцидента в услугата и за изчисляване на приоритета."
 
 #. SysConfig
 msgid "Required permissions to use the additional ITSM field screen in the agent interface."
-msgstr ""
-"Необходими права за използване на допълнителния екран от ITSM поле в "
-"интерфейса на агента."
+msgstr "Необходими права за използване на допълнителния екран от ITSM поле в интерфейса на агента."
 
 #. SysConfig
 msgid "Required permissions to use the decision screen in the agent interface."
-msgstr ""
-"Необходими права за използване екрана за решение в интерфейса на агента."
+msgstr "Необходими права за използване екрана за решение в интерфейса на агента."
 
 #. SysConfig
 msgid "Service Incident State and Priority Calculation"
@@ -288,38 +230,27 @@ msgstr "Състояние на инцидент от услугата и изч
 
 #. SysConfig
 msgid "Sets the service in the additional ITSM field screen of the agent interface (Ticket::Service needs to be activated)."
-msgstr ""
-"Задава услугата в допълнителния екран на полето ITSM от интерфейса на агента "
-"(Ticket::Service трябва да бъде активиран)."
+msgstr "Задава услугата в допълнителния екран на полето ITSM от интерфейса на агента (Ticket::Service трябва да бъде активиран)."
 
 #. SysConfig
 msgid "Sets the service in the decision screen of the agent interface (Ticket::Service needs to be activated)."
-msgstr ""
-"Задава услугата в екрана за решение от интерфейса на агента (Ticket::Service "
-"трябва да бъде активиран)."
+msgstr "Задава услугата в екрана за решение от интерфейса на агента (Ticket::Service трябва да бъде активиран)."
 
 #. SysConfig
 msgid "Sets the service in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Service needs to be activated)."
-msgstr ""
-"Задава услугата в екрана с приоритет на билета за увеличен билет в "
-"интерфейса на агента (Ticket::Service трябва да бъде активиран)."
+msgstr "Задава услугата в екрана с приоритет на билета за увеличен билет в интерфейса на агента (Ticket::Service трябва да бъде активиран)."
 
 #. SysConfig
 msgid "Sets the ticket owner in the additional ITSM field screen of the agent interface."
-msgstr ""
-"Задава собственика на билета в допълнителния екран на ITSM полето от "
-"интерфейса на агента."
+msgstr "Задава собственика на билета в допълнителния екран на ITSM полето от интерфейса на агента."
 
 #. SysConfig
 msgid "Sets the ticket owner in the decision screen of the agent interface."
-msgstr ""
-"Задава собственика на билета в екрана за решение от интерфейса на агента."
+msgstr "Задава собственика на билета в екрана за решение от интерфейса на агента."
 
 #. SysConfig
 msgid "Sets the ticket responsible in the additional ITSM field screen of the agent interface."
-msgstr ""
-"Задава отговорния за билет в допълнителния екран на ITSM полето от "
-"интерфейса на агента."
+msgstr "Задава отговорния за билет в допълнителния екран на ITSM полето от интерфейса на агента."
 
 #. SysConfig
 msgid "Sets the ticket responsible in the decision screen of the agent interface."
@@ -327,83 +258,425 @@ msgstr "Задава отговорния за билет в екрана за �
 
 #. SysConfig
 msgid "Sets the ticket type in the additional ITSM field screen of the agent interface (Ticket::Type needs to be activated)."
-msgstr ""
-"Задава типа билет в допълнителния екран на ITSM полето от интерфейса на "
-"агента (Ticket::Type трябва да бъде активиран)."
+msgstr "Задава типа билет в допълнителния екран на ITSM полето от интерфейса на агента (Ticket::Type трябва да бъде активиран)."
 
 #. SysConfig
 msgid "Sets the ticket type in the decision screen of the agent interface (Ticket::Type needs to be activated)."
-msgstr ""
-"Задава типа билет в екрана за решение от интерфейса на агента (Ticket::Type "
-"трябва да бъде активиран)."
+msgstr "Задава типа билет в екрана за решение от интерфейса на агента (Ticket::Type трябва да бъде активиран)."
 
 #. SysConfig
 msgid "Sets the ticket type in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Type needs to be activated)."
-msgstr ""
-"Задава типа билет в екрана с приоритет на билета за увеличен билет в "
-"интерфейса на агента (Ticket::Type трябва да бъде активиран)."
+msgstr "Задава типа билет в екрана с приоритет на билета за увеличен билет в интерфейса на агента (Ticket::Type трябва да бъде активиран)."
 
 #. SysConfig
 msgid "Shows a link in the menu to change the decision of a ticket in its zoom view of the agent interface."
-msgstr ""
-"Показва връзка в менюто за промяна на решението за билет в неговия увеличен "
-"изглед от интерфейса на агента."
+msgstr "Показва връзка в менюто за промяна на решението за билет в неговия увеличен изглед от интерфейса на агента."
 
 #. SysConfig
 msgid "Shows a link in the menu to modify additional ITSM fields in the ticket zoom view of the agent interface."
-msgstr ""
-"Показва връзка в менюто за модифициране на допълнителни ITSM полета в "
-"изгледа за увеличение на билета от интерфейса на агента."
+msgstr "Показва връзка в менюто за модифициране на допълнителни ITSM полета в изгледа за увеличение на билета от интерфейса на агента."
 
 #. SysConfig
 msgid "Shows a list of all the involved agents on this ticket, in the additional ITSM field screen of the agent interface."
-msgstr ""
-"Показва списък на всички включени агенти в този билет в допълнителния екран "
-"на ITSM полето от интерфейса на агента."
+msgstr "Показва списък на всички включени агенти в този билет в допълнителния екран на ITSM полето от интерфейса на агента."
 
 #. SysConfig
 msgid "Shows a list of all the involved agents on this ticket, in the decision screen of the agent interface."
-msgstr ""
-"Показва списък на всички включени агенти в този билет в екрана за решение от "
-"интерфейса на агента."
+msgstr "Показва списък на всички включени агенти в този билет в екрана за решение от интерфейса на агента."
 
 #. SysConfig
 msgid "Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the additional ITSM field screen of the agent interface."
-msgstr ""
-"Показва списък с всички възможни агенти (всички агенти с разрешения за "
-"бележки в опашката/билета), за да определи кой трябва да бъде информиран за "
-"тази бележка, в допълнителния екран на ITSM поле от интерфейса на агента."
+msgstr "Показва списък с всички възможни агенти (всички агенти с разрешения за бележки в опашката/билета), за да определи кой трябва да бъде информиран за тази бележка, в допълнителния екран на ITSM поле от интерфейса на агента."
 
 #. SysConfig
 msgid "Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the decision screen of the agent interface."
-msgstr ""
-"Показва списък с всички възможни агенти (всички агенти с разрешения за "
-"бележка в опашката/билета), за да определи кой трябва да бъде информиран за "
-"тази бележка в екрана за решение на интерфейса на агента."
+msgstr "Показва списък с всички възможни агенти (всички агенти с разрешения за бележка в опашката/билета), за да определи кой трябва да бъде информиран за тази бележка в екрана за решение на интерфейса на агента."
 
 #. SysConfig
 msgid "Shows the ticket priority options in the additional ITSM field screen of the agent interface."
-msgstr ""
-"Показва опциите за приоритет на билета в допълнителния екран на ITSM полето "
-"от интерфейса на агента."
+msgstr "Показва опциите за приоритет на билета в допълнителния екран на ITSM полето от интерфейса на агента."
 
 #. SysConfig
 msgid "Shows the ticket priority options in the decision screen of the agent interface."
-msgstr ""
-"Показва опциите за приоритет на билета в екрана за решение от интерфейса на "
-"агента."
+msgstr "Показва опциите за приоритет на билета в екрана за решение от интерфейса на агента."
 
 #. SysConfig
 msgid "Shows the title fields in the additional ITSM field screen of the agent interface."
-msgstr ""
-"Показва полетата за заглавие в допълнителния екран на ITSM поле от "
-"интерфейса на агента."
+msgstr "Показва полетата за заглавие в допълнителния екран на ITSM поле от интерфейса на агента."
 
 #. SysConfig
 msgid "Shows the title fields in the decision screen of the agent interface."
-msgstr ""
-"Показва полетата за заглавие в екрана за решение от интерфейса на агента."
+msgstr "Показва полетата за заглавие в екрана за решение от интерфейса на агента."
 
 #. SysConfig
 msgid "Ticket decision."
 msgstr "Решение за билет."
+
+#. SysConfig
+msgid "A precentage value of the minimal translation progress per language, to be usable for documentations."
+msgstr ""
+
+#. SysConfig
+msgid "Access repos via http or https."
+msgstr ""
+
+#. SysConfig
+msgid "Autoloading of Znuny4OTRSRepo extensions."
+msgstr ""
+
+#. SysConfig
+msgid "Backend module registration for the config conflict check module."
+msgstr ""
+
+#. SysConfig
+msgid "Backend module registration for the file conflict check module."
+msgstr ""
+
+#. SysConfig
+msgid "Backend module registration for the function redefine check module."
+msgstr ""
+
+#. SysConfig
+msgid "Backend module registration for the manual set module."
+msgstr ""
+
+#. SysConfig
+msgid "Block hooks to be created for BS ad removal."
+msgstr ""
+
+#. SysConfig
+msgid "Block hooks to be created for package manager output filter."
+msgstr ""
+
+#. SysConfig
+msgid "Branch View commit limit"
+msgstr ""
+
+#. SysConfig
+msgid "CodePolicy"
+msgstr ""
+
+#. SysConfig
+msgid "Commit limit per page for Branch view screen"
+msgstr ""
+
+#. SysConfig
+msgid "Create analysis file"
+msgstr ""
+
+#. SysConfig
+msgid "Creates a analysis file from this ticket and sends to Znuny."
+msgstr ""
+
+#. SysConfig
+msgid "Creates a analysis file from this ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Define private addon repos."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the filter that processes the HTML templates."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the test module for checking code policy."
+msgstr ""
+
+#. SysConfig
+msgid "Definition of GIT clone/push URL Prefix."
+msgstr ""
+
+#. SysConfig
+msgid "Definition of a Dynamic Field: Group => Group with access to the Dynamic Fields; AlwaysVisible => Field can be removed (0|1); InformationAreaName => Name of the Widgets; InformationAreaSize => Size and position of the widgets (Large|Small); Name => Name of the Dynamic Field which should be used; Priority => Order of the Dynamic Fields; State => State of the Fields (0 = disabled, 1 = active, 2 = mandatory), FilterRelease => Regex which the repository name has to match to be displayed, FilterPackage => Regex which the package name has to match to be displayed, FilterBranch => Regex which the branch name has to match to be displayed, FilterRelease => Regex which the repelase version string has to match to be displayed."
+msgstr ""
+
+#. SysConfig
+msgid "Definition of a Dynamic Field: Group => Group with access to the Dynamic Fields; AlwaysVisible => Field can be removed (0|1); InformationAreaName => Name of the Widgets; InformationAreaSize => Size and position of the widgets (Large|Small); Name => Name of the Dynamic Field which should be used; Priority => Order of the Dynamic Fields; State => State of the Fields (0 = disabled, 1 = active, 2 = mandatory), FilterRepository => Regex which the repository name has to match to be displayed, FilterPackage => Regex which the package name has to match to be displayed, FilterBranch => Regex which the branch name has to match to be displayed, FilterRelease => Regex which the repelase version string has to match to be displayed."
+msgstr ""
+
+#. SysConfig
+msgid "Definition of external MD5 sums (key => MD5, Value => Vendor, PackageName, Version, Date)."
+msgstr ""
+
+#. SysConfig
+msgid "Definition of mappings between public repository requests and internal OPMS repositories."
+msgstr ""
+
+#. SysConfig
+msgid "Definition of package states."
+msgstr ""
+
+#. SysConfig
+msgid "Definition of renamed OPMS packages."
+msgstr ""
+
+#. SysConfig
+msgid "Directory, which is used by Git to cache repositories."
+msgstr ""
+
+#. SysConfig
+msgid "Directory, which is used by Git to store temporary data."
+msgstr ""
+
+#. SysConfig
+msgid "Directory, which is used by Git to store working copies."
+msgstr ""
+
+#. SysConfig
+msgid "Disable online repositories."
+msgstr ""
+
+#. SysConfig
+msgid "Do not log git ssh connection authorization results for these users. Useful for automated stuff."
+msgstr ""
+
+#. SysConfig
+msgid "Dynamic Fields Screens"
+msgstr ""
+
+#. SysConfig
+msgid "DynamicFieldScreen"
+msgstr ""
+
+#. SysConfig
+msgid "Export all available public keys to authorized_keys file."
+msgstr ""
+
+#. SysConfig
+msgid "Export all relevant releases to ftp server."
+msgstr ""
+
+#. SysConfig
+msgid "Frontend module registration for the OPMS object in the agent interface."
+msgstr ""
+
+#. SysConfig
+msgid "Frontend module registration for the PublicOPMSRepository object in the public interface."
+msgstr ""
+
+#. SysConfig
+msgid "Frontend module registration for the PublicOPMSRepositoryLookup object in the public interface."
+msgstr ""
+
+#. SysConfig
+msgid "Frontend module registration for the PublicOPMSTestBuild object in the public interface."
+msgstr ""
+
+#. SysConfig
+msgid "Frontend module registration for the PublicPackageVerification object in the public interface."
+msgstr ""
+
+#. SysConfig
+msgid "Frontend module registration for the admin interface."
+msgstr ""
+
+#. SysConfig
+msgid "GIT Author registration."
+msgstr ""
+
+#. SysConfig
+msgid "Generate HTML comment hooks for the specified blocks so that filters can use them."
+msgstr ""
+
+#. SysConfig
+msgid "Generate documentations once per night."
+msgstr ""
+
+#. SysConfig
+msgid "Git"
+msgstr ""
+
+#. SysConfig
+msgid "Git Management"
+msgstr ""
+
+#. SysConfig
+msgid "Git Repository"
+msgstr ""
+
+#. SysConfig
+msgid "Group, whose members have delete admin permissions in OPMS."
+msgstr ""
+
+#. SysConfig
+msgid "Group, whose members have repository admin permissions in OPMS."
+msgstr ""
+
+#. SysConfig
+msgid "Group, whose members will see CI test result information in OPMS screens."
+msgstr ""
+
+#. SysConfig
+msgid "Groups an authenticated user (by user login and password) must be member of to build test packages via the public interface."
+msgstr ""
+
+#. SysConfig
+msgid "Groups which will be set during git project creation processes while adding OPMS repositories."
+msgstr ""
+
+#. SysConfig
+msgid "Manage dynamic field in screens."
+msgstr ""
+
+#. SysConfig
+msgid "Manage your public SSH key(s) for Git access here. Make sure to save this preference when you add a new key."
+msgstr ""
+
+#. SysConfig
+msgid "Module to generate statistics about the added code lines."
+msgstr ""
+
+#. SysConfig
+msgid "Module to generate statistics about the growth of code."
+msgstr ""
+
+#. SysConfig
+msgid "Module to generate statistics about the number of git commits."
+msgstr ""
+
+#. SysConfig
+msgid "Module to generate statistics about the removed code lines."
+msgstr ""
+
+#. SysConfig
+msgid "OPMS"
+msgstr ""
+
+#. SysConfig
+msgid "Only users who have rw permissions in one of these groups may access git."
+msgstr ""
+
+#. SysConfig
+msgid "Option to set a package compatibility manually."
+msgstr ""
+
+#. SysConfig
+msgid "Parameters for the pages in the BranchView screen."
+msgstr ""
+
+#. SysConfig
+msgid "Pre-Definition of the 'GITProjectName' Dynamic Field: Group => Group with access to the Dynamic Fields; AlwaysVisible => Field can be removed (0|1); InformationAreaName => Name of the Widgets; InformationAreaSize => Size and position of the widgets (Large|Small); Name => Name of the Dynamic Field which should be used; Priority => Order of the Dynamic Fields; State => State of the Fields (0 = disabled, 1 = active, 2 = mandatory), FilterRepository => Regex which the repository name has to match to be displayed, FilterPackage => Regex which the package name has to match to be displayed, FilterBranch => Regex which the branch name has to match to be displayed, FilterRelease => Regex which the repelase version string has to match to be displayed."
+msgstr ""
+
+#. SysConfig
+msgid "Pre-Definition of the 'GITRepositoryName' Dynamic Field: Group => Group with access to the Dynamic Fields; AlwaysVisible => Field can be removed (0|1); InformationAreaName => Name of the Widgets; InformationAreaSize => Size and position of the widgets (Large|Small); Name => Name of the Dynamic Field which should be used; Priority => Order of the Dynamic Fields; State => State of the Fields (0 = disabled, 1 = active, 2 = mandatory), FilterRepository => Regex which the repository name has to match to be displayed, FilterPackage => Regex which the package name has to match to be displayed, FilterBranch => Regex which the branch name has to match to be displayed, FilterRelease => Regex which the repelase version string has to match to be displayed."
+msgstr ""
+
+#. SysConfig
+msgid "Pre-Definition of the 'PackageDeprecated' Dynamic Field: Group => Group with access to the Dynamic Fields; AlwaysVisible => Field can be removed (0|1); InformationAreaName => Name of the Widgets; InformationAreaSize => Size and position of the widgets (Large|Small); Name => Name of the Dynamic Field which should be used; Priority => Order of the Dynamic Fields; State => State of the Fields (0 = disabled, 1 = active, 2 = mandatory), FilterRepository => Regex which the repository name has to match to be displayed, FilterPackage => Regex which the package name has to match to be displayed, FilterBranch => Regex which the branch name has to match to be displayed, FilterRelease => Regex which the repelase version string has to match to be displayed."
+msgstr ""
+
+#. SysConfig
+msgid "Recipients that will be informed by email in case of errors."
+msgstr ""
+
+#. SysConfig
+msgid "SSH Keys for Git Access"
+msgstr ""
+
+#. SysConfig
+msgid "Send analysis file"
+msgstr ""
+
+#. SysConfig
+msgid "Sets the git clone address to be used in repository listings."
+msgstr ""
+
+#. SysConfig
+msgid "Sets the home directory for git repositories."
+msgstr ""
+
+#. SysConfig
+msgid "Sets the path for the BugzillaAddComment post receive script location."
+msgstr ""
+
+#. SysConfig
+msgid "Sets the path for the OTRSCodePolicy  script location. It is recommended to have a separate clone of the OTRSCodePolicy module that is updated via cron."
+msgstr ""
+
+#. SysConfig
+msgid "Sets the path for the OTRSCodePolicy pre receive script location. It is recommended to have a separate clone of the OTRSCodePolicy module that is updated via cron."
+msgstr ""
+
+#. SysConfig
+msgid "Show latest commits in git repositories."
+msgstr ""
+
+#. SysConfig
+msgid "Shows a link in the menu to go create a unit test from the current ticket."
+msgstr ""
+
+#. SysConfig
+msgid "Synchronize OPMS tables with a remote database."
+msgstr ""
+
+#. SysConfig
+msgid "The minimum version of the sphinx library."
+msgstr ""
+
+#. SysConfig
+msgid "The name of the sphinx theme to be used."
+msgstr ""
+
+#. SysConfig
+msgid "The path to the OTRS CSS file (relative below the static path)."
+msgstr ""
+
+#. SysConfig
+msgid "The path to the OTRS logo (relative below the static path)."
+msgstr ""
+
+#. SysConfig
+msgid "The path to the static folder, containing images and css files."
+msgstr ""
+
+#. SysConfig
+msgid "The path to the theme folder, containing the sphinx themes."
+msgstr ""
+
+#. SysConfig
+msgid "This configuration defines all possible screens to enable or disable default columns."
+msgstr ""
+
+#. SysConfig
+msgid "This configuration defines all possible screens to enable or disable dynamic fields."
+msgstr ""
+
+#. SysConfig
+msgid "This configuration defines if only valids or all (invalids) dynamic fields should be shown."
+msgstr ""
+
+#. SysConfig
+msgid "This configuration defines if the OTRS package verification should be active or disabled. If disabled all packages are shown as verified. It's still recommended to use only verified packages."
+msgstr ""
+
+#. SysConfig
+msgid "This configuration defines the URL to the OTRS CloudService Proxy service. The http or https prefix will be added, depending on selection SysConfig 'Znuny4OTRSRepoType'."
+msgstr ""
+
+#. SysConfig
+msgid "This configuration registers a Output post-filter to extend package verification."
+msgstr ""
+
+#. SysConfig
+msgid "This configuration registers an OutputFilter module that removes OTRS Business Solution TM advertisements."
+msgstr ""
+
+#. SysConfig
+msgid "This configuration registers an output filter to hide online repository selection in package manager."
+msgstr ""
+
+#. SysConfig
+msgid "Tidy unprocessed release that not passed test pomules checks for a long time."
+msgstr ""
+
+#. SysConfig
+msgid "Users who have rw permissions in one of these groups are permitted to execute force pushes 'git push --force'."
+msgstr ""
+
+#. SysConfig
+msgid "Users who have rw permissions in one of these groups are permitted to manage projects. Additionally the members have administration permissions to the git management."
+msgstr ""
+
