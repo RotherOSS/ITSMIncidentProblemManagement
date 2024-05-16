@@ -24,31 +24,31 @@ sub Data {
     my $Self = shift;
 
     # Template: AgentTicketOverviewMedium
-    $Self->{Translation}->{'Criticality'} = 'Значај';
-    $Self->{Translation}->{'Impact'} = 'Утицај';
+    $Self->{Translation}->{'Criticality'} = '';
+    $Self->{Translation}->{'Impact'} = '';
 
     # JS Template: ServiceIncidentState
-    $Self->{Translation}->{'Service Incident State'} = 'Стање инцидента сервиса';
+    $Self->{Translation}->{'Service Incident State'} = '';
 
     # Perl Module: Kernel/Output/HTML/FilterElementPost/ITSMIncidentProblemManagement.pm
-    $Self->{Translation}->{'Link ticket'} = 'Повежи тикет';
-    $Self->{Translation}->{'Change Decision of %s%s%s'} = 'Измена одлуке за %s%s%s';
-    $Self->{Translation}->{'Change ITSM fields of %s%s%s'} = 'Измена ITSM поља за %s%s%s';
+    $Self->{Translation}->{'Link ticket'} = '';
+    $Self->{Translation}->{'Change Decision of %s%s%s'} = '';
+    $Self->{Translation}->{'Change ITSM fields of %s%s%s'} = '';
 
     # Perl Module: var/packagesetup/ITSMIncidentProblemManagement.pm
-    $Self->{Translation}->{'Review Required'} = 'Обавезна рецензија';
-    $Self->{Translation}->{'Decision Result'} = 'Резултат oдлуке';
-    $Self->{Translation}->{'Approved'} = 'Одобрено';
-    $Self->{Translation}->{'Postponed'} = 'Одложено';
-    $Self->{Translation}->{'Pre-approved'} = 'Унапред одобрено';
-    $Self->{Translation}->{'Rejected'} = 'Одбијено';
-    $Self->{Translation}->{'Repair Start Time'} = 'Време почетка поправке';
-    $Self->{Translation}->{'Recovery Start Time'} = 'Време почетка опоравка';
-    $Self->{Translation}->{'Decision Date'} = 'Датум Одлуке';
-    $Self->{Translation}->{'Due Date'} = 'Рок';
+    $Self->{Translation}->{'Review Required'} = '';
+    $Self->{Translation}->{'Decision Result'} = '';
+    $Self->{Translation}->{'Approved'} = '';
+    $Self->{Translation}->{'Postponed'} = '';
+    $Self->{Translation}->{'Pre-approved'} = '';
+    $Self->{Translation}->{'Rejected'} = '';
+    $Self->{Translation}->{'Repair Start Time'} = '';
+    $Self->{Translation}->{'Recovery Start Time'} = '';
+    $Self->{Translation}->{'Decision Date'} = '';
+    $Self->{Translation}->{'Due Date'} = '';
 
     # Database XML / SOPM Definition: ITSMIncidentProblemManagement.sopm
-    $Self->{Translation}->{'closed with workaround'} = 'затворено са алтернативним решењем';
+    $Self->{Translation}->{'closed with workaround'} = '';
 
     # SysConfig
     $Self->{Translation}->{'Add a decision!'} = 'Додај одлуку!';
