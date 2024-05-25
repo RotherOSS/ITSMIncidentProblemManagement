@@ -74,7 +74,7 @@ msgstr "Tarehe ya uamuzi"
 msgid "Due Date"
 msgstr "Tarehe ukomo"
 
-#. Database XML Definition: ITSMIncidentProblemManagement.sopm
+#. Database XML / SOPM Definition: ITSMIncidentProblemManagement.sopm
 msgid "closed with workaround"
 msgstr "Fungwa na mkusanyiko kazi"
 

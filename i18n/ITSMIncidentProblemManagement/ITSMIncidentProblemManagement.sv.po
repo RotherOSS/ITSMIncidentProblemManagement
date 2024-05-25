@@ -74,7 +74,7 @@ msgstr "Datum för beslut"
 msgid "Due Date"
 msgstr "Färdigdatum"
 
-#. Database XML Definition: ITSMIncidentProblemManagement.sopm
+#. Database XML / SOPM Definition: ITSMIncidentProblemManagement.sopm
 msgid "closed with workaround"
 msgstr ""
 
