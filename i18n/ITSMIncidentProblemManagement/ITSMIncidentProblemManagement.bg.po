@@ -76,7 +76,7 @@ msgstr "Дата за решаване"
 msgid "Due Date"
 msgstr "Крайна дата"
 
-#. Database XML Definition: ITSMIncidentProblemManagement.sopm
+#. Database XML / SOPM Definition: ITSMIncidentProblemManagement.sopm
 msgid "closed with workaround"
 msgstr "приключен с обходно решение"
 

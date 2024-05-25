@@ -74,7 +74,7 @@ msgstr "决定日期"
 msgid "Due Date"
 msgstr "到期日"
 
-#. Database XML Definition: ITSMIncidentProblemManagement.sopm
+#. Database XML / SOPM Definition: ITSMIncidentProblemManagement.sopm
 msgid "closed with workaround"
 msgstr "通过权变措施关闭"
 

@@ -47,148 +47,119 @@ sub Data {
     $Self->{Translation}->{'Decision Date'} = 'Дата за решаване';
     $Self->{Translation}->{'Due Date'} = 'Крайна дата';
 
-    # Database XML Definition: ITSMIncidentProblemManagement.sopm
+    # Database XML / SOPM Definition: ITSMIncidentProblemManagement.sopm
     $Self->{Translation}->{'closed with workaround'} = 'приключен с обходно решение';
 
     # SysConfig
-    $Self->{Translation}->{'A precentage value of the minimal translation progress per language, to be usable for documentations.'} =
-        '';
-    $Self->{Translation}->{'Access repos via http or https.'} = '';
-    $Self->{Translation}->{'Autoloading of Znuny4OTRSRepo extensions.'} = '';
-    $Self->{Translation}->{'Backend module registration for the config conflict check module.'} =
-        '';
-    $Self->{Translation}->{'Backend module registration for the file conflict check module.'} =
-        '';
-    $Self->{Translation}->{'Backend module registration for the function redefine check module.'} =
-        '';
-    $Self->{Translation}->{'Backend module registration for the manual set module.'} = '';
-    $Self->{Translation}->{'Block hooks to be created for BS ad removal.'} = '';
-    $Self->{Translation}->{'Block hooks to be created for package manager output filter.'} =
-        '';
-    $Self->{Translation}->{'Branch View commit limit'} = '';
-    $Self->{Translation}->{'CodePolicy'} = '';
-    $Self->{Translation}->{'Commit limit per page for Branch view screen'} = '';
-    $Self->{Translation}->{'Create analysis file'} = '';
-    $Self->{Translation}->{'Creates a analysis file from this ticket and sends to Znuny.'} =
-        '';
-    $Self->{Translation}->{'Creates a analysis file from this ticket.'} = '';
-    $Self->{Translation}->{'Define private addon repos.'} = '';
-    $Self->{Translation}->{'Defines the filter that processes the HTML templates.'} = '';
-    $Self->{Translation}->{'Defines the test module for checking code policy.'} = '';
-    $Self->{Translation}->{'Definition of GIT clone/push URL Prefix.'} = '';
-    $Self->{Translation}->{'Definition of a Dynamic Field: Group => Group with access to the Dynamic Fields; AlwaysVisible => Field can be removed (0|1); InformationAreaName => Name of the Widgets; InformationAreaSize => Size and position of the widgets (Large|Small); Name => Name of the Dynamic Field which should be used; Priority => Order of the Dynamic Fields; State => State of the Fields (0 = disabled, 1 = active, 2 = mandatory), FilterRelease => Regex which the repository name has to match to be displayed, FilterPackage => Regex which the package name has to match to be displayed, FilterBranch => Regex which the branch name has to match to be displayed, FilterRelease => Regex which the repelase version string has to match to be displayed.'} =
-        '';
-    $Self->{Translation}->{'Definition of a Dynamic Field: Group => Group with access to the Dynamic Fields; AlwaysVisible => Field can be removed (0|1); InformationAreaName => Name of the Widgets; InformationAreaSize => Size and position of the widgets (Large|Small); Name => Name of the Dynamic Field which should be used; Priority => Order of the Dynamic Fields; State => State of the Fields (0 = disabled, 1 = active, 2 = mandatory), FilterRepository => Regex which the repository name has to match to be displayed, FilterPackage => Regex which the package name has to match to be displayed, FilterBranch => Regex which the branch name has to match to be displayed, FilterRelease => Regex which the repelase version string has to match to be displayed.'} =
-        '';
-    $Self->{Translation}->{'Definition of external MD5 sums (key => MD5, Value => Vendor, PackageName, Version, Date).'} =
-        '';
-    $Self->{Translation}->{'Definition of mappings between public repository requests and internal OPMS repositories.'} =
-        '';
-    $Self->{Translation}->{'Definition of package states.'} = '';
-    $Self->{Translation}->{'Definition of renamed OPMS packages.'} = '';
-    $Self->{Translation}->{'Directory, which is used by Git to cache repositories.'} = '';
-    $Self->{Translation}->{'Directory, which is used by Git to store temporary data.'} = '';
-    $Self->{Translation}->{'Directory, which is used by Git to store working copies.'} = '';
-    $Self->{Translation}->{'Disable online repositories.'} = '';
-    $Self->{Translation}->{'Do not log git ssh connection authorization results for these users. Useful for automated stuff.'} =
-        '';
-    $Self->{Translation}->{'Dynamic Fields Screens'} = '';
-    $Self->{Translation}->{'DynamicFieldScreen'} = '';
-    $Self->{Translation}->{'Export all available public keys to authorized_keys file.'} = '';
-    $Self->{Translation}->{'Export all relevant releases to ftp server.'} = '';
-    $Self->{Translation}->{'Frontend module registration for the OPMS object in the agent interface.'} =
-        '';
-    $Self->{Translation}->{'Frontend module registration for the PublicOPMSRepository object in the public interface.'} =
-        '';
-    $Self->{Translation}->{'Frontend module registration for the PublicOPMSRepositoryLookup object in the public interface.'} =
-        '';
-    $Self->{Translation}->{'Frontend module registration for the PublicOPMSTestBuild object in the public interface.'} =
-        '';
-    $Self->{Translation}->{'Frontend module registration for the PublicPackageVerification object in the public interface.'} =
-        '';
-    $Self->{Translation}->{'Frontend module registration for the admin interface.'} = '';
-    $Self->{Translation}->{'GIT Author registration.'} = '';
-    $Self->{Translation}->{'Generate HTML comment hooks for the specified blocks so that filters can use them.'} =
-        '';
-    $Self->{Translation}->{'Generate documentations once per night.'} = '';
-    $Self->{Translation}->{'Git'} = '';
-    $Self->{Translation}->{'Git Management'} = '';
-    $Self->{Translation}->{'Git Repository'} = '';
-    $Self->{Translation}->{'Group, whose members have delete admin permissions in OPMS.'} = '';
-    $Self->{Translation}->{'Group, whose members have repository admin permissions in OPMS.'} =
-        '';
-    $Self->{Translation}->{'Group, whose members will see CI test result information in OPMS screens.'} =
-        '';
-    $Self->{Translation}->{'Groups an authenticated user (by user login and password) must be member of to build test packages via the public interface.'} =
-        '';
-    $Self->{Translation}->{'Groups which will be set during git project creation processes while adding OPMS repositories.'} =
-        '';
-    $Self->{Translation}->{'Manage dynamic field in screens.'} = '';
-    $Self->{Translation}->{'Manage your public SSH key(s) for Git access here. Make sure to save this preference when you add a new key.'} =
-        '';
-    $Self->{Translation}->{'Module to generate statistics about the added code lines.'} = '';
-    $Self->{Translation}->{'Module to generate statistics about the growth of code.'} = '';
-    $Self->{Translation}->{'Module to generate statistics about the number of git commits.'} =
-        '';
-    $Self->{Translation}->{'Module to generate statistics about the removed code lines.'} = '';
-    $Self->{Translation}->{'OPMS'} = '';
-    $Self->{Translation}->{'Only users who have rw permissions in one of these groups may access git.'} =
-        '';
-    $Self->{Translation}->{'Option to set a package compatibility manually.'} = '';
-    $Self->{Translation}->{'Parameters for the pages in the BranchView screen.'} = '';
-    $Self->{Translation}->{'Pre-Definition of the \'GITProjectName\' Dynamic Field: Group => Group with access to the Dynamic Fields; AlwaysVisible => Field can be removed (0|1); InformationAreaName => Name of the Widgets; InformationAreaSize => Size and position of the widgets (Large|Small); Name => Name of the Dynamic Field which should be used; Priority => Order of the Dynamic Fields; State => State of the Fields (0 = disabled, 1 = active, 2 = mandatory), FilterRepository => Regex which the repository name has to match to be displayed, FilterPackage => Regex which the package name has to match to be displayed, FilterBranch => Regex which the branch name has to match to be displayed, FilterRelease => Regex which the repelase version string has to match to be displayed.'} =
-        '';
-    $Self->{Translation}->{'Pre-Definition of the \'GITRepositoryName\' Dynamic Field: Group => Group with access to the Dynamic Fields; AlwaysVisible => Field can be removed (0|1); InformationAreaName => Name of the Widgets; InformationAreaSize => Size and position of the widgets (Large|Small); Name => Name of the Dynamic Field which should be used; Priority => Order of the Dynamic Fields; State => State of the Fields (0 = disabled, 1 = active, 2 = mandatory), FilterRepository => Regex which the repository name has to match to be displayed, FilterPackage => Regex which the package name has to match to be displayed, FilterBranch => Regex which the branch name has to match to be displayed, FilterRelease => Regex which the repelase version string has to match to be displayed.'} =
-        '';
-    $Self->{Translation}->{'Pre-Definition of the \'PackageDeprecated\' Dynamic Field: Group => Group with access to the Dynamic Fields; AlwaysVisible => Field can be removed (0|1); InformationAreaName => Name of the Widgets; InformationAreaSize => Size and position of the widgets (Large|Small); Name => Name of the Dynamic Field which should be used; Priority => Order of the Dynamic Fields; State => State of the Fields (0 = disabled, 1 = active, 2 = mandatory), FilterRepository => Regex which the repository name has to match to be displayed, FilterPackage => Regex which the package name has to match to be displayed, FilterBranch => Regex which the branch name has to match to be displayed, FilterRelease => Regex which the repelase version string has to match to be displayed.'} =
-        '';
-    $Self->{Translation}->{'Recipients that will be informed by email in case of errors.'} =
-        '';
-    $Self->{Translation}->{'SSH Keys for Git Access'} = '';
-    $Self->{Translation}->{'Send analysis file'} = '';
-    $Self->{Translation}->{'Sets the git clone address to be used in repository listings.'} =
-        '';
-    $Self->{Translation}->{'Sets the home directory for git repositories.'} = '';
-    $Self->{Translation}->{'Sets the path for the BugzillaAddComment post receive script location.'} =
-        '';
-    $Self->{Translation}->{'Sets the path for the OTRSCodePolicy  script location. It is recommended to have a separate clone of the OTRSCodePolicy module that is updated via cron.'} =
-        '';
-    $Self->{Translation}->{'Sets the path for the OTRSCodePolicy pre receive script location. It is recommended to have a separate clone of the OTRSCodePolicy module that is updated via cron.'} =
-        '';
-    $Self->{Translation}->{'Show latest commits in git repositories.'} = '';
-    $Self->{Translation}->{'Shows a link in the menu to go create a unit test from the current ticket.'} =
-        '';
-    $Self->{Translation}->{'Synchronize OPMS tables with a remote database.'} = '';
-    $Self->{Translation}->{'The minimum version of the sphinx library.'} = '';
-    $Self->{Translation}->{'The name of the sphinx theme to be used.'} = '';
-    $Self->{Translation}->{'The path to the OTRS CSS file (relative below the static path).'} =
-        '';
-    $Self->{Translation}->{'The path to the OTRS logo (relative below the static path).'} = '';
-    $Self->{Translation}->{'The path to the static folder, containing images and css files.'} =
-        '';
-    $Self->{Translation}->{'The path to the theme folder, containing the sphinx themes.'} = '';
-    $Self->{Translation}->{'This configuration defines all possible screens to enable or disable default columns.'} =
-        '';
-    $Self->{Translation}->{'This configuration defines all possible screens to enable or disable dynamic fields.'} =
-        '';
-    $Self->{Translation}->{'This configuration defines if only valids or all (invalids) dynamic fields should be shown.'} =
-        '';
-    $Self->{Translation}->{'This configuration defines if the OTRS package verification should be active or disabled. If disabled all packages are shown as verified. It\'s still recommended to use only verified packages.'} =
-        '';
-    $Self->{Translation}->{'This configuration defines the URL to the OTRS CloudService Proxy service. The http or https prefix will be added, depending on selection SysConfig \'Znuny4OTRSRepoType\'.'} =
-        '';
-    $Self->{Translation}->{'This configuration registers a Output post-filter to extend package verification.'} =
-        '';
-    $Self->{Translation}->{'This configuration registers an OutputFilter module that removes OTRS Business Solution TM advertisements.'} =
-        '';
-    $Self->{Translation}->{'This configuration registers an output filter to hide online repository selection in package manager.'} =
-        '';
-    $Self->{Translation}->{'Tidy unprocessed release that not passed test pomules checks for a long time.'} =
-        '';
-    $Self->{Translation}->{'Users who have rw permissions in one of these groups are permitted to execute force pushes \'git push --force\'.'} =
-        '';
-    $Self->{Translation}->{'Users who have rw permissions in one of these groups are permitted to manage projects. Additionally the members have administration permissions to the git management.'} =
-        '';
+    $Self->{Translation}->{'Add a decision!'} = 'Добавете решение!';
+    $Self->{Translation}->{'Additional ITSM Fields'} = 'Допълнителни ITSM полета';
+    $Self->{Translation}->{'Additional ITSM ticket fields.'} = 'Допълнителни ITSM полета за билети.';
+    $Self->{Translation}->{'Allows adding notes in the additional ITSM field screen of the agent interface.'} =
+        'Позволява добавяне на бележки в допълнителния екран на ITSM поле на интерфейса на агента.';
+    $Self->{Translation}->{'Allows adding notes in the decision screen of the agent interface.'} =
+        'Позволява добавяне на бележки в екрана за решение интерфейса на агента.';
+    $Self->{Translation}->{'Allows defining new types for ticket (if ticket type feature is enabled).'} =
+        'Позволява дефиниране на нови типове за билет (ако функцията за тип билет е активирана).';
+    $Self->{Translation}->{'Change the ITSM fields!'} = 'Променете ITSM полетата!';
+    $Self->{Translation}->{'Decision'} = 'Решение';
+    $Self->{Translation}->{'Defines if a ticket lock is required in the additional ITSM field screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'} =
+        'Определя дали е необходимо заключване на билет в допълнителния екран на ITSM поле на интерфейса на агента (ако билетът все още не е заключен, билетът се заключва и текущият агент ще бъде зададен автоматично като негов собственик).';
+    $Self->{Translation}->{'Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'} =
+        'Определя дали е необходимо заключване на билет в екрана за решение на интерфейса на агента (ако билетът все още не е заключен, той се заключва и текущият агент ще бъде зададен автоматично като негов собственик).';
+    $Self->{Translation}->{'Defines if the service incident state should be shown during service selection in the agent interface.'} =
+        'Определя дали състоянието на инцидента на услугата трябва да се показва по време на избор на услуга в интерфейса на агента.';
+    $Self->{Translation}->{'Defines the default body of a note in the additional ITSM field screen of the agent interface.'} =
+        'Дефинира основния текст на бележката по подразбиране в екрана на допълнителното ITSM поле на интерфейса на агента.';
+    $Self->{Translation}->{'Defines the default body of a note in the decision screen of the agent interface.'} =
+        'Дефинира тялото по подразбиране на бележка в екрана за вземане на решения на интерфейса на агента.';
+    $Self->{Translation}->{'Defines the default next state of a ticket after adding a note, in the additional ITSM field screen of the agent interface.'} =
+        'Дефинира следващото състояние по подразбиране на билет след добавяне на бележка в допълнителния екран на ITSM полето на интерфейса на агента.';
+    $Self->{Translation}->{'Defines the default next state of a ticket after adding a note, in the decision screen of the agent interface.'} =
+        'Дефинира следващото състояние по подразбиране на билет след добавяне на бележка в екрана за решение на интерфейса на агента.';
+    $Self->{Translation}->{'Defines the default subject of a note in the additional ITSM field screen of the agent interface.'} =
+        'Дефинира темата по подразбиране на бележка в допълнителния екран на ITSM полето на интерфейса на агента.';
+    $Self->{Translation}->{'Defines the default subject of a note in the decision screen of the agent interface.'} =
+        'Определя темата по подразбиране на бележка в екрана за решение на интерфейса на агента.';
+    $Self->{Translation}->{'Defines the default ticket priority in the additional ITSM field screen of the agent interface.'} =
+        'Определя приоритета на билета по подразбиране в екрана на допълнителното ITSM поле на интерфейса на агента.';
+    $Self->{Translation}->{'Defines the default ticket priority in the decision screen of the agent interface.'} =
+        'Определя приоритета на билета по подразбиране в екрана за решение на интерфейса на агента.';
+    $Self->{Translation}->{'Defines the history comment for the additional ITSM field screen action, which gets used for ticket history.'} =
+        'Дефинира коментара за историята за допълнителното действие на екрана на полето ITSM, което се използва за хронология на билети.';
+    $Self->{Translation}->{'Defines the history comment for the decision screen action, which gets used for ticket history.'} =
+        'Дефинира коментара за историята за действието на екрана за решение, който се използва за хронологията на тикетите.';
+    $Self->{Translation}->{'Defines the history type for the additional ITSM field screen action, which gets used for ticket history.'} =
+        'Дефинира типа на хронологията за допълнителното действие на екрана на полето ITSM, което се използва за хронология на билети.';
+    $Self->{Translation}->{'Defines the history type for the decision screen action, which gets used for ticket history.'} =
+        'Определя типа на историята за действието на екрана за решение, което се използва за хронология на билети.';
+    $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the additional ITSM field screen of the agent interface.'} =
+        'Определя следващото състояние на билета след добавяне на бележка в екрана на допълнителното ITSM поле на интерфейса на агента.';
+    $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the decision screen of the agent interface.'} =
+        'Определя следващото състояние на билет след добавяне на бележка в екрана за Решение на интерфейса на агента.';
+    $Self->{Translation}->{'Dynamic fields shown in the additional ITSM field screen of the agent interface.'} =
+        'Динамични полета, показани в допълнителния екран на ITSM поле на интерфейса на агента.';
+    $Self->{Translation}->{'Dynamic fields shown in the decision screen of the agent interface.'} =
+        'Динамични полета, показани в екрана за решение в интерфейса на агента.';
+    $Self->{Translation}->{'Dynamic fields shown in the ticket zoom screen of the agent interface.'} =
+        'Динамични полета, показани в екрана за увеличение на билета в интерфейса на агента.';
+    $Self->{Translation}->{'Enables the stats module to generate statistics about the average of ITSM ticket first level solution rate.'} =
+        'Позволява на модула за статистика да генерира статистически данни за средната скорост на решение от първо ниво на ITSM билет.';
+    $Self->{Translation}->{'Enables the stats module to generate statistics about the average of ITSM ticket solution.'} =
+        'Позволява на модула за статистика да генерира статистика за средната стойност на решението за ITSM тикет.';
+    $Self->{Translation}->{'If a note is added by an agent, sets the state of a ticket in the additional ITSM field screen of the agent interface.'} =
+        'Ако бележка е добавена от агент, задава състоянието на билета в екрана на допълнително поле ITSM от интерфейса на агента.';
+    $Self->{Translation}->{'If a note is added by an agent, sets the state of a ticket in the decision screen of the agent interface.'} =
+        'Ако бележка е добавена от агент, задава състоянието на билета в екрана за решение от интерфейса на агента.';
+    $Self->{Translation}->{'Modifies the display order of the dynamic field ITSMImpact and other things.'} =
+        'Променя реда на показване на динамичното поле ITSMImpact и други неща.';
+    $Self->{Translation}->{'Module to dynamically show the service incident state and to calculate the priority.'} =
+        'Модул за динамично показване състоянието на инцидента в услугата и за изчисляване на приоритета.';
+    $Self->{Translation}->{'Required permissions to use the additional ITSM field screen in the agent interface.'} =
+        'Необходими права за използване на допълнителния екран от ITSM поле в интерфейса на агента.';
+    $Self->{Translation}->{'Required permissions to use the decision screen in the agent interface.'} =
+        'Необходими права за използване екрана за решение в интерфейса на агента.';
+    $Self->{Translation}->{'Service Incident State and Priority Calculation'} = 'Състояние на инцидент от услугата и изчисляване на приоритета';
+    $Self->{Translation}->{'Sets the service in the additional ITSM field screen of the agent interface (Ticket::Service needs to be activated).'} =
+        'Задава услугата в допълнителния екран на полето ITSM от интерфейса на агента (Ticket::Service трябва да бъде активиран).';
+    $Self->{Translation}->{'Sets the service in the decision screen of the agent interface (Ticket::Service needs to be activated).'} =
+        'Задава услугата в екрана за решение от интерфейса на агента (Ticket::Service трябва да бъде активиран).';
+    $Self->{Translation}->{'Sets the service in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Service needs to be activated).'} =
+        'Задава услугата в екрана с приоритет на билета за увеличен билет в интерфейса на агента (Ticket::Service трябва да бъде активиран).';
+    $Self->{Translation}->{'Sets the ticket owner in the additional ITSM field screen of the agent interface.'} =
+        'Задава собственика на билета в допълнителния екран на ITSM полето от интерфейса на агента.';
+    $Self->{Translation}->{'Sets the ticket owner in the decision screen of the agent interface.'} =
+        'Задава собственика на билета в екрана за решение от интерфейса на агента.';
+    $Self->{Translation}->{'Sets the ticket responsible in the additional ITSM field screen of the agent interface.'} =
+        'Задава отговорния за билет в допълнителния екран на ITSM полето от интерфейса на агента.';
+    $Self->{Translation}->{'Sets the ticket responsible in the decision screen of the agent interface.'} =
+        'Задава отговорния за билет в екрана за решение от интерфейса на агента.';
+    $Self->{Translation}->{'Sets the ticket type in the additional ITSM field screen of the agent interface (Ticket::Type needs to be activated).'} =
+        'Задава типа билет в допълнителния екран на ITSM полето от интерфейса на агента (Ticket::Type трябва да бъде активиран).';
+    $Self->{Translation}->{'Sets the ticket type in the decision screen of the agent interface (Ticket::Type needs to be activated).'} =
+        'Задава типа билет в екрана за решение от интерфейса на агента (Ticket::Type трябва да бъде активиран).';
+    $Self->{Translation}->{'Sets the ticket type in the ticket priority screen of a zoomed ticket in the agent interface (Ticket::Type needs to be activated).'} =
+        'Задава типа билет в екрана с приоритет на билета за увеличен билет в интерфейса на агента (Ticket::Type трябва да бъде активиран).';
+    $Self->{Translation}->{'Shows a link in the menu to change the decision of a ticket in its zoom view of the agent interface.'} =
+        'Показва връзка в менюто за промяна на решението за билет в неговия увеличен изглед от интерфейса на агента.';
+    $Self->{Translation}->{'Shows a link in the menu to modify additional ITSM fields in the ticket zoom view of the agent interface.'} =
+        'Показва връзка в менюто за модифициране на допълнителни ITSM полета в изгледа за увеличение на билета от интерфейса на агента.';
+    $Self->{Translation}->{'Shows a list of all the involved agents on this ticket, in the additional ITSM field screen of the agent interface.'} =
+        'Показва списък на всички включени агенти в този билет в допълнителния екран на ITSM полето от интерфейса на агента.';
+    $Self->{Translation}->{'Shows a list of all the involved agents on this ticket, in the decision screen of the agent interface.'} =
+        'Показва списък на всички включени агенти в този билет в екрана за решение от интерфейса на агента.';
+    $Self->{Translation}->{'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the additional ITSM field screen of the agent interface.'} =
+        'Показва списък с всички възможни агенти (всички агенти с разрешения за бележки в опашката/билета), за да определи кой трябва да бъде информиран за тази бележка, в допълнителния екран на ITSM поле от интерфейса на агента.';
+    $Self->{Translation}->{'Shows a list of all the possible agents (all agents with note permissions on the queue/ticket) to determine who should be informed about this note, in the decision screen of the agent interface.'} =
+        'Показва списък с всички възможни агенти (всички агенти с разрешения за бележка в опашката/билета), за да определи кой трябва да бъде информиран за тази бележка в екрана за решение на интерфейса на агента.';
+    $Self->{Translation}->{'Shows the ticket priority options in the additional ITSM field screen of the agent interface.'} =
+        'Показва опциите за приоритет на билета в допълнителния екран на ITSM полето от интерфейса на агента.';
+    $Self->{Translation}->{'Shows the ticket priority options in the decision screen of the agent interface.'} =
+        'Показва опциите за приоритет на билета в екрана за решение от интерфейса на агента.';
+    $Self->{Translation}->{'Shows the title fields in the additional ITSM field screen of the agent interface.'} =
+        'Показва полетата за заглавие в допълнителния екран на ITSM поле от интерфейса на агента.';
+    $Self->{Translation}->{'Shows the title fields in the decision screen of the agent interface.'} =
+        'Показва полетата за заглавие в екрана за решение от интерфейса на агента.';
+    $Self->{Translation}->{'Ticket decision.'} = 'Решение за билет.';
 
 
     push @{ $Self->{JavaScriptStrings} // [] }, (
