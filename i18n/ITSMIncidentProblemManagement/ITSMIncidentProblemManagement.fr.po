@@ -74,7 +74,7 @@ msgstr "Date de décision"
 msgid "Due Date"
 msgstr "Échéance"
 
-#. Database XML Definition: ITSMIncidentProblemManagement.sopm
+#. Database XML / SOPM Definition: ITSMIncidentProblemManagement.sopm
 msgid "closed with workaround"
 msgstr "Fermé avec contournement"
 

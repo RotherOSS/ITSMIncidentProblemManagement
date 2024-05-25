@@ -76,7 +76,7 @@ msgstr ""
 msgid "Due Date"
 msgstr ""
 
-#. Database XML Definition: ITSMIncidentProblemManagement.sopm
+#. Database XML / SOPM Definition: ITSMIncidentProblemManagement.sopm
 msgid "closed with workaround"
 msgstr ""
 

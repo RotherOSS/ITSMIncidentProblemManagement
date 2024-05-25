@@ -74,7 +74,7 @@ msgstr "Tarikh Keputusan"
 msgid "Due Date"
 msgstr "Tarikh disebabkan"
 
-#. Database XML Definition: ITSMIncidentProblemManagement.sopm
+#. Database XML / SOPM Definition: ITSMIncidentProblemManagement.sopm
 msgid "closed with workaround"
 msgstr "ditutup dengan kerja di sekitar"
 

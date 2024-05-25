@@ -74,7 +74,7 @@ msgstr "Döntés dátuma"
 msgid "Due Date"
 msgstr "Határidő"
 
-#. Database XML Definition: ITSMIncidentProblemManagement.sopm
+#. Database XML / SOPM Definition: ITSMIncidentProblemManagement.sopm
 msgid "closed with workaround"
 msgstr "lezárva kerülő megoldással"
 
