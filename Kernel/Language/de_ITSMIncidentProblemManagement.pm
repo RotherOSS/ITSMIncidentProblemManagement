@@ -51,7 +51,7 @@ sub Data {
     $Self->{Translation}->{'closed with workaround'} = 'provisorisch geschlossen';
 
     # SysConfig
-    $Self->{Translation}->{'Add a decision!'} = 'Bitte fügen Sie eine Entscheidung hinzu.';
+    $Self->{Translation}->{'Add a decision!'} = 'Fügen Sie eine Entscheidung hinzu!';
     $Self->{Translation}->{'Additional ITSM Fields'} = 'Zusätzliche ITSM-Felder';
     $Self->{Translation}->{'Additional ITSM ticket fields.'} = 'Zusätzliche ITSM-Ticketfelder.';
     $Self->{Translation}->{'Allows adding notes in the additional ITSM field screen of the agent interface.'} =
