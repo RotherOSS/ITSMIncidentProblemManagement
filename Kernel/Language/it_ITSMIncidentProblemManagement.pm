@@ -92,6 +92,8 @@ sub Data {
         'Definisce il tipo di cronologia per l\'azione aggiuntiva della schermata del campo ITSM, che viene utilizzata per la cronologia dei ticket.';
     $Self->{Translation}->{'Defines the history type for the decision screen action, which gets used for ticket history.'} =
         'Definisce il tipo di cronologia per l\'azione della schermata decisionale, che viene utilizzata per la cronologia dei ticket.';
+    $Self->{Translation}->{'Defines the initial height for the rich text editor component in pixels.'} =
+        '';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the additional ITSM field screen of the agent interface.'} =
         'Definisce lo stato successivo di un ticket dopo aver aggiunto una nota, nella schermata del campo ITSM aggiuntiva dell\'interfaccia agenti.';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the decision screen of the agent interface.'} =

@@ -92,6 +92,8 @@ sub Data {
         'Definiert den Historien-Typ für die "zusätzliche ITSM-Felder"-Aktion, der für die Ticket-Historie verwendet wird.';
     $Self->{Translation}->{'Defines the history type for the decision screen action, which gets used for ticket history.'} =
         'Definiert den Historien-Typ für die "Entscheidung"-Aktion, der für die Ticket-Historie verwendet wird.';
+    $Self->{Translation}->{'Defines the initial height for the rich text editor component in pixels.'} =
+        '';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the additional ITSM field screen of the agent interface.'} =
         'Bestimmt den Standard-Folgestatus für Tickets, für die über die zusätzlichen ITSM Felder im Agenten-Interface eine Notiz hinzugefügt wurde.';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the decision screen of the agent interface.'} =

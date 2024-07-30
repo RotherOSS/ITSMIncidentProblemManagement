@@ -92,6 +92,8 @@ sub Data {
         'Mentakrifkan jenis sejarah bagi tindakan skrin bidang ITSM tambahan, yang akan digunakan untuk sejarah tiket.';
     $Self->{Translation}->{'Defines the history type for the decision screen action, which gets used for ticket history.'} =
         'Mentakrifkan jenis sejarah bagi tindakan skrin keputusan, yang akan digunakan untuk sejarah tiket.';
+    $Self->{Translation}->{'Defines the initial height for the rich text editor component in pixels.'} =
+        '';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the additional ITSM field screen of the agent interface.'} =
         'Mentakrifkan keadaan seterusnya tiket selepas menambah nota, dalam skrin bidang ITSM tambahan bagi antara muka ejen.';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the decision screen of the agent interface.'} =

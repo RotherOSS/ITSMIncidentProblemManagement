@@ -92,6 +92,8 @@ sub Data {
         '追加の ITSM フィールド画面アクションの履歴タイプを定義します。これはチケット履歴に使用されます。';
     $Self->{Translation}->{'Defines the history type for the decision screen action, which gets used for ticket history.'} =
         'チケット履歴に使用される、決定画面アクションの履歴タイプを定義します。';
+    $Self->{Translation}->{'Defines the initial height for the rich text editor component in pixels.'} =
+        '';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the additional ITSM field screen of the agent interface.'} =
         '担当者インターフェイスの追加 ITSMフィールド画面で、メモ追加後のチケットの次の状態について選択肢を定義します。';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the decision screen of the agent interface.'} =

@@ -92,6 +92,8 @@ sub Data {
         'Azt az előzmény típust határozza meg a további ITSM mező képernyő műveleténél, amelyet a jegy előzményeinél szoktak használni.';
     $Self->{Translation}->{'Defines the history type for the decision screen action, which gets used for ticket history.'} =
         'Azt az előzmény típust határozza meg a döntési képernyő műveleténél, amelyet a jegy előzményeinél szoktak használni.';
+    $Self->{Translation}->{'Defines the initial height for the rich text editor component in pixels.'} =
+        '';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the additional ITSM field screen of the agent interface.'} =
         'Meghatározza egy jegy következő állapotát egy jegyzet hozzáadása után az ügyintézői felület további ITSM mező képernyőjén.';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the decision screen of the agent interface.'} =

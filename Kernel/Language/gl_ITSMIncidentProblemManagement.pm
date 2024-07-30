@@ -92,6 +92,8 @@ sub Data {
         'Define o histórico dos tipos para a acción da pantalla campo ITSM adicional, o cal é usado para o histórico do ticket.';
     $Self->{Translation}->{'Defines the history type for the decision screen action, which gets used for ticket history.'} =
         'Define o histórico dos tipos para a acción da pantalla de decisión, o cal é usado para o histórico do ticket.';
+    $Self->{Translation}->{'Defines the initial height for the rich text editor component in pixels.'} =
+        '';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the additional ITSM field screen of the agent interface.'} =
         'Define o seguinte estado dun ticket despois de engadir unha nota, na pantalla campo ITSM adicional da interface de axente.';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the decision screen of the agent interface.'} =

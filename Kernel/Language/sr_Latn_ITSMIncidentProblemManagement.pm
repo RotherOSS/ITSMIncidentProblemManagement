@@ -92,6 +92,8 @@ sub Data {
         'Određuje tip istorijata za akciju na ekranu dodatnih ITSM polja koje će se koristiti za istorijat tiketa.';
     $Self->{Translation}->{'Defines the history type for the decision screen action, which gets used for ticket history.'} =
         'Određuje tip istorijata na akciju na ekranu odluke koji će se koristiti za istorijat tiketa.';
+    $Self->{Translation}->{'Defines the initial height for the rich text editor component in pixels.'} =
+        '';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the additional ITSM field screen of the agent interface.'} =
         'Definiše sledeći status tiketa nakon dodavanja napomene na ekranu dodatnih ITSM polja u interfejsu operatera';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the decision screen of the agent interface.'} =

@@ -92,6 +92,8 @@ sub Data {
         '定义工单额外的ITSM字段窗口操作的历史类型，用于工单历史。';
     $Self->{Translation}->{'Defines the history type for the decision screen action, which gets used for ticket history.'} =
         '定义工单决定窗口操作的历史类型，用于工单历史。';
+    $Self->{Translation}->{'Defines the initial height for the rich text editor component in pixels.'} =
+        '';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the additional ITSM field screen of the agent interface.'} =
         '定义服务人员界面在工单额外的ITSM字段窗口添加备注后的下一个工单状态。';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the decision screen of the agent interface.'} =

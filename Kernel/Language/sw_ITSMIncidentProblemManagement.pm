@@ -92,6 +92,8 @@ sub Data {
         'Inaelezea aina ya historia kwa ajili ya kitendo cha skrini ya uga wa ITSM ulioongezwa , ambacho kinatumika kwa ajili ya historia ya tiketi.';
     $Self->{Translation}->{'Defines the history type for the decision screen action, which gets used for ticket history.'} =
         'Inaelezea aina ya historia kwa ajili ya kitendo cha skrini ya maamuzi, ambacho kinatumika kwa ajili ya historia ya tiketi.';
+    $Self->{Translation}->{'Defines the initial height for the rich text editor component in pixels.'} =
+        '';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the additional ITSM field screen of the agent interface.'} =
         'Inaelezea hali ifuatayo ya tiketi baada ya kuongeza kidokezo, katika skrini ya uga wa ITSM uliongezwa wa kiolesura cha wakala.';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the decision screen of the agent interface.'} =

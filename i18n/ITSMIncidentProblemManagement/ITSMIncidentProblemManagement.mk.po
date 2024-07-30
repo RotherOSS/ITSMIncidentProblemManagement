@@ -310,3 +310,7 @@ msgstr ""
 msgid "Ticket decision."
 msgstr ""
 
+#. SysConfig
+msgid "Defines the initial height for the rich text editor component in pixels."
+msgstr ""
+
