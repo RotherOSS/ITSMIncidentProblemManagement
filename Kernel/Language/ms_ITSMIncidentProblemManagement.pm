@@ -66,6 +66,8 @@ sub Data {
         'Menentukan jika kunci tiket diperlukan di skrin medan ITSM tambahan antara muka ejen (jika tiket tidak dikunci lagi, tiket menjadi berkunci dan ejen semasa akan disetkan secara automatik sebagai pemiliknya).';
     $Self->{Translation}->{'Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'} =
         'Menentukan jika kunci tiket diperlukan di skrin keputusan antara muka ejen (jika tiket tidak dikunci lagi, tiket menjadi berkunci dan ejen semasa akan disetkan secara automatik sebagai pemiliknya).';
+    $Self->{Translation}->{'Defines if parent-child translations for queues and services should be generated automatically.'} =
+        '';
     $Self->{Translation}->{'Defines if the service incident state should be shown during service selection in the agent interface.'} =
         'Mentakrifkan jika keadaan insiden perkhidmatan hendaklah ditunjukkan semasa pemilihan perkhidmatan dalam ruang antara muka ejen.';
     $Self->{Translation}->{'Defines the default body of a note in the additional ITSM field screen of the agent interface.'} =
@@ -93,6 +95,8 @@ sub Data {
     $Self->{Translation}->{'Defines the history type for the decision screen action, which gets used for ticket history.'} =
         'Mentakrifkan jenis sejarah bagi tindakan skrin keputusan, yang akan digunakan untuk sejarah tiket.';
     $Self->{Translation}->{'Defines the initial height for the rich text editor component in pixels.'} =
+        '';
+    $Self->{Translation}->{'Defines the initial height in pixels for the rich text editor component for this screen.'} =
         '';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the additional ITSM field screen of the agent interface.'} =
         'Mentakrifkan keadaan seterusnya tiket selepas menambah nota, dalam skrin bidang ITSM tambahan bagi antara muka ejen.';

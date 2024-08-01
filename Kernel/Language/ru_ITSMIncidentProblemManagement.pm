@@ -66,6 +66,8 @@ sub Data {
         'Определяет необходимость блокировки заявки на экране Дополнительные ITSM поля в интерфейсе агента (если заявка еще не блокирована, она блокируется и текущий агент автоматически назначается ее владельцем';
     $Self->{Translation}->{'Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'} =
         'Определяет необходимость блокировки заявки на экране Решение в интерфейсе агента (если заявка еще не блокирована, она блокируется и текущий агент автоматически назначается ее владельцем';
+    $Self->{Translation}->{'Defines if parent-child translations for queues and services should be generated automatically.'} =
+        '';
     $Self->{Translation}->{'Defines if the service incident state should be shown during service selection in the agent interface.'} =
         'Определяет, показывать ли состояние Сервиса при его выборе в интерфейсе агента';
     $Self->{Translation}->{'Defines the default body of a note in the additional ITSM field screen of the agent interface.'} =
@@ -93,6 +95,8 @@ sub Data {
     $Self->{Translation}->{'Defines the history type for the decision screen action, which gets used for ticket history.'} =
         'Задает тип комментария в истории для действий на экране Решение в интерфейсе агента';
     $Self->{Translation}->{'Defines the initial height for the rich text editor component in pixels.'} =
+        '';
+    $Self->{Translation}->{'Defines the initial height in pixels for the rich text editor component for this screen.'} =
         '';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the additional ITSM field screen of the agent interface.'} =
         'Задает следующее состояние заявки после добавления заметки на экране Дополнительные ITSM поля в интерфейсе агента';

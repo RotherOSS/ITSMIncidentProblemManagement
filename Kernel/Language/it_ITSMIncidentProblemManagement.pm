@@ -66,6 +66,8 @@ sub Data {
         'Definisce se è necessario un blocco ticket nella schermata del campo ITSM aggiuntiva dell\'interfaccia agenti (se il ticket non è ancora bloccato, il ticket viene bloccato e l\'agente corrente verrà impostato automaticamente come proprietario).';
     $Self->{Translation}->{'Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'} =
         'Definisce se è necessario un blocco ticket nella schermata decisionale dell\'interfaccia agenti (se il ticket non è ancora bloccato, il ticket viene bloccato e l\'agente corrente verrà impostato automaticamente come proprietario).';
+    $Self->{Translation}->{'Defines if parent-child translations for queues and services should be generated automatically.'} =
+        '';
     $Self->{Translation}->{'Defines if the service incident state should be shown during service selection in the agent interface.'} =
         'Definisce se lo stato dell\'incidente del servizio deve essere visualizzato durante la selezione del servizio nell\'interfaccia agenti.';
     $Self->{Translation}->{'Defines the default body of a note in the additional ITSM field screen of the agent interface.'} =
@@ -93,6 +95,8 @@ sub Data {
     $Self->{Translation}->{'Defines the history type for the decision screen action, which gets used for ticket history.'} =
         'Definisce il tipo di cronologia per l\'azione della schermata decisionale, che viene utilizzata per la cronologia dei ticket.';
     $Self->{Translation}->{'Defines the initial height for the rich text editor component in pixels.'} =
+        '';
+    $Self->{Translation}->{'Defines the initial height in pixels for the rich text editor component for this screen.'} =
         '';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the additional ITSM field screen of the agent interface.'} =
         'Definisce lo stato successivo di un ticket dopo aver aggiunto una nota, nella schermata del campo ITSM aggiuntiva dell\'interfaccia agenti.';

@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: ITSMIncidentProblemManagement\n"
-"POT-Creation-Date: 2024-07-30 02:48+0000\n"
+"POT-Creation-Date: 2024-08-01 02:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -119,6 +119,10 @@ msgid "Defines if a ticket lock is required in the decision screen of the agent 
 msgstr ""
 
 #. SysConfig
+msgid "Defines if parent-child translations for queues and services should be generated automatically."
+msgstr ""
+
+#. SysConfig
 msgid "Defines if the service incident state should be shown during service selection in the agent interface."
 msgstr ""
 
@@ -172,6 +176,10 @@ msgstr ""
 
 #. SysConfig
 msgid "Defines the initial height for the rich text editor component in pixels."
+msgstr ""
+
+#. SysConfig
+msgid "Defines the initial height in pixels for the rich text editor component for this screen."
 msgstr ""
 
 #. SysConfig

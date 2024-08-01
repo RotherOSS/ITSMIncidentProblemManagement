@@ -66,6 +66,8 @@ sub Data {
         'Define se o bloqueio do ticket é obrigatório no formulário de campos adicionais ITSM da interface de agente (se o ticket não estiver bloqueado, será bloqueado e o agente atual será automaticamente definido como seu proprietário).';
     $Self->{Translation}->{'Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'} =
         'Define se o bloqueio do ticket é obrigatório no formulário de decisão da interface de agente (se o ticket não estiver bloqueado, será bloqueado e o agente atual será automaticamente definido como seu proprietário).';
+    $Self->{Translation}->{'Defines if parent-child translations for queues and services should be generated automatically.'} =
+        '';
     $Self->{Translation}->{'Defines if the service incident state should be shown during service selection in the agent interface.'} =
         'Define se o estado de incidente do serviço deve ser mostrado durante a seleção de serviço na interface de atendente.';
     $Self->{Translation}->{'Defines the default body of a note in the additional ITSM field screen of the agent interface.'} =
@@ -93,6 +95,8 @@ sub Data {
     $Self->{Translation}->{'Defines the history type for the decision screen action, which gets used for ticket history.'} =
         'Define o tipo de histórico para a ação de decisão, utilizado no histórico do ticket.';
     $Self->{Translation}->{'Defines the initial height for the rich text editor component in pixels.'} =
+        '';
+    $Self->{Translation}->{'Defines the initial height in pixels for the rich text editor component for this screen.'} =
         '';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the additional ITSM field screen of the agent interface.'} =
         'Define o próximo estado de um ticket após a adição de uma nota, no formulário de campos adicionais ITSM da interface de agente.';

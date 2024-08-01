@@ -66,6 +66,8 @@ sub Data {
         '定义服务人员界面在工单额外的ITSM字段窗口是否需要工单锁定（如果工单还没有锁定，则工单被锁定且当前服务人员被自动设置为工单所有者）。';
     $Self->{Translation}->{'Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'} =
         '定义服务人员界面在工单决定窗口是否需要工单锁定（如果工单还没有锁定，则工单被锁定且当前服务人员被自动设置为工单所有者）。';
+    $Self->{Translation}->{'Defines if parent-child translations for queues and services should be generated automatically.'} =
+        '';
     $Self->{Translation}->{'Defines if the service incident state should be shown during service selection in the agent interface.'} =
         '定义服务人员界面在选择服务期间是否显示服务故障状态。';
     $Self->{Translation}->{'Defines the default body of a note in the additional ITSM field screen of the agent interface.'} =
@@ -93,6 +95,8 @@ sub Data {
     $Self->{Translation}->{'Defines the history type for the decision screen action, which gets used for ticket history.'} =
         '定义工单决定窗口操作的历史类型，用于工单历史。';
     $Self->{Translation}->{'Defines the initial height for the rich text editor component in pixels.'} =
+        '';
+    $Self->{Translation}->{'Defines the initial height in pixels for the rich text editor component for this screen.'} =
         '';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the additional ITSM field screen of the agent interface.'} =
         '定义服务人员界面在工单额外的ITSM字段窗口添加备注后的下一个工单状态。';

@@ -66,6 +66,8 @@ sub Data {
         'Define si se requiere un bloqueo del ticket en la pantalla del campo adicional ITSM de la interfaz del agente (si el ticket no está bloqueado todavía, el ticket se bloquea y el agente actual se establecerá automáticamente como su propietario).';
     $Self->{Translation}->{'Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'} =
         'Define si se requiere un bloqueo del ticket en la pantalla de decisión de la interfaz del agente (si el ticket no está bloqueado todavía, el ticket se bloquea y el agente actual se establece automáticamente como su propietario).';
+    $Self->{Translation}->{'Defines if parent-child translations for queues and services should be generated automatically.'} =
+        '';
     $Self->{Translation}->{'Defines if the service incident state should be shown during service selection in the agent interface.'} =
         'Define si el estado de la incidencia del servicio debe mostrarse durante la selección del servicio en la interfaz del agente.';
     $Self->{Translation}->{'Defines the default body of a note in the additional ITSM field screen of the agent interface.'} =
@@ -93,6 +95,8 @@ sub Data {
     $Self->{Translation}->{'Defines the history type for the decision screen action, which gets used for ticket history.'} =
         'Define el tipo de historial para la acción de la pantalla de decisión, que se utiliza para el historial de tickets.';
     $Self->{Translation}->{'Defines the initial height for the rich text editor component in pixels.'} =
+        '';
+    $Self->{Translation}->{'Defines the initial height in pixels for the rich text editor component for this screen.'} =
         '';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the additional ITSM field screen of the agent interface.'} =
         'Define el siguiente estado de un ticket después de añadir una nota, en la pantalla del campo adicional ITSM de la interfaz del agente.';

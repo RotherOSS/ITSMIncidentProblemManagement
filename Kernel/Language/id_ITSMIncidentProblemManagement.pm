@@ -66,6 +66,8 @@ sub Data {
         'Definisikan jika kunci tiket diperlukan pada layar bidang ITSM tambahan pada antarmuka agen (jika tiket belum terkunci, tiket akan terkunci dan agen saat itu secara otomatis akan menjadi pemiliknya).';
     $Self->{Translation}->{'Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'} =
         'Definisikan jika kunci tiket diperlukan di layar keputusan pada antarmuka agen (jika tiket belum terkunci, tiket akan terkunci dan agen saat itu akan menjadi pemiliknya secara otomatis).';
+    $Self->{Translation}->{'Defines if parent-child translations for queues and services should be generated automatically.'} =
+        '';
     $Self->{Translation}->{'Defines if the service incident state should be shown during service selection in the agent interface.'} =
         'Definisikan jika status layanan insiden harus di tampilkan ketika pemilihan layanan pada antarmuka agen.';
     $Self->{Translation}->{'Defines the default body of a note in the additional ITSM field screen of the agent interface.'} =
@@ -93,6 +95,8 @@ sub Data {
     $Self->{Translation}->{'Defines the history type for the decision screen action, which gets used for ticket history.'} =
         'Definisikan tipe riwayat untuk tindakan layar keputusan, yang digunakan pada riwayat tiket.';
     $Self->{Translation}->{'Defines the initial height for the rich text editor component in pixels.'} =
+        '';
+    $Self->{Translation}->{'Defines the initial height in pixels for the rich text editor component for this screen.'} =
         '';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the additional ITSM field screen of the agent interface.'} =
         'Definisikan status tiket berikutnya setelah menambahkan catatan, didalam layar bidang ITSM tambahan pada antarmuka agen.';
