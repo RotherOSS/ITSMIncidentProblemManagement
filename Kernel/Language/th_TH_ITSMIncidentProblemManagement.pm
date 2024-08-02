@@ -66,8 +66,6 @@ sub Data {
         'กำหนดค่าถ้าหากจำเป็นต้องใช้ตั๋วล็อคในหน้าจอฟิลด์เพิ่มเติมของ ITSM ในอินเตอร์เฟซของเอเย่นต์ (ทำการล็อคตั๋วถ้าตั๋วหากยังไม่ได้ล็อคและเซตให้เอเย่นต์ปัจจุบันเป็นเจ้าของอัตโนมัติ)';
     $Self->{Translation}->{'Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'} =
         'กำหนดค่าถ้าหากจำเป็นต้องใช้ตั๋วล็อคในหน้าจอการตัดสินใจ ในอินเตอร์เฟซของเอเย่นต์ (ทำการล็อคตั๋วถ้าตั๋วหากยังไม่ได้ล็อคและเซตให้เอเย่นต์ปัจจุบันเป็นเจ้าของอัตโนมัติ)';
-    $Self->{Translation}->{'Defines if parent-child translations for queues and services should be generated automatically.'} =
-        '';
     $Self->{Translation}->{'Defines if the service incident state should be shown during service selection in the agent interface.'} =
         'กำหนดถ้าหากสถานภาพเหตการณ์บริการควรแสดงในระหว่างการเลือกการบริการในอินเตอร์เฟซของเอเย่นต์';
     $Self->{Translation}->{'Defines the default body of a note in the additional ITSM field screen of the agent interface.'} =
@@ -94,10 +92,6 @@ sub Data {
         'กำหนดประเภทประวัติสำหรับการกระทำในหน้าจอฟิลด์เพิ่มเติมของ ITSM ซึ่งทำให้เกิดความคุ้นเคยในประวัติของตั๋ว';
     $Self->{Translation}->{'Defines the history type for the decision screen action, which gets used for ticket history.'} =
         'กำหนดประเภทประวัติสำหรับการกระทำในหน้าจอการตัดสินใจ ซึ่งทำให้เกิดความคุ้นเคยในประวัติของตั๋ว';
-    $Self->{Translation}->{'Defines the initial height for the rich text editor component in pixels.'} =
-        '';
-    $Self->{Translation}->{'Defines the initial height in pixels for the rich text editor component for this screen.'} =
-        '';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the additional ITSM field screen of the agent interface.'} =
         'กำหนดค่าเริ่มต้นของสถานภาพถัดไปของตั๋วหลังจากเพิ่มโน้ตในหน้าจอฟิลด์เพิ่มเติมของ ITSMในอินเตอร์เฟซของเอเย่นต์';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the decision screen of the agent interface.'} =

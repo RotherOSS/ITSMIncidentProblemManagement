@@ -66,8 +66,6 @@ sub Data {
         'Inafafanua kama kufungwa kwa tiketi kunatakiwa katika skrini ya uga wa ITSM ulioongezwa wa kiolesura cha wakala (kama tiketi haijafungwa bado, tiketi inafungwa na wakala wa sasa atawekwa otomatiki kama mmiliki wake).';
     $Self->{Translation}->{'Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'} =
         'Inafafanua kama kufungwa kwa tiketi kunatakiwa katika skrini ya maamuzi ya kiolesura cha wakala (kama tiketi haijafungwa bado, tiketi inafungwa na wakala wa sasa atawekwa otomatiki kama mmiliki wake).';
-    $Self->{Translation}->{'Defines if parent-child translations for queues and services should be generated automatically.'} =
-        '';
     $Self->{Translation}->{'Defines if the service incident state should be shown during service selection in the agent interface.'} =
         'Inafafanua  kama hali ya tukio ya huduma ionyeshwe wakati wa chaguo la huduma katika kiolesura cha wakala.';
     $Self->{Translation}->{'Defines the default body of a note in the additional ITSM field screen of the agent interface.'} =
@@ -94,10 +92,6 @@ sub Data {
         'Inaelezea aina ya historia kwa ajili ya kitendo cha skrini ya uga wa ITSM ulioongezwa , ambacho kinatumika kwa ajili ya historia ya tiketi.';
     $Self->{Translation}->{'Defines the history type for the decision screen action, which gets used for ticket history.'} =
         'Inaelezea aina ya historia kwa ajili ya kitendo cha skrini ya maamuzi, ambacho kinatumika kwa ajili ya historia ya tiketi.';
-    $Self->{Translation}->{'Defines the initial height for the rich text editor component in pixels.'} =
-        '';
-    $Self->{Translation}->{'Defines the initial height in pixels for the rich text editor component for this screen.'} =
-        '';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the additional ITSM field screen of the agent interface.'} =
         'Inaelezea hali ifuatayo ya tiketi baada ya kuongeza kidokezo, katika skrini ya uga wa ITSM uliongezwa wa kiolesura cha wakala.';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the decision screen of the agent interface.'} =

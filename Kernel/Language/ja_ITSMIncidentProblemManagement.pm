@@ -66,8 +66,6 @@ sub Data {
         '担当者 インターフェイスの ITSM フィールド画面でチケット ロックが必要かどうかを定義します。 (チケットがまだロックされていない場合、チケットはロックされ、現在の担当者がその所有者として自動的に設定されます。)';
     $Self->{Translation}->{'Defines if a ticket lock is required in the decision screen of the agent interface (if the ticket isn\'t locked yet, the ticket gets locked and the current agent will be set automatically as its owner).'} =
         '担当者インターフェイスの決定画面でチケット ロックが必要かどうかを定義します。 (チケットがまだロックされていない場合、チケットはロックされ、現在の担当者が自動的に所有者として設定されます。)';
-    $Self->{Translation}->{'Defines if parent-child translations for queues and services should be generated automatically.'} =
-        '';
     $Self->{Translation}->{'Defines if the service incident state should be shown during service selection in the agent interface.'} =
         '担当者インターフェイスでサービス選択時にサービスインシデント・ステータスを表示するか定義します。';
     $Self->{Translation}->{'Defines the default body of a note in the additional ITSM field screen of the agent interface.'} =
@@ -94,10 +92,6 @@ sub Data {
         '追加の ITSM フィールド画面アクションの履歴タイプを定義します。これはチケット履歴に使用されます。';
     $Self->{Translation}->{'Defines the history type for the decision screen action, which gets used for ticket history.'} =
         'チケット履歴に使用される、決定画面アクションの履歴タイプを定義します。';
-    $Self->{Translation}->{'Defines the initial height for the rich text editor component in pixels.'} =
-        '';
-    $Self->{Translation}->{'Defines the initial height in pixels for the rich text editor component for this screen.'} =
-        '';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the additional ITSM field screen of the agent interface.'} =
         '担当者インターフェイスの追加 ITSMフィールド画面で、メモ追加後のチケットの次の状態について選択肢を定義します。';
     $Self->{Translation}->{'Defines the next state of a ticket after adding a note, in the decision screen of the agent interface.'} =
